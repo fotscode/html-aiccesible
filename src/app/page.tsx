@@ -1,5 +1,6 @@
 import { Button } from '@nextui-org/react'
 import { poppins } from './fonts'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
           color: 'white',
         }}
         className='sm:px-20 sm:text-xl'
+        as={Link}
+        href='/selection'
       >
         Comenzar
       </Button>
