@@ -9,7 +9,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, description, image }) => {
   return (
-    <div className="card max-w-[300px] bg-gray-300 px-10 py-8 rounded-[20px]">
+    <div className="card max-w-[300px] bg-gray-300 px-10 py-8 rounded-[20px] mx-3">
       {image && (
         <img src={image} alt={title} className="card-image max-w-[64px] pb-3" />
       )}
