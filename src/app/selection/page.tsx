@@ -15,7 +15,7 @@ export default function Selection() {
         <p className='text-center md:text-xl xl:mb-12'>
           El código que será accesible puede cargarse de múltiples maneras.
         </p>
-        <div className='flex flex-row'>
+        <div className='flex flex-col md:flex-row'>
           <Card 
             title="Pegar código"
             description="Ingrese el codigo HTML en una casilla de texto."
