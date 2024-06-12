@@ -1,0 +1,55 @@
+{
+  "posts": [
+    {
+      "title": "Post 1",
+      "image": "https://via.placeholder.com/150",
+      "description": "This is a description",
+      "likes": 32,
+      "html": "<p>This is a post</p>",
+      "comments": [
+        {
+          "title": "Comment 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+          "content": "This is a comment",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "title": "Post 2",
+      "image": "https://via.placeholder.com/150",
+      "description": "This is a description",
+      "likes": 12,
+      "html": "<p>This is a post</p>",
+      "comments": [
+        {
+          "title": "Comment 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+          "content": "This is a comment",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "title": "Post 3",
+      "image": "https://via.placeholder.com/150",
+      "description": "This is a description",
+      "likes": 5,
+      "html": "<p>This is a post</p>",
+      "comments": [
+        {
+          "title": "Comment 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a04258114e29026702d",
+          "content": "This is a comment",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
