@@ -1,6 +1,7 @@
 export interface Post {
   title: string
-  image: string
+  before: string
+  after: string
   likes: number
   description: string
   html: string

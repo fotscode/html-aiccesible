@@ -1,11 +1,11 @@
 {
   "posts": [
     {
-      "title": "Post 1",
-      "image": "https://via.placeholder.com/150",
-      "description": "This is a description",
+      "title": "Understanding the Feed Role in ARIA: Enhancing Content Navigation",
+      "description": "The ARIA (Accessible Rich Internet Applications) specifications play a crucial role in making web content more accessible to users with disabilities. One such specification is the feed role, which is essential for structuring content feeds in a way that is easily navigable by screen readers and other assistive technologies. In this post, we delve into the importance of the feed role, how to implement it, and the benefits it brings to web accessibility.",
       "likes": 32,
-      "html": "<p>This is a post</p>",
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
       "comments": [
         {
           "title": "Comment 1",
@@ -18,11 +18,11 @@
       ]
     },
     {
-      "title": "Post 2",
-      "image": "https://via.placeholder.com/150",
-      "description": "This is a description",
+      "title": "Understanding the Feed Role in ARIA: Enhancing Content Navigation",
+      "description": "The ARIA (Accessible Rich Internet Applications) specifications play a crucial role in making web content more accessible to users with disabilities. One such specification is the feed role, which is essential for structuring content feeds in a way that is easily navigable by screen readers and other assistive technologies. In this post, we delve into the importance of the feed role, how to implement it, and the benefits it brings to web accessibility.",
       "likes": 12,
-      "html": "<p>This is a post</p>",
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
       "comments": [
         {
           "title": "Comment 1",
@@ -35,11 +35,11 @@
       ]
     },
     {
-      "title": "Post 3",
-      "image": "https://via.placeholder.com/150",
-      "description": "This is a description",
+      "title": "Understanding the Feed Role in ARIA: Enhancing Content Navigation",
+      "description": "The ARIA (Accessible Rich Internet Applications) specifications play a crucial role in making web content more accessible to users with disabilities. One such specification is the feed role, which is essential for structuring content feeds in a way that is easily navigable by screen readers and other assistive technologies. In this post, we delve into the importance of the feed role, how to implement it, and the benefits it brings to web accessibility.",
       "likes": 5,
-      "html": "<p>This is a post</p>",
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
       "comments": [
         {
           "title": "Comment 1",

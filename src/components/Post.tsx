@@ -9,11 +9,32 @@ import {
 import CommentCard from './Comment'
 import { HeartIcon } from './HeartIcon'
 import { poppins } from '@/app/fonts'
+import { CopyBlock, dracula } from 'react-code-blocks'
 
 type PostProps = {
   post: Post
   position: number
   incrementLikes: () => void
+}
+
+function format(html) {
+  var tab = '  '
+  var result = ''
+  var indent = ''
+
+  html.split(/>\s*</).forEach(function (element) {
+    if (element.match(/^\/\w/)) {
+      indent = indent.substring(tab.length)
+    }
+
+    result += indent + '<' + element + '>\r\n'
+
+    if (element.match(/^<?\w[^>]*[^\/]$/) && !element.startsWith('input')) {
+      indent += tab
+    }
+  })
+
+  return result.substring(1, result.length - 3)
 }
 
 export default function PostCard(props: PostProps) {
@@ -22,26 +43,43 @@ export default function PostCard(props: PostProps) {
     <article
       className='w-full sm:w-2/3 xl:w-[1024px]'
       aria-posinset={position}
-      aria-setsize='-1'
+      aria-setsize={-1}
     >
       <Card className='p-4'>
         <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
-          <h2 className={`${poppins.className} text-xl md:text-3xl`}>{post.title}</h2>
+          <h2 className={`${poppins.className} text-xl md:text-3xl`}>
+            {post.title}
+          </h2>
           <p>{post.description}</p>
         </CardHeader>
-        <CardBody className='overflow-visible py-2'>
-          <img src={post.image} alt={post.title} />
-          <section className='flex gap-2 items-center justify-end mx-2 my-2'>
-            <Button
-              isIconOnly
-              color='danger'
-              aria-label='Like'
-              onClick={incrementLikes}
-            >
-              <HeartIcon />
-            </Button>
-            {post.likes} Likes
+        <CardBody className='overflow-visible py-2 flex justify-end items-end'>
+          <section className='w-full flex flex-col justify-center items-start'>
+            Before:
+            <CopyBlock
+              text={format(post.before)}
+              language='html'
+              showLineNumbers={false}
+              theme={dracula}
+              wrapLongLines
+            />
+            After:
+            <CopyBlock
+              text={format(post.after)}
+              language='html'
+              showLineNumbers={false}
+              theme={dracula}
+              wrapLongLines
+            />
           </section>
+          <Button
+            isIconOnly
+            color='danger'
+            aria-label='Like'
+            onClick={incrementLikes}
+          >
+            <HeartIcon />
+          </Button>
+          {post.likes} Likes
         </CardBody>
         <CardFooter className='flex justify-between items-center sm:px-4 py-2'>
           {post.comments.map((comment, index) => (
