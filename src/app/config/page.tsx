@@ -60,7 +60,7 @@ export default function Config() {
           </CardHeader>
           <CardBody>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Tema del sitio:
               </p>
@@ -85,7 +85,7 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Idioma:
               </p>
@@ -110,7 +110,7 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Mostrar likes:
               </p>
@@ -135,7 +135,7 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Mostrar comentarios:
               </p>
@@ -160,7 +160,7 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <label className={`${roboto.className} text-lg font-medium`}>
                 Tamaño de títulos (en píxeles):
               </label>
@@ -168,7 +168,7 @@ export default function Config() {
                 type='url'
                 aria-label={'Tamaño de títulos (en píxeles)'}
                 placeholder='30'
-                className='w-20'
+                className='w-full sm:w-32'
                 max={100}
                 min={6}
                 labelPlacement='outside'
@@ -180,7 +180,7 @@ export default function Config() {
               />
             </div>
             <Divider />
-            <div className='flex items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
               <label className={`${roboto.className} text-lg font-medium`}>
                 Tamaño de textos (en píxeles):
               </label>
@@ -188,7 +188,7 @@ export default function Config() {
                 aria-label={'Tamaño de textos (en píxeles)'}
                 type='number'
                 placeholder='20'
-                className='w-20'
+                className='w-full sm:w-32'
                 max={100}
                 min={6}
                 labelPlacement='outside'
