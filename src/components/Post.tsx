@@ -54,7 +54,7 @@ export default function PostCard(props: PostProps) {
         </CardHeader>
         <CardBody className='overflow-visible py-2 flex justify-end items-end'>
           <section className='w-full flex flex-col justify-center items-start'>
-            Before:
+            Antes:
             <CopyBlock
               text={format(post.before)}
               language='html'
@@ -62,7 +62,7 @@ export default function PostCard(props: PostProps) {
               theme={dracula}
               wrapLongLines
             />
-            After:
+            Despues:
             <CopyBlock
               text={format(post.after)}
               language='html'
