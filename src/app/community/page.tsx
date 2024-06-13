@@ -29,7 +29,7 @@ export default function Comunnity() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [loading])
 
-  const incrementLikes = (post: Post, ind: number) => {
+  const incrementLikes = (ind: number) => {
     let postsCopy = [...posts]
     postsCopy[ind].likes++
     setPosts(postsCopy)
@@ -48,7 +48,7 @@ export default function Comunnity() {
             post={post}
             position={index}
             key={index}
-            incrementLikes={() => incrementLikes(post, index)}
+            incrementLikes={() => incrementLikes(index)}
           />
         ))}
         {loading && <Spinner aria-label='Loading...' color='warning' />}
