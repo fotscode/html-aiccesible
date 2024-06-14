@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from 'next/navigation'
 import { Header } from '@/components/Header'
 import Card from '@/components/Card'
 import Importer from '@/components/Importer'
@@ -9,10 +10,17 @@ import React, {useState} from 'react';
 export default function Selection() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
+
+  const toEditor = () => {
+    router.push('/selection/editor')
+  }
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+
+
 
   return (
     <>
@@ -34,14 +42,14 @@ export default function Selection() {
               title="Pegar código"
               description="Ingrese el codigo HTML en una casilla de texto."
               image="/btn_new.png"
-              handleClick={togglePopup}
+              handleClick={toEditor}
             />
 
             <Card 
               title="Cargar desde el equipo"
               description="Seleccione el archivo desde su computadora."
               image="/btn_import.png"
-              handleClick={togglePopup}
+              handleClick={toEditor}
             />
 
             <Card 
