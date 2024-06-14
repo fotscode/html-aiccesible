@@ -4,7 +4,6 @@ export interface Post {
   after: string
   likes: number
   description: string
-  html: string
   comments: Comment[]
 }
 
