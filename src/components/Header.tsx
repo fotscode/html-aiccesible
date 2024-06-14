@@ -39,17 +39,17 @@ export const Header = () => {
           </Link>
         </NavbarBrand>
         <NavbarItem>
-          <Link color='foreground' href='selection'>
+          <Link color='foreground' href='/selection'>
             Selection
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='community'>
+          <Link color='foreground' href='/community'>
             Community
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='config'>
+          <Link color='foreground' href='/config'>
             Configuration
           </Link>
         </NavbarItem>
