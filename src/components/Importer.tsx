@@ -43,7 +43,7 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
           }}
           className='sm:px-5 mx-1 sm:text-xl'
           as={Link}
-          href='/selection'
+          href='/selection/editor'
         >
           Obtener código HTML
         </Button>

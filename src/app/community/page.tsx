@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
 
-export default function Comunnity() {
+export default function Community() {
   return (
     <>
       <Header />

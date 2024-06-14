@@ -15,6 +15,7 @@ export const Header = () => {
     Selection: '/selection',
     Community: '/community',
     Configuration: '/config',
+    Editor: '/editor',
   }
 
   return (
