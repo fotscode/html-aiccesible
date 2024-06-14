@@ -21,13 +21,25 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
         Examinar página web
       </h2>
 
+      <div className="search-bar flex flex-row justify-center py-5">
+        <img src="/link.png" alt="Examinar página web" className="md:pb-3 max-w-[40px]" />
+        <div className="flex flex-col w-full">
+          <input
+            type="text"
+            id=""
+            placeholder="https://www.google.com"
+            className='w-full px-2 py-1.5 outline-none text-base font-light'
+          />
+        </div>
+      </div>
 
       <div className="px-3 md:px-0 flex flex-row justify-center">
         <Button
           style={{
             backgroundColor: '#E44D25',
             color: 'white',
-            fontSize: '12pt',
+            fontSize: '11pt',
+            height: '30px',
           }}
           className='sm:px-5 mx-1 sm:text-xl'
           as={Link}
@@ -39,7 +51,8 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
           style={{
             backgroundColor: '#E44D25',
             color: 'white',
-            fontSize: '12pt',
+            fontSize: '11pt',
+            height: '30px',
           }}
           className='sm:px-5 mx-1 sm:text-xl'
           onClick={togglePopup}
