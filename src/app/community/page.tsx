@@ -33,7 +33,6 @@ export default function Comunnity() {
     postsCopy[ind].likes++
     setPosts(postsCopy)
   }
-
   return (
     <>
       <Header />
