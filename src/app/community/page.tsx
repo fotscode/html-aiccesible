@@ -5,6 +5,7 @@ import data from '@/data/posts.json'
 import { Post } from '@/interfaces/Community'
 import { Spinner } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
+import { poppins } from '../fonts'
 
 export default function Community() {
   const [loading, setLoading] = useState(false)
@@ -37,20 +38,23 @@ export default function Community() {
   return (
     <>
       <Header />
-      <main
-        className='flex flex-col justify-center items-center gap-5 mx-2 my-5'
-        aria-busy={loading}
-        role='feed'
-      >
-        {posts.map((post, index) => (
-          <PostCard
-            post={post}
-            position={index}
-            key={index}
-            incrementLikes={() => incrementLikes(index)}
-          />
-        ))}
-        {loading && <Spinner aria-label='Loading...' color='warning' />}
+      <main>
+        <section
+          className='flex flex-col justify-center items-center gap-5 mx-2 my-5'
+          aria-busy={loading}
+          role='feed'
+        >
+          <h1 className={poppins.className+' text-3xl font-bold'}>Comunidad</h1>
+          {posts.map((post, index) => (
+            <PostCard
+              post={post}
+              position={index + 1}
+              key={index}
+              incrementLikes={() => incrementLikes(index)}
+            />
+          ))}
+          {loading && <Spinner aria-label='Loading...' color='warning' />}
+        </section>
       </main>
     </>
   )

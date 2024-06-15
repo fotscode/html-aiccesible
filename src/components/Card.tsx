@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({
   handleClick,
 }) => {
   return (
-    <article
+    <div
       className={
         handleClick
           ? 'flex flex-row md:flex-col card bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
@@ -24,13 +24,13 @@ const Card: React.FC<CardProps> = ({
       onClick={handleClick}
     >
       {image && (
-        <section className='md:w-1/4'>
+        <div className='md:w-1/4'>
           <img
             src={image}
             alt={title}
             className='card-image md:pb-3 min-w-[50px]'
           />
-        </section>
+        </div>
       )}
 
       <section className='px-3 md:px-0 flex flex-col justify-center'>
@@ -41,7 +41,7 @@ const Card: React.FC<CardProps> = ({
         </h2>
         <p className='card-description text-sm md:text-base'>{description}</p>
       </section>
-    </article>
+    </div>
   )
 }
 

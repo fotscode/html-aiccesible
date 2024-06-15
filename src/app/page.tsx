@@ -8,7 +8,7 @@ export default function Home() {
       <h1
         className={`${poppins.className} text-center  text-4xl md:text-6xl lg:text-8xl font-bold`}
       >
-        HTML <span style={{ color: '#E44D25' }}>AI</span>ccesible
+        HTML <span style={{ color: '#D14805' }}>AI</span>ccesible
       </h1>
       <p className='text-center md:text-xl  xl:my-12'>
         Es una herramienta de inteligencia artificial que convierte
@@ -18,7 +18,7 @@ export default function Home() {
 
       <Button
         style={{
-          backgroundColor: '#E44D25',
+          backgroundColor: '#D14805',
           color: 'white',
         }}
         className='sm:px-20 sm:text-xl'

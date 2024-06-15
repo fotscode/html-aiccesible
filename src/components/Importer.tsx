@@ -30,6 +30,7 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
         <div className='flex flex-col sm:w-full'>
           <input
             type='text'
+            aria-label='url del sitio web'
             id='url'
             placeholder='https://www.google.com'
             className='sm:w-full sm:px-2 py-1.5 outline-none text-base font-light'
@@ -40,7 +41,7 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
       <section className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
           style={{
-            backgroundColor: '#E44D25',
+            backgroundColor: '#D14805',
             color: 'white',
             fontSize: '11pt',
             height: '30px',
@@ -53,7 +54,7 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
         </Button>
         <Button
           style={{
-            backgroundColor: '#E44D25',
+            backgroundColor: '#D14805',
             color: 'white',
             fontSize: '11pt',
             height: '30px',

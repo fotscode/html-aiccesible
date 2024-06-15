@@ -42,8 +42,6 @@ export default function PostCard(props: PostProps) {
   return (
     <article
       className='w-full sm:w-2/3 xl:w-[1024px]'
-      aria-posinset={position}
-      aria-setsize={-1}
     >
       <Card className='p-4'>
         <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
@@ -54,7 +52,7 @@ export default function PostCard(props: PostProps) {
         </CardHeader>
         <CardBody className='overflow-visible py-2 flex justify-end items-end'>
           <section className='w-full flex flex-col justify-center items-start'>
-            Antes:
+            <h3>Antes:</h3>
             <CopyBlock
               text={format(post.before)}
               language='html'
@@ -62,7 +60,7 @@ export default function PostCard(props: PostProps) {
               theme={dracula}
               wrapLongLines
             />
-            Despues:
+            <h3>Despues:</h3>
             <CopyBlock
               text={format(post.after)}
               language='html'
@@ -75,7 +73,7 @@ export default function PostCard(props: PostProps) {
             isIconOnly
             color='danger'
             aria-label='Like'
-            onClick={incrementLikes}
+            onPress={incrementLikes}
           >
             <HeartIcon />
           </Button>

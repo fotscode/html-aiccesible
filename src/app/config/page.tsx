@@ -174,7 +174,7 @@ export default function Config() {
                 labelPlacement='outside'
                 endContent={
                   <div className='pointer-events-none flex items-center'>
-                    <span className='text-default-400 text-small'>px</span>
+                    <span className='text-black text-small'>px</span>
                   </div>
                 }
               />
@@ -194,7 +194,7 @@ export default function Config() {
                 labelPlacement='outside'
                 endContent={
                   <div className='pointer-events-none flex items-center'>
-                    <span className='text-default-400 text-small'>px</span>
+                    <span className='text-black text-small'>px</span>
                   </div>
                 }
               />

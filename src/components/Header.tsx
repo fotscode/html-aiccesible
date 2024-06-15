@@ -19,38 +19,22 @@ export const Header = () => {
 
   return (
     <Navbar disableAnimation isBordered>
-      <NavbarContent className='sm:hidden' justify='start'>
-        <NavbarMenuToggle />
-      </NavbarContent>
+      <NavbarMenuToggle className="sm:hidden" />
 
-      <NavbarContent className='sm:hidden pr-3' justify='center'>
-        <NavbarBrand>
-          <Link
-            href='/'
-            className={`${poppins.className} text-black text-xl font-bold`}
-          >
-            HTML{' '}
-            <span className='ml-1' style={{ color: '#E44D25' }}>
-              AI
-            </span>
-            ccesible
-          </Link>
-        </NavbarBrand>
-      </NavbarContent>
+      <NavbarBrand>
+        <Link
+          href='/'
+          className={`${poppins.className} text-black text-2xl font-bold`}
+        >
+          HTML{' '}
+          <span className='ml-2' style={{ color: '#D14805' }}>
+            AI
+          </span>
+          ccesible
+        </Link>
+      </NavbarBrand>
 
       <NavbarContent className='hidden sm:flex gap-4' justify='end'>
-        <NavbarBrand>
-          <Link
-            href='/'
-            className={`${poppins.className} text-black text-2xl font-bold`}
-          >
-            HTML{' '}
-            <span className='ml-2' style={{ color: '#E44D25' }}>
-              AI
-            </span>
-            ccesible
-          </Link>
-        </NavbarBrand>
         {[...Object.entries(menuItems)].map(([key, value], index) => (
           <NavbarItem key={`${key}-${index}-nav`}>
             <Link color='foreground' href={value}>

@@ -36,9 +36,10 @@ export default function Selection() {
           <Importer state={isOpen} setState={setIsOpen} />
         ) : (
           <div className='flex flex-col md:flex-row'>
-            <Link href='/selection/editor'
-                className="card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer"
-              >
+            <Link
+              href='/selection/editor'
+              className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+            >
               <Card
                 title='Pegar código'
                 description='Ingrese el codigo HTML en una casilla de texto.'
@@ -46,9 +47,10 @@ export default function Selection() {
               />
             </Link>
 
-            <Link href='/selection/editor'
-                className="card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer"
-              >
+            <Link
+              href='/selection/editor'
+              className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+            >
               <Card
                 title='Cargar desde el equipo'
                 description='Seleccione el archivo desde su computadora.'
@@ -56,12 +58,16 @@ export default function Selection() {
               />
             </Link>
 
-            <Card
-              title='Examinar página web'
-              description='Seleccione la URL de la página web a analizar.'
-              image='/btn_link.png'
-              handleClick={togglePopup}
-            />
+            <Link
+              href='/selection/editor'
+              className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+            >
+              <Card
+                title='Examinar página web'
+                description='Seleccione la URL de la página web a analizar.'
+                image='/btn_link.png'
+              />
+            </Link>
           </div>
         )}
       </main>
