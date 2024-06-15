@@ -7,8 +7,6 @@ import { Spinner } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 
 export default function Community() {
-=======
-export default function Comunnity() {
   const [loading, setLoading] = useState(false)
   const [posts, setPosts] = useState(data.posts)
   // detect 300 px below the bottom of the page on scroll, then load more posts
