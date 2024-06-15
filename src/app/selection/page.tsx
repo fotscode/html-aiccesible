@@ -1,8 +1,26 @@
+"use client";
+
+import { useRouter } from 'next/navigation'
 import { Header } from '@/components/Header'
 import Card from '@/components/Card'
+import Importer from '@/components/Importer'
 import { poppins } from '../fonts'
+import React, {useState} from 'react';
 
 export default function Selection() {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
+
+  const toEditor = () => {
+    router.push('/selection/editor')
+  }
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+
+
 
   return (
     <>
@@ -16,25 +34,32 @@ export default function Selection() {
         <p className='text-left mx-3 mt-5 md:text-center md:text-xl xl:mb-12'>
           El código que será accesible puede cargarse de múltiples maneras.
         </p>
-        <div className='flex flex-col md:flex-row'>
-          <Card 
-            title="Pegar código"
-            description="Ingrese el codigo HTML en una casilla de texto."
-            image="/btn_new.png"
-          />
+        {isOpen ? (
+          <Importer state={isOpen} setState={setIsOpen} />
+        ) : (
+          <div className='flex flex-col md:flex-row'>
+            <Card 
+              title="Pegar código"
+              description="Ingrese el codigo HTML en una casilla de texto."
+              image="/btn_new.png"
+              handleClick={toEditor}
+            />
 
-          <Card 
-            title="Cargar desde el equipo"
-            description="Seleccione el archivo desde su computadora."
-            image="/btn_import.png"
-          />
+            <Card 
+              title="Cargar desde el equipo"
+              description="Seleccione el archivo desde su computadora."
+              image="/btn_import.png"
+              handleClick={toEditor}
+            />
 
-          <Card 
-            title="Examinar página web"
-            description="Seleccione la URL de la página web a analizar."
-            image="/btn_link.png"
-          />
-        </div>
+            <Card 
+              title="Examinar página web"
+              description="Seleccione la URL de la página web a analizar."
+              image="/btn_link.png"
+              handleClick={togglePopup}
+            />
+          </div>
+        )}
       </main>
     </>
   )
