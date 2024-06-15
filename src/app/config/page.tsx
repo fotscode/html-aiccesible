@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Divider,
   Dropdown,
@@ -161,17 +162,19 @@ export default function Config() {
             </div>
             <Divider />
             <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <label className={`${roboto.className} text-lg font-medium`}>
+              <p
+                id='titleSize'
+                className={`${roboto.className} text-lg font-medium`}
+              >
                 Tamaño de títulos (en píxeles):
-              </label>
+              </p>
               <Input
-                type='url'
-                aria-label={'Tamaño de títulos (en píxeles)'}
+                type='number'
                 placeholder='30'
+                aria-label='Tamaño de títulos (en píxeles)'
                 className='w-full sm:w-32'
-                max={100}
-                min={6}
                 labelPlacement='outside'
+                aria-describedby='titleSize'
                 endContent={
                   <div className='pointer-events-none flex items-center'>
                     <span className='text-black text-small'>px</span>
@@ -181,16 +184,18 @@ export default function Config() {
             </div>
             <Divider />
             <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <label className={`${roboto.className} text-lg font-medium`}>
+              <p
+                id='textSize'
+                className={`${roboto.className} text-lg font-medium`}
+              >
                 Tamaño de textos (en píxeles):
-              </label>
+              </p>
               <Input
                 aria-label={'Tamaño de textos (en píxeles)'}
                 type='number'
                 placeholder='20'
                 className='w-full sm:w-32'
-                max={100}
-                min={6}
+                aria-describedby='textSize'
                 labelPlacement='outside'
                 endContent={
                   <div className='pointer-events-none flex items-center'>
@@ -199,7 +204,17 @@ export default function Config() {
                 }
               />
             </div>
+            <Divider />
           </CardBody>
+          <CardFooter className='flex flex-col sm:flex-row gap-5'>
+            <Button
+              className='w-full'
+              style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
+            >
+              Aplicar cambios
+            </Button>
+            <Button className='w-full'>Restaurar</Button>
+          </CardFooter>
         </Card>
       </main>
     </>
