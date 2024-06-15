@@ -1,0 +1,55 @@
+{
+  "posts": [
+    {
+      "title": "Comprender la función del feed en ARIA: mejorar la navegación del contenido",
+      "description": "Las especificaciones ARIA (Aplicaciones enriquecidas de Internet accesibles) desempeñan un papel crucial a la hora de hacer que el contenido web sea más accesible para los usuarios con discapacidades. Una de esas especificaciones es la función de alimentación, que es esencial para estructurar las fuentes de contenido de manera que los lectores de pantalla y otras tecnologías de asistencia puedan navegar fácilmente. En este post profundizamos en la importancia del rol del feed, cómo implementarlo y los beneficios que aporta a la accesibilidad web.",
+      "likes": 32,
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
+      "comments": [
+        {
+          "title": "Comentario 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+          "content": "Esto es un comentario",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "title": "Comprender la función del feed en ARIA: mejorar la navegación del contenido",
+      "description": "Las especificaciones ARIA (Aplicaciones enriquecidas de Internet accesibles) desempeñan un papel crucial a la hora de hacer que el contenido web sea más accesible para los usuarios con discapacidades. Una de esas especificaciones es la función de alimentación, que es esencial para estructurar las fuentes de contenido de manera que los lectores de pantalla y otras tecnologías de asistencia puedan navegar fácilmente. En este post profundizamos en la importancia del rol del feed, cómo implementarlo y los beneficios que aporta a la accesibilidad web.",
+      "likes": 12,
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
+      "comments": [
+        {
+          "title": "Comentario 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+          "content": "Esto es un comentario",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "title": "Comprender la función del feed en ARIA: mejorar la navegación del contenido",
+      "description": "Las especificaciones ARIA (Aplicaciones enriquecidas de Internet accesibles) desempeñan un papel crucial a la hora de hacer que el contenido web sea más accesible para los usuarios con discapacidades. Una de esas especificaciones es la función de alimentación, que es esencial para estructurar las fuentes de contenido de manera que los lectores de pantalla y otras tecnologías de asistencia puedan navegar fácilmente. En este post profundizamos en la importancia del rol del feed, cómo implementarlo y los beneficios que aporta a la accesibilidad web.",
+      "likes": 5,
+      "before": "<div class='container'><div><h2 id='article1-title'>Forms</h2><p>Forms</p></div><div><h2 id='article2-title'>ARIA</h2><p>ARIA</p></div><div><h2 id='article3-title'>Color</h2><p>Color</p></div></main>",
+      "after": "<main class='container' role='feed'><article aria-labelledby='article1-title' aria-posinset='1' aria-setsize='3'><h2 id='article1-title'>Forms</h2><p>Forms</p></article><article aria-labelledby='article2-title' aria-posinset='2' aria-setsize='3'><h2 id='article2-title'>ARIA</h2><p>ARIA</p></article><article aria-labelledby='article3-title' aria-posinset='3' aria-setsize='3'><h2 id='article3-title'>Color</h2><p>Color</p></article></main>",
+      "comments": [
+        {
+          "title": "Comentario 1",
+          "author": "John Doe",
+          "date": "2024-06-11",
+          "avatar": "https://i.pravatar.cc/150?u=a04258114e29026702d",
+          "content": "Esto es un comentario",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
