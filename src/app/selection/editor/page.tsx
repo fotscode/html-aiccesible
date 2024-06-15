@@ -1,57 +1,77 @@
-"use client"
+'use client'
 
-import React, { useState } from 'react';
-import { poppins } from '../../fonts';
+import React, { useState } from 'react'
+import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
+import Link from 'next/link'
 
 export default function Editor() {
-
-  const [isAccesibilized, setIsAccesibilized] = useState(false);
+  const [isAccesibilized, setIsAccesibilized] = useState(false)
 
   const changeTextArea = () => {
     setIsAccesibilized(!isAccesibilized)
-  };
+  }
 
-  const copyCode = () => {
-  };
+  const copyCode = () => {}
 
-  return(
+  return (
     <>
       <Header />
       <main className='flex h-screen flex-col items-center justify-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
-        Editor de texto
+          Editor de texto
         </h1>
+        <Button
+          style={{
+            backgroundColor: '#E44D25',
+            color: 'white',
+            fontSize: '11pt',
+          }}
+          as={Link}
+          href='/selection'
+        >
+          Volver Atras
+        </Button>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
           <div className='flex flex-col py-8 h-full w-full hidden md:flex'>
-            <label htmlFor="code-input" className='text-xl md:text-2xl font-semibold mb-2'>
+            <label
+              htmlFor='code-input'
+              className='text-xl md:text-2xl font-semibold mb-2'
+            >
               Código ingresado
             </label>
             <textarea
-              id="code-input"
+              id='code-input'
               className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md lg:rounded-t-md resize-none placeholder:text-gray-400'
-              placeholder="Ingrese código HTML..."
+              placeholder='Ingrese código HTML...'
             />
           </div>
 
           <div className='flex flex-col items-center px-10 hidden md:flex'>
-            <img src="/btn_start.png" alt="AIccesibilizar" className='min-w-[80px] w-3' />
+            <img
+              src='/btn_start.png'
+              alt='AIccesibilizar'
+              className='min-w-[80px] w-3'
+            />
             <h2 className='text-medium md:text-xl font-medium mt-5'>
-            AIccesibilizar
+              AIccesibilizar
             </h2>
           </div>
           <div className='flex flex-col py-8 h-full w-full hidden md:flex'>
-            <label htmlFor="code-results" className='text-xl md:text-2xl font-semibold mb-2'>
+            <label
+              htmlFor='code-results'
+              className='text-xl md:text-2xl font-semibold mb-2'
+            >
               Resultado
             </label>
             <textarea
-              id="code-results"
+              id='code-results'
               className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-md resize-none placeholder:text-gray-400'
-              placeholder="Resultado..."
+              placeholder='Resultado...'
             />
           </div>
 
@@ -71,24 +91,28 @@ export default function Editor() {
               </Button>
 
               <div className='w-8' onClick={copyCode}>
-                <img src="/btn_copy.png" alt="Copy code" className='rounded-md' />
+                <img
+                  src='/btn_copy.png'
+                  alt='Copy code'
+                  className='rounded-md'
+                />
               </div>
             </div>
 
             {!isAccesibilized ? (
               <div className='w-full h-full'>
                 <textarea
-                  id="code-input"
+                  id='code-input'
                   className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md md:rounded-t-md resize-none placeholder:text-gray-400'
-                  placeholder="Ingrese código HTML..."
+                  placeholder='Ingrese código HTML...'
                 />
               </div>
             ) : (
               <div className='w-full h-full'>
                 <textarea
-                  id="code-results"
+                  id='code-results'
                   className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md md:rounded-t-md resize-none placeholder:text-gray-400'
-                  placeholder="Resultado..."
+                  placeholder='Resultado...'
                 />
               </div>
             )}

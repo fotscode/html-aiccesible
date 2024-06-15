@@ -1,39 +1,43 @@
-import React from 'react';
+import React from 'react'
 import { Button } from '@nextui-org/react'
 import { roboto } from '@/app/fonts'
 import Link from 'next/link'
 
 interface Props {
-  state: boolean;
-  setState: (val: boolean) => void;
+  state: boolean
+  setState: (val: boolean) => void
 }
 
 const Importer: React.FC<Props> = ({ state, setState }) => {
-
   const togglePopup = () => {
-    setState(!state);
-  };
+    setState(!state)
+  }
 
   return (
-    <div className="popup flex flex-col bg-gray-300 px-10 py-8 rounded-[10px] mx-3 my-3 md:max-w-[500px]">
-      
-      <h2 className={`${roboto.className} text-center card-title font-medium pb-3`}>
+    <section className='flex flex-col bg-gray-300 sm:px-4 py-4 sm:px-10 sm:py-8 rounded-[10px] sm:mx-3 my-3 md:max-w-[500px] justify-self-center'>
+      <h2
+        className={`${roboto.className} text-center card-title font-medium pb-3`}
+      >
         Examinar página web
       </h2>
 
-      <div className="search-bar flex flex-row justify-center py-5">
-        <img src="/link.png" alt="Examinar página web" className="md:pb-3 max-w-[40px]" />
-        <div className="flex flex-col w-full">
+      <section className='search-bar flex flex-row justify-center py-5'>
+        <img
+          src='/link.png'
+          alt='Examinar página web'
+          className='md:pb-3 max-w-[40px]'
+        />
+        <div className='flex flex-col sm:w-full'>
           <input
-            type="text"
-            id=""
-            placeholder="https://www.google.com"
-            className='w-full px-2 py-1.5 outline-none text-base font-light'
+            type='text'
+            id='url'
+            placeholder='https://www.google.com'
+            className='sm:w-full sm:px-2 py-1.5 outline-none text-base font-light'
           />
         </div>
-      </div>
+      </section>
 
-      <div className="px-3 md:px-0 flex flex-row justify-center">
+      <section className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
           style={{
             backgroundColor: '#E44D25',
@@ -41,7 +45,7 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
             fontSize: '11pt',
             height: '30px',
           }}
-          className='sm:px-5 mx-1 sm:text-xl'
+          className='sm:px-5 sm:mx-1 sm:text-xl'
           as={Link}
           href='/selection/editor'
         >
@@ -54,14 +58,14 @@ const Importer: React.FC<Props> = ({ state, setState }) => {
             fontSize: '11pt',
             height: '30px',
           }}
-          className='sm:px-5 mx-1 sm:text-xl'
+          className='sm:px-5 sm:mx-1 sm:text-xl'
           onClick={togglePopup}
         >
           Atrás
         </Button>
-      </div>
-    </div>
-  );
-};
+      </section>
+    </section>
+  )
+}
 
-export default Importer;
+export default Importer
