@@ -17,7 +17,7 @@ type PostProps = {
   incrementLikes: () => void
 }
 
-function format(html) {
+function format(html: string) {
   var tab = '  '
   var result = ''
   var indent = ''
@@ -38,11 +38,9 @@ function format(html) {
 }
 
 export default function PostCard(props: PostProps) {
-  const { post, incrementLikes, position } = props
+  const { post, incrementLikes } = props
   return (
-    <article
-      className='w-full sm:w-2/3 xl:w-[1024px]'
-    >
+    <article className='w-full sm:w-2/3 xl:w-[1024px]'>
       <Card className='p-4'>
         <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
           <h2 className={`${poppins.className} text-xl md:text-3xl`}>
