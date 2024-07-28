@@ -23,14 +23,14 @@ export default function Selection() {
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col items-center justify-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='flex h-screen flex-col items-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
-          Código HTML a mejorar
+          Accesibilizá tu código
         </h1>
-        <p className='text-left mx-3 mt-5 md:text-center md:text-xl xl:mb-12'>
-          El código que será accesible puede cargarse de múltiples maneras.
+        <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
+          Podés cargar el código HTML de múltiples maneras.
         </p>
         {isOpen ? (
           <Importer state={isOpen} setState={setIsOpen} />
@@ -42,7 +42,7 @@ export default function Selection() {
             >
               <Card
                 title='Pegar código'
-                description='Ingrese el codigo HTML en una casilla de texto.'
+                description='Ingrese el código HTML en una casilla de texto.'
                 image='/btn_new.png'
               />
             </Link>
