@@ -37,7 +37,7 @@ export default function Selection() {
         ) : (
           <div className='flex flex-col md:flex-row'>
             <Link
-              href='/selection/editor'
+              href='/accesibility/editor'
               className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
             >
               <Card
@@ -48,7 +48,7 @@ export default function Selection() {
             </Link>
 
             <Link
-              href='/selection/editor'
+              href='/accesibility/editor'
               className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
             >
               <Card
@@ -59,7 +59,7 @@ export default function Selection() {
             </Link>
 
             <Link
-              href='/selection/editor'
+              href='/accesibility/editor'
               className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
             >
               <Card
