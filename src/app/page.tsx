@@ -23,7 +23,7 @@ export default function Home() {
         }}
         className='sm:px-20 sm:text-xl'
         as={Link}
-        href='/selection'
+        href='/accesibility'
       >
         Comenzar
       </Button>

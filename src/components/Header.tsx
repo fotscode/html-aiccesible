@@ -12,7 +12,7 @@ import {
 
 export const Header = () => {
   const menuItems = {
-    Selección: '/selection',
+    Accesibilidad: '/accesibility',
     Comunidad: '/community',
     Configuración: '/config',
   }
