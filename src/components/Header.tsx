@@ -10,12 +10,23 @@ import {
   Link,
 } from '@nextui-org/react'
 
+import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+
 export const Header = () => {
+  const pathname = usePathname(); 
+  const [activeSection, setActiveSection] = useState<string>(pathname);
+
   const menuItems = {
     Accesibilidad: '/accesibility',
     Comunidad: '/community',
     Configuración: '/config',
   }
+
+
+  useEffect(() => {
+    setActiveSection(pathname);
+  }, [pathname]);
 
   return (
     <Navbar disableAnimation isBordered>
@@ -36,10 +47,13 @@ export const Header = () => {
 
       <NavbarContent className='hidden sm:flex gap-4' justify='end'>
         {[...Object.entries(menuItems)].map(([key, value], index) => (
-          <NavbarItem key={`${key}-${index}-nav`}>
-            <Link color='foreground' href={value}>
-              {key}
-            </Link>
+          <NavbarItem 
+            key={`${key}-${index}-nav`}
+            className={activeSection === value ? 'font-bold' : ''}
+          >
+          <Link color='foreground' href={value}>
+            {key}
+          </Link>
           </NavbarItem>
         ))}
       </NavbarContent>
@@ -56,3 +70,4 @@ export const Header = () => {
     </Navbar>
   )
 }
+
