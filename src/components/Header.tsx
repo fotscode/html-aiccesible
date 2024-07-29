@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 export const Header = () => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string>(pathname);
 
   const menuItems = {
@@ -25,7 +25,7 @@ export const Header = () => {
 
 
   useEffect(() => {
-    setActiveSection(pathname);
+    setActiveSection('/' + pathname.split('/')[1]?.toLowerCase());
   }, [pathname]);
 
   return (

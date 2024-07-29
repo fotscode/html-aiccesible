@@ -2,6 +2,14 @@ import { Button } from '@nextui-org/react'
 import { poppins } from './fonts'
 import Link from 'next/link'
 
+/*
+ * IDEAS:
+ * - Distintas entradas para ingresar codigo manual y las otras dos, con un highlighter
+ * - Botón de para editar el código en las otras dos, usando un text area
+ *
+ *
+ */
+
 export default function Home() {
   return (
     <main className='flex h-screen flex-col items-center justify-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>

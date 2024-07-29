@@ -1,13 +1,29 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import Link from 'next/link'
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
 
 export default function Editor() {
+  const [code, setCode] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const codeRef = useRef<HTMLPreElement | null>(null);
   const [isAccesibilized, setIsAccesibilized] = useState(false)
+
+  useEffect(() => {
+    if (codeRef.current) {
+      codeRef.current.textContent = code;
+      Prism.highlightElement(codeRef.current);
+    }
+  }, [code]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCode(event.target.value);
+  };
 
   const changeTextArea = () => {
     setIsAccesibilized(!isAccesibilized)
@@ -31,13 +47,16 @@ export default function Editor() {
             fontSize: '11pt',
           }}
           as={Link}
-          href='/selection'
+          href='/accesibility'
         >
-          Volver Atras
+          Volver Atrás
         </Button>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
           <div className='flex flex-col py-8 h-full w-full hidden md:flex'>
+            <pre className="lang-html"> 
+              <code ref={codeRef} />
+            </pre>
             <label
               htmlFor='code-input-big'
               className={
@@ -49,7 +68,11 @@ export default function Editor() {
             <textarea
               id='code-input-big'
               className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md lg:rounded-t-md resize-none placeholder:text-gray-400'
+              value={code}
               placeholder='Ingrese código HTML...'
+              ref={textareaRef}
+              onChange={handleInputChange}
+              spellCheck="false"
             />
           </div>
 
