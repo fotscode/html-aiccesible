@@ -1,17 +1,21 @@
 'use client'
 
-import React, { useState } from 'react'
-import HTMLEditor from '@/components/HTMLEditor'
+import React, { useState, useEffect } from 'react'
+import Editor from '@monaco-editor/react';
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
-import Link from 'next/link'
 
-export default function Editor() {
+export default function CodeEditor() {
 
   const [isAccesibilized, setIsAccesibilized] = useState(false)
 
-  const [htmlCode, setHtmlCode] = useState('<h1>Hello, React!</h1>');
+  const [code, setCode] = useState<string>(typeof localStorage.getItem('htmlCode') === 'string' ? localStorage.getItem('htmlCode') as string : '');
+
+  useEffect(() => {
+    localStorage.removeItem('htmlCode')
+  }, []); // Empty dependency array ensures this runs only once
+
 
   const changeTextArea = () => {
     setIsAccesibilized(!isAccesibilized)
@@ -49,7 +53,14 @@ export default function Editor() {
             >
               Código a accesibilizar
             </label>
-            <HTMLEditor/>
+           <Editor
+              theme="vs-light"
+              defaultLanguage="html" 
+              defaultValue="// Copia tu código aquí" 
+              options={{readOnly:false}}
+              value={code}
+              onChange={(value) => setCode(value || '')}
+            />
           </div>
 
           <button className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5'>
@@ -69,7 +80,12 @@ export default function Editor() {
             >
               Resultado
             </label>
-            <HTMLEditor/>
+           <Editor
+              theme="vs-light"
+              defaultLanguage="html" 
+              defaultValue="// Código accesibilizado" 
+              options={{readOnly:true}}
+            />
           </div>
 
           <div className='flex flex-col h-full w-full md:hidden'>

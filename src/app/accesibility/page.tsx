@@ -12,6 +12,20 @@ export default function Accesibility() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+              if (typeof e.target?.result === 'string') {
+                  localStorage.setItem('htmlCode', e.target.result);
+                  router.push('/accesibility/editor');
+              }
+          };
+          reader.readAsText(file); // Read file as text
+      }
+  };
+
   const toEditor = () => {
     router.push('/selection/editor')
   }
@@ -46,6 +60,23 @@ export default function Accesibility() {
                 image='/btn_new.png'
               />
             </Link>
+
+            <input 
+                type="file" 
+                accept=".html" 
+                style={{ display: 'none' }} 
+                onChange={handleFileChange} 
+                id="fileInput" 
+            />
+            <label htmlFor="fileInput">
+              <div className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
+                <Card
+                  title='Cargar desde el equipo'
+                  description='Seleccione el archivo desde su computadora.'
+                  image='/btn_import.png'
+                />
+              </div>
+            </label>
 
             <Link
               href='/accesibility/editor'

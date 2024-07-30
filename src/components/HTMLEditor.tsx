@@ -1,7 +1,7 @@
 import React from 'react';
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 
-function HTMLEditor() {
+function HTMLEditor(code: string) {
     return <Editor 
         theme="vs-light"
         defaultLanguage="html" 
