@@ -8,7 +8,7 @@ import { poppins } from '../fonts'
 import React, { useState } from 'react'
 import Link from 'next/link'
 
-export default function Selection() {
+export default function Accesibility() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
