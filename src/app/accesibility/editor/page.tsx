@@ -5,14 +5,41 @@ import Editor from '@monaco-editor/react';
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
+import { html } from 'js-beautify';
 
 export default function CodeEditor() {
 
   const [isAccesibilized, setIsAccesibilized] = useState(false)
 
-  const [code, setCode] = useState<string>(typeof localStorage.getItem('htmlCode') === 'string' ? localStorage.getItem('htmlCode') as string : '');
+  const [code, setCode] = useState<string>('');
+
+  const beautifyHTML = (code: string): string => {
+    return html(code, {
+      indent_size: 2,
+      indent_char: ' ',
+      max_preserve_newlines: 0,
+      preserve_newlines: false,
+      keep_array_indentation: false,
+      break_chained_methods: false,
+      indent_scripts: 'normal',
+      brace_style: 'collapse',
+      space_before_conditional: true,
+      unescape_strings: false,
+      jslint_happy: false,
+      end_with_newline: false,
+      wrap_line_length: 0,
+      indent_inner_html: false,
+      comma_first: false,
+      e4x: false,
+      indent_empty_lines: false
+    });
+  };
 
   useEffect(() => {
+    if (typeof localStorage.getItem('htmlCode') === 'string'){
+      const beautifiedCode = beautifyHTML(localStorage.getItem('htmlCode') as string)
+      setCode(beautifiedCode);
+    }
     localStorage.removeItem('htmlCode')
   }, []); // Empty dependency array ensures this runs only once
 
@@ -32,7 +59,7 @@ export default function CodeEditor() {
         >
           Accesibilizador
         </h1>
-        <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
+        <p className='text-left mx-3 mt-1 md:text-center md:text-xl'>
           Verificá que el código cargado es el deseado y presioná el botón naranja para accesibilizarlo. 
           Podés &nbsp;
           <a href='/accesibility' 
@@ -40,7 +67,7 @@ export default function CodeEditor() {
           >
            elegir otra opción de carga 
           </a>
-          &nbsp; del código HTML
+          &nbsp; del código HTML.
         </p>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
@@ -53,7 +80,9 @@ export default function CodeEditor() {
             >
               Código a accesibilizar
             </label>
+           
            <Editor
+              className='border border-black py-0.5 rounded'
               theme="vs-light"
               defaultLanguage="html" 
               defaultValue="// Copia tu código aquí" 
@@ -81,6 +110,7 @@ export default function CodeEditor() {
               Resultado
             </label>
            <Editor
+              className='border border-black py-0.5 rounded'
               theme="vs-light"
               defaultLanguage="html" 
               defaultValue="// Código accesibilizado" 

@@ -3,13 +3,11 @@
 import { useRouter } from 'next/navigation'
 import { Header } from '@/components/Header'
 import Card from '@/components/Card'
-import Importer from '@/components/Importer'
 import { poppins } from '../fonts'
 import React, { useState } from 'react'
 import Link from 'next/link'
 
 export default function Accesibility() {
-  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,14 +24,6 @@ export default function Accesibility() {
       }
   };
 
-  const toEditor = () => {
-    router.push('/selection/editor')
-  }
-
-  const togglePopup = () => {
-    setIsOpen(!isOpen)
-  }
-
   return (
     <>
       <Header />
@@ -46,48 +36,44 @@ export default function Accesibility() {
         <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
           Podés cargar el código HTML de múltiples maneras.
         </p>
-        {isOpen ? (
-          <Importer state={isOpen} setState={setIsOpen} />
-        ) : (
-          <div className='flex flex-col md:flex-row'>
-            <Link
-              href='/accesibility/editor'
-              className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
-            >
-              <Card
-                title='Pegar código'
-                description='Ingrese el código HTML en una casilla de texto.'
-                image='/btn_new.png'
-              />
-            </Link>
-
-            <input 
-                type="file" 
-                accept=".html" 
-                style={{ display: 'none' }} 
-                onChange={handleFileChange} 
-                id="fileInput" 
+        <div className='flex flex-col md:flex-row'>
+          <Link
+            href='/accesibility/editor'
+            className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+          >
+            <Card
+              title='Pegar código'
+              description='Ingrese el código HTML en una casilla de texto.'
+              image='/btn_new.png'
             />
-            <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
-              <Card
-                title='Cargar desde el equipo'
-                description='Seleccione el archivo desde su computadora.'
-                image='/btn_import.png'
-              />
-            </label>
+          </Link>
 
-            <Link
-              href='/accesibility/editor'
-              className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
-            >
-              <Card
-                title='Examinar página web'
-                description='Seleccione la URL de la página web a analizar.'
-                image='/btn_link.png'
-              />
-            </Link>
-          </div>
-        )}
+          <input 
+              type="file" 
+              accept=".html" 
+              style={{ display: 'none' }} 
+              onChange={handleFileChange} 
+              id="fileInput" 
+          />
+          <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
+            <Card
+              title='Cargar desde el equipo'
+              description='Seleccione el archivo desde su computadora.'
+              image='/btn_import.png'
+            />
+          </label>
+
+          <Link
+            href='/accesibility/importer'
+            className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+          >
+            <Card
+              title='Examinar página web'
+              description='Seleccione la URL de la página web a analizar.'
+              image='/btn_link.png'
+            />
+          </Link>
+        </div>
       </main>
     </>
   )
