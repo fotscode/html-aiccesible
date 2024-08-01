@@ -4,7 +4,7 @@ import { Button } from '@nextui-org/react'
 import { roboto } from '@/app/fonts'
 import { useState } from 'react'
 import DOMPurify from 'dompurify';
-import { fetchHtml } from './Fetcher'
+import { fetchHtml } from './HtmlFetcher'
 
 const Importer = () => {
   const router = useRouter()

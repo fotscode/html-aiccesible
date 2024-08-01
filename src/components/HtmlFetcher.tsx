@@ -11,5 +11,3 @@ export async function fetchHtml(url: string): Promise<string> {
     return htmlContent;
 }
 
-
-

@@ -6,12 +6,18 @@ import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify';
+import { listModels } from '@/components/ApiModels';
+import Dropdown from '@/components/Dropdown';
 
 export default function CodeEditor() {
 
   const [isAccesibilized, setIsAccesibilized] = useState(false)
 
   const [code, setCode] = useState<string>('');
+
+  const [models, setModels] = useState<{ value: string; label: string }[]>([]);
+
+  const [selectedModel, setSelectedModel] = useState<string>("");
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -43,17 +49,39 @@ export default function CodeEditor() {
     localStorage.removeItem('htmlCode')
   }, []); // Empty dependency array ensures this runs only once
 
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const models = await listModels();
+        const formattedModels = models.map((model: string) => ({
+          value: model,
+          label: model,
+        }));
+        setModels(formattedModels);
+        console.log(formattedModels)
+        if (formattedModels.length > 0) {
+          setSelectedModel(formattedModels[0].value);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    loadModels();
+  }, []); // Empty dependency array ensures this runs only once
+
 
   const changeTextArea = () => {
     setIsAccesibilized(!isAccesibilized)
   }
+
 
   const copyCode = () => {}
 
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col items-center justify-center px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='flex h-screen flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -70,7 +98,15 @@ export default function CodeEditor() {
           &nbsp; del código HTML.
         </p>
 
+        <div className='flex flex-col items-center justify-center w-full'>
+          <h2 className={`${poppins.className} text-center`}>
+          Elegí el modelo de IA
+          </h2>
+          <Dropdown options={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
+        </div>
+
         <div className='flex flex-row w-full h-screen justify-center items-center'>
+
           <div className='flex flex-col h-full w-full hidden md:flex'>
             <label
               htmlFor='code-results-big'
@@ -82,7 +118,7 @@ export default function CodeEditor() {
             </label>
            
            <Editor
-              className='border border-black py-0.5 rounded'
+              className='border border-black py-0.5 rounded-b'
               theme="vs-light"
               defaultLanguage="html" 
               defaultValue="// Copia tu código aquí" 
@@ -92,6 +128,7 @@ export default function CodeEditor() {
             />
           </div>
 
+
           <button className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5'>
             <img
               src='/btn_start.png'
@@ -100,6 +137,7 @@ export default function CodeEditor() {
             />
             AIccesibilizar
           </button>
+
           <div className='flex flex-col h-full w-full hidden md:flex'>
             <label
               htmlFor='code-results-big'
@@ -110,7 +148,7 @@ export default function CodeEditor() {
               Resultado
             </label>
            <Editor
-              className='border border-black py-0.5 rounded'
+              className='border border-black py-0.5 rounded-b'
               theme="vs-light"
               defaultLanguage="html" 
               defaultValue="// Código accesibilizado" 
@@ -143,21 +181,25 @@ export default function CodeEditor() {
             </div>
 
             {!isAccesibilized ? (
-              <div className='w-full h-full'>
-                <textarea
-                  id='code-input-small'
-                  aria-label='Código ingresado'
-                  className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md md:rounded-t-md resize-none placeholder:text-gray-400'
-                  placeholder='Ingrese código HTML...'
+              <div className='h-full w-full'>
+                <Editor
+                  className='border border-black py-0.5 rounded'
+                  theme="vs-light"
+                  defaultLanguage="html" 
+                  defaultValue="// Copia tu código aquí" 
+                  options={{readOnly:false}}
+                  value={code}
+                  onChange={(value) => setCode(value || '')}
                 />
               </div>
             ) : (
-              <div className='w-full h-full'>
-                <textarea
-                  id='code-results-small'
-                  aria-label='Resultado'
-                  className='w-full h-full p-2 text-gray-600 border border-gray-300 rounded-b-md md:rounded-t-md resize-none placeholder:text-gray-400'
-                  placeholder='Resultado...'
+              <div className='h-full w-full'>
+                <Editor
+                  className='border border-black py-0.5 rounded'
+                  theme="vs-light"
+                  defaultLanguage="html" 
+                  defaultValue="// Código accesibilizado" 
+                  options={{readOnly:true}}
                 />
               </div>
             )}
