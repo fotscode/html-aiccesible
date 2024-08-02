@@ -1,5 +1,7 @@
 'use client'
 
+//TODO responsiveness buttons and inputs
+
 import { poppins, roboto } from '../fonts'
 import React, { useState } from 'react'
 import Link from 'next/link'
@@ -29,7 +31,7 @@ export default function Register() {
 
   const validateRepeatedPassword = (repeatedPass: string) => {
     if (password != repeatedPass) {
-      setRepeatedPasswordError('No coincide con el primer ingreso de la contraseña.');
+      setRepeatedPasswordError('La contraseña repetida no coincide con la primera.');
     } else {
       setRepeatedPasswordError('');
     }
@@ -136,24 +138,24 @@ export default function Register() {
             {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
           </CardBody>
         </Card>
-        <div className='flex flex-col md:flex-row'>
+        <div className='flex flex-col items-center'>
           <Button
             style={{
               backgroundColor: '#D14805',
               color: 'white',
             }}
-            className='w-full md:w-max sm:text-xl my-1 md:my-0 md:mx-1'
+            className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
             onClick={handleSubmit}
           >
             Registrar
           </Button>
           <p className='text-left mx-3 mt-2 md:text-center md:text-xl'>
-            ¿Ya tenés una cuenta? 
+            ¿Ya tenés una cuenta o no querés tener una? 
             &nbsp;
             <a href='/' 
             style={{ color: 'orangered' }}
             >
-              Iniciá sesión
+              Iniciá sesión o ingresá como invitado
             </a>
             .
           </p>
