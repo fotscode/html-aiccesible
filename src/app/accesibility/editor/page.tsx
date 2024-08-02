@@ -6,7 +6,7 @@ import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify';
-import { listModels } from '@/components/ApiModels';
+import { listModels, accesibilizeCode } from '@/components/ApiModels';
 import Dropdown from '@/components/Dropdown';
 
 export default function CodeEditor() {
@@ -15,9 +15,11 @@ export default function CodeEditor() {
 
   const [code, setCode] = useState<string>('');
 
+  const [accesibilizedCode, setAccesibilizedCode] = useState<string>('');
+
   const [models, setModels] = useState<{ value: string; label: string }[]>([]);
 
-  const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectedModel, setSelectedModel] = useState<string>('');
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -53,7 +55,7 @@ export default function CodeEditor() {
     const loadModels = async () => {
       try {
         const models = await listModels();
-        const formattedModels = models.map((model: string) => ({
+        const formattedModels = models.data.map((model: string) => ({
           value: model,
           label: model,
         }));
@@ -69,6 +71,17 @@ export default function CodeEditor() {
 
     loadModels();
   }, []); // Empty dependency array ensures this runs only once
+
+  const accesibilize = async () => {
+    try {
+      await accesibilizeCode(selectedModel, code, (data) => {
+        setAccesibilizedCode((prev) => prev + data); 
+      });
+    } catch (error) {
+      console.error('Error sending code:', error);
+    }
+  }
+    
 
 
   const changeTextArea = () => {
@@ -102,7 +115,7 @@ export default function CodeEditor() {
           <h2 className={`${poppins.className} text-center`}>
           Elegí el modelo de IA
           </h2>
-          <Dropdown options={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
+          <Dropdown models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
         </div>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
@@ -129,7 +142,7 @@ export default function CodeEditor() {
           </div>
 
 
-          <button className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5'>
+          <button className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5' onClick={accesibilize} >
             <img
               src='/btn_start.png'
               alt='AIccesibilizar'
@@ -152,6 +165,7 @@ export default function CodeEditor() {
               theme="vs-light"
               defaultLanguage="html" 
               defaultValue="// Código accesibilizado" 
+              value={accesibilizedCode}
               options={{readOnly:true}}
             />
           </div>
