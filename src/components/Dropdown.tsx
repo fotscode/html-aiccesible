@@ -2,14 +2,14 @@ import React from 'react';
 import Select from 'react-select';
 
 type DropdownProps = {
-  options: { value: string; label: string }[];
+  models: { value: string; label: string }[];
   selectedModel: string;
   setSelectedModel: (model: string) => void;
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ options, selectedModel, setSelectedModel }) => {
+const Dropdown: React.FC<DropdownProps> = ({ models, selectedModel, setSelectedModel }) => {
   
-  const selectedOption = options.find(option => option.value === selectedModel);
+  const selectedOption = models.find(model => model.value === selectedModel);
 
   const handleChange = (selectedOption: { value: string; label: string } | null) => {
     if (selectedOption) {
@@ -18,12 +18,12 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selectedModel, setSelected
   };
 
   return (
-    <div className='w-[300px] mx-auto'>
+    <div className='w-full md:w-[300px] mx-auto'>
       <Select
         value={selectedOption}
         onChange={handleChange}
-        options={options}
-        placeholder="Elige el modelo de IA"
+        options={models}
+        placeholder="Seleccione una opción"
         styles={{
           control: (provided) => ({
             ...provided,
