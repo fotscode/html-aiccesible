@@ -11,7 +11,7 @@ import Dropdown from '@/components/Dropdown';
 
 export default function CodeEditor() {
 
-  const [isAccesibilized, setIsAccesibilized] = useState(false)
+  const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
 
   const [code, setCode] = useState<string>('');
 
@@ -60,7 +60,6 @@ export default function CodeEditor() {
           label: model,
         }));
         setModels(formattedModels);
-        console.log(formattedModels)
         if (formattedModels.length > 0) {
           setSelectedModel(formattedModels[0].value);
         }
@@ -74,22 +73,41 @@ export default function CodeEditor() {
 
   const accesibilize = async () => {
     try {
-      await accesibilizeCode(selectedModel, code, (data) => {
-        setAccesibilizedCode((prev) => prev + data); 
-      });
+      const responseBody = await accesibilizeCode(selectedModel, code);
+      const reader = responseBody.pipeThrough(new TextDecoderStream()).getReader();
+      setIsAccesibilizePressed(true);
+      let accesibilizedContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+
+        const data = value.split('\n')[1]?.slice(5);
+        if (data) {
+          const parsedData = JSON.parse(data);
+          if (!parsedData.done) {
+            accesibilizedContent += parsedData.response; // Accumulate the response
+            setAccesibilizedCode(accesibilizedContent); // Update state
+          }
+        }
+      }
     } catch (error) {
+      setIsAccesibilizePressed(true);
       console.error('Error sending code:', error);
     }
   }
     
 
-
-  const changeTextArea = () => {
-    setIsAccesibilized(!isAccesibilized)
-  }
-
-
-  const copyCode = () => {}
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(code); 
+      console.log('Texto copiado en el portapapeles');
+    } catch (err) {
+      console.error('Fallo al copiar: ', err); 
+    }
+  };
 
   return (
     <>
@@ -113,7 +131,7 @@ export default function CodeEditor() {
 
         <div className='flex flex-col items-center justify-center w-full'>
           <h2 className={`${poppins.className} text-center`}>
-          Elegí el modelo de IA
+            Elegí el modelo de IA
           </h2>
           <Dropdown models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
         </div>
@@ -180,21 +198,21 @@ export default function CodeEditor() {
                   height: '30px',
                 }}
                 className='sm:px-5 mx-1 sm:text-xl font-medium'
-                onClick={changeTextArea}
+                onClick={accesibilize}
               >
                 AIccesibilizar
               </Button>
 
-              <div className='w-8' onClick={copyCode}>
+              <button className='w-8' onClick={copyCode} disabled={code.length == 0}>
                 <img
                   src='/btn_copy.png'
                   alt='Copy code'
                   className='rounded-md'
                 />
-              </div>
+              </button>
             </div>
 
-            {!isAccesibilized ? (
+            {!isAccesibilizePressed ? (
               <div className='h-full w-full'>
                 <Editor
                   className='border border-black py-0.5 rounded'
@@ -213,6 +231,7 @@ export default function CodeEditor() {
                   theme="vs-light"
                   defaultLanguage="html" 
                   defaultValue="// Código accesibilizado" 
+                  value={accesibilizedCode}
                   options={{readOnly:true}}
                 />
               </div>
