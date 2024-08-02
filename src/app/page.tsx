@@ -2,13 +2,6 @@ import { Button } from '@nextui-org/react'
 import { poppins } from './fonts'
 import Link from 'next/link'
 
-/*
- * IDEAS:
- * - Distintas entradas para ingresar codigo manual y las otras dos, con un highlighter
- * - Botón de para editar el código en las otras dos, usando un text area
- *
- *
- */
 
 export default function Home() {
   return (
@@ -24,17 +17,43 @@ export default function Home() {
         pautas de accesibilidad web (WCAG).
       </p>
 
-      <Button
-        style={{
-          backgroundColor: '#D14805',
-          color: 'white',
-        }}
-        className='sm:px-20 sm:text-xl'
-        as={Link}
-        href='/accesibility'
-      >
-        Comenzar
-      </Button>
+      <section className='flex flex-col'>
+        <div className='flex flex-col md:flex-row justify-center'>
+          <Button
+            style={{
+              backgroundColor: '#D14805',
+              color: 'white',
+            }}
+            className='sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
+            as={Link}
+            href='/accesibility'
+          >
+            Iniciar sesión 
+          </Button>
+
+          <Button
+            style={{
+              backgroundColor: '#D14805',
+              color: 'white',
+            }}
+            className='sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
+            as={Link}
+            href='/accesibility'
+          >
+            Usar sin una cuenta
+          </Button>
+        </div>
+        <p className='text-left mx-3 mt-2 md:text-center md:text-xl'>
+          ¿No tenés una cuenta? 
+          &nbsp;
+          <a href='/register' 
+          style={{ color: 'orangered' }}
+          >
+            Registrate
+          </a>
+          .
+        </p>
+      </section>
     </main>
   )
 }
