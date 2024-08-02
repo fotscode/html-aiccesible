@@ -59,9 +59,9 @@ export default function Config() {
               Toda la configuración del sistema en un mismo lugar.
             </p>
           </CardHeader>
-          <CardBody>
+          <CardBody className='px-20'>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Tema del sitio:
               </p>
