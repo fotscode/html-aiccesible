@@ -26,7 +26,7 @@ export default function Home() {
             }}
             className='sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
             as={Link}
-            href='/accesibility'
+            href='/login'
           >
             Iniciar sesión 
           </Button>
