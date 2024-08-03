@@ -88,7 +88,7 @@ export const Header = () => {
         </Link>
       </NavbarBrand>
 
-      <NavbarContent className='hidden sm:flex gap-4' justify='end'>
+      <NavbarContent className='hidden sm:flex gap-4 items-center' justify='end'>
         {[...Object.entries(menuItems)].map(([key, value], index) => (
           <NavbarItem 
             key={`${key}-${index}-nav`}
@@ -102,9 +102,10 @@ export const Header = () => {
 
         {isLoggedIn && 
         <NavbarItem
+          className='flex items-center'
           key={'logout'}
         >
-        <button onClick={confirmLogout}>
+        <button className='flex items-center' onClick={confirmLogout}>
           <MdLogout size={32} color="#D14805" /> 
         </button>
         </NavbarItem>}
