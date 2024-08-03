@@ -9,7 +9,7 @@ import {
   CardBody,
   Input,
 } from '@nextui-org/react'
-import { addUser } from '@/components/ApiUser'
+import { addUser } from '@/utils/ApiUser';
 
 export default function Register() {
   const router = useRouter()

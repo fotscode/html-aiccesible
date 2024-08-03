@@ -1,8 +1,8 @@
 'use client'
 
-import { poppins, roboto } from '../fonts'
+import { poppins } from '../fonts'
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Button,
   Card,
@@ -11,10 +11,11 @@ import {
   CardHeader,
   Input,
 } from '@nextui-org/react'
-import { loginUser } from '@/components/ApiUser'
+import { loginUser } from '@/utils/ApiUser';
 
 export default function LogIn() {
   const router = useRouter()
+  const searchParams = useSearchParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,10 +26,9 @@ export default function LogIn() {
 
     try{
       const response = await loginUser(username, password);
-      sessionStorage.setItem('JWT', response.data.token);
-      sessionStorage.setItem('isLoggedIn', JSON.stringify(true));
-      router.replace('/accesibility');
-
+      sessionStorage.setItem('token', response.data.token);
+      const returnUrl = searchParams.get('returnUrl') || '/accesibility';
+      router.push(returnUrl);
     } catch (error: any) {
       setError(`Error: ${error.message}`);
     }

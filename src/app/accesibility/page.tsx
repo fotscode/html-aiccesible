@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Header } from '@/components/Header'
 import Card from '@/components/Card'
 import { poppins } from '../fonts'
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
 export default function Accesibility() {

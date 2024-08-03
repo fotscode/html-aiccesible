@@ -15,12 +15,13 @@ import { usePathname, useRouter } from 'next/navigation'
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
 import { MdLogout } from "react-icons/md";
+import { isLoggedIn } from '@/utils/auth';
 
 
 export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>(pathname);
 
   const menuItems = {
@@ -36,10 +37,8 @@ export const Header = () => {
 
 
   useEffect(() => {
-    const storedValue = sessionStorage.getItem('isLoggedIn');
-    if (storedValue) {
-      setIsLoggedIn(true);
-    }
+    if (isLoggedIn())
+      setLoggedIn(true);
   }, []);
 
   const confirmLogout = () => {
@@ -50,7 +49,7 @@ export const Header = () => {
         {
           label: 'Sí',
           onClick: () => {
-            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('token');
             console.log('User logged out');
             router.replace('/');
           },
@@ -77,7 +76,7 @@ export const Header = () => {
 
       <NavbarBrand>
         <Link
-          href='/'
+          href={ loggedIn ? '/accesibility' : '/'}
           className={`${poppins.className} text-black text-2xl font-bold`}
         >
           HTML{' '}
@@ -100,7 +99,7 @@ export const Header = () => {
           </NavbarItem>
         ))}
 
-        {isLoggedIn && 
+        {loggedIn && 
         <NavbarItem
           className='flex items-center'
           key={'logout'}
@@ -120,7 +119,7 @@ export const Header = () => {
             </Link>
           </NavbarMenuItem>
         ))}
-        {isLoggedIn && 
+        {loggedIn && 
         <NavbarItem
           key={'logout'}
         >

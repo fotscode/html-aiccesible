@@ -6,7 +6,7 @@ import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify';
-import { listModels, accesibilizeCode } from '@/components/ApiModels';
+import { listModels, accesibilizeCode } from '../../utils/ApiModels' 
 import Dropdown from '@/components/Dropdown';
 
 export default function CodeEditor() {
