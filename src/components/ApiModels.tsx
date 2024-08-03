@@ -1,5 +1,3 @@
-'use server'
-
 export async function listModels() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/models/list`);
 
