@@ -1,5 +1,3 @@
-'use server'
-
 export async function addUser(username: string, password: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/add`, {
         method: 'POST',
