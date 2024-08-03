@@ -11,7 +11,7 @@ import {
   CardHeader,
   Input,
 } from '@nextui-org/react'
-import { addUser } from '@/components/ApiUser'
+import { loginUser } from '@/components/ApiUser'
 
 export default function LogIn() {
   const router = useRouter()
@@ -19,23 +19,19 @@ export default function LogIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError('');
 
-    addUser(username, password)
-    .then(response => {
-      if (response.status === "Created") {
-        router.push('/register/success');
-      } else if (response.code === 400) {
-          return response.json().then((errorResponse: any) => {
-              setError(`Fallo: ${errorResponse.message}`);
-          });
-      } else {
-          setError('Error inesperado');
-      }
-    })
-    .catch(err => setError(`Error: ${err.message}`));
+    try{
+      const response = await loginUser(username, password);
+      sessionStorage.setItem('JWT', response.data.token);
+      sessionStorage.setItem('isLoggedIn', JSON.stringify(true));
+      router.replace('/accesibility');
+
+    } catch (error: any) {
+      setError(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -74,9 +70,7 @@ export default function LogIn() {
                   labelPlacement='outside'
                   aria-describedby='password'
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
