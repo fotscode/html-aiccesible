@@ -1,25 +1,24 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Editor from '@monaco-editor/react';
+import Editor from '@monaco-editor/react'
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
-import { html } from 'js-beautify';
-import { listModels, accesibilizeCode } from '../../utils/ApiModels' 
-import Dropdown from '@/components/Dropdown';
+import { html } from 'js-beautify'
+import { listModels, accesibilizeCode } from '@/utils/ApiModels'
+import Dropdown from '@/components/Dropdown'
 
 export default function CodeEditor() {
+  const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
 
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
 
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>('')
 
-  const [accesibilizedCode, setAccesibilizedCode] = useState<string>('');
+  const [models, setModels] = useState<{ value: string; label: string }[]>([])
 
-  const [models, setModels] = useState<{ value: string; label: string }[]>([]);
-
-  const [selectedModel, setSelectedModel] = useState<string>('');
+  const [selectedModel, setSelectedModel] = useState<string>('')
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -27,87 +26,83 @@ export default function CodeEditor() {
       indent_char: ' ',
       max_preserve_newlines: 0,
       preserve_newlines: false,
-      keep_array_indentation: false,
-      break_chained_methods: false,
       indent_scripts: 'normal',
-      brace_style: 'collapse',
-      space_before_conditional: true,
-      unescape_strings: false,
-      jslint_happy: false,
       end_with_newline: false,
       wrap_line_length: 0,
       indent_inner_html: false,
-      comma_first: false,
-      e4x: false,
-      indent_empty_lines: false
-    });
-  };
+      indent_empty_lines: false,
+    })
+  }
 
   useEffect(() => {
-    if (typeof localStorage.getItem('htmlCode') === 'string'){
-      const beautifiedCode = beautifyHTML(localStorage.getItem('htmlCode') as string)
-      setCode(beautifiedCode);
+    if (typeof localStorage.getItem('htmlCode') === 'string') {
+      const beautifiedCode = beautifyHTML(
+        localStorage.getItem('htmlCode') as string,
+      )
+      setCode(beautifiedCode)
     }
     localStorage.removeItem('htmlCode')
-  }, []); // Empty dependency array ensures this runs only once
+  }, []) // Empty dependency array ensures this runs only once
 
   useEffect(() => {
     const loadModels = async () => {
       try {
-        const models = await listModels();
+        const models = await listModels()
         const formattedModels = models.data.map((model: string) => ({
           value: model,
           label: model,
-        }));
-        setModels(formattedModels);
+        }))
+        setModels(formattedModels)
         if (formattedModels.length > 0) {
-          setSelectedModel(formattedModels[0].value);
+          setSelectedModel(formattedModels[0].value)
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
       }
     }
 
-    loadModels();
-  }, []); // Empty dependency array ensures this runs only once
+    loadModels()
+  }, []) // Empty dependency array ensures this runs only once
 
   const accesibilize = async () => {
     try {
-      const responseBody = await accesibilizeCode(selectedModel, code);
-      const reader = responseBody.pipeThrough(new TextDecoderStream()).getReader();
-      setIsAccesibilizePressed(true);
-      let accesibilizedContent = '';
+      const responseBody = await accesibilizeCode(selectedModel, code)
+      const reader = responseBody
+        .pipeThrough(new TextDecoderStream())
+        .getReader()
+      setIsAccesibilizePressed(true)
+      let accesibilizedContent = ''
 
       while (true) {
-        const { done, value } = await reader.read();
+        const { done, value } = await reader.read()
         if (done) {
-          break;
+          break
         }
 
-        const data = value.split('\n')[1]?.slice(5);
+        const data = value.split('\n')[1]?.slice(5)
         if (data) {
-          const parsedData = JSON.parse(data);
+          const parsedData = JSON.parse(data)
           if (!parsedData.done) {
-            accesibilizedContent += parsedData.response; // Accumulate the response
-            setAccesibilizedCode(accesibilizedContent); // Update state
+            accesibilizedContent += parsedData.response // Accumulate the response
+            // @ts-ignore
+            editorAccesibilized.setValue(accesibilizedContent) // Update editor
           }
         }
       }
     } catch (error) {
-      setIsAccesibilizePressed(true);
-      console.error('Error sending code:', error);
+      setIsAccesibilizePressed(true)
+      console.error('Error sending code:', error)
     }
   }
-    
 
   const copyCode = async () => {
     try {
-      await navigator.clipboard.writeText(code); 
-      console.log('Texto copiado en el portapapeles');
+      await navigator.clipboard.writeText(code)
+      console.log('Texto copiado en el portapapeles')
     } catch (err) {
-      console.error('Fallo al copiar: ', err); 
+      console.error('Fallo al copiar: ', err)
     }
-  };
+  }
 
   return (
     <>
@@ -119,12 +114,10 @@ export default function CodeEditor() {
           Accesibilizador
         </h1>
         <p className='text-left mx-3 mt-1 md:text-center md:text-xl'>
-          Verificá que el código cargado es el deseado y presioná el botón naranja para accesibilizarlo. 
-          Podés &nbsp;
-          <a href='/accesibility' 
-          style={{ color: 'orangered' }}
-          >
-           elegir otra opción de carga 
+          Verificá que el código cargado es el deseado y presioná el botón
+          naranja para accesibilizarlo. Podés &nbsp;
+          <a href='/accesibility' style={{ color: 'orangered' }}>
+            elegir otra opción de carga
           </a>
           &nbsp; del código HTML.
         </p>
@@ -133,12 +126,15 @@ export default function CodeEditor() {
           <h2 className={`${poppins.className} text-center`}>
             Elegí el modelo de IA
           </h2>
-          <Dropdown models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
+          <Dropdown
+            models={models}
+            selectedModel={selectedModel}
+            setSelectedModel={setSelectedModel}
+          />
         </div>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
-
-          <div className='flex flex-col h-full w-full hidden md:flex'>
+          <div className='h-full w-full hidden md:flex md:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -147,20 +143,21 @@ export default function CodeEditor() {
             >
               Código a accesibilizar
             </label>
-           
-           <Editor
+
+            <Editor
               className='border border-black py-0.5 rounded-b'
-              theme="vs-light"
-              defaultLanguage="html" 
-              defaultValue="// Copia tu código aquí" 
-              options={{readOnly:false}}
+              theme='vs-light'
+              defaultLanguage='html'
+              defaultValue='// Copia tu código aquí'
               value={code}
               onChange={(value) => setCode(value || '')}
             />
           </div>
 
-
-          <button className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5' onClick={accesibilize} >
+          <button
+            className='items-center px-10 hidden md:flex md:flex-col text-medium md:text-xl font-medium mt-5'
+            onClick={accesibilize}
+          >
             <img
               src='/btn_start.png'
               alt='AIccesibilizar'
@@ -169,7 +166,7 @@ export default function CodeEditor() {
             AIccesibilizar
           </button>
 
-          <div className='flex flex-col h-full w-full hidden md:flex'>
+          <div className='h-full w-full hidden md:flex md:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -178,13 +175,13 @@ export default function CodeEditor() {
             >
               Resultado
             </label>
-           <Editor
+            <Editor
               className='border border-black py-0.5 rounded-b'
-              theme="vs-light"
-              defaultLanguage="html" 
-              defaultValue="// Código accesibilizado" 
-              value={accesibilizedCode}
-              options={{readOnly:true}}
+              theme='vs-light'
+              defaultLanguage='html'
+              defaultValue='// Código accesibilizado'
+              onMount={(editor) => setEditorAccesibilized(editor)}
+              options={{ readOnly: true }}
             />
           </div>
 
@@ -203,7 +200,11 @@ export default function CodeEditor() {
                 AIccesibilizar
               </Button>
 
-              <button className='w-8' onClick={copyCode} disabled={code.length == 0}>
+              <button
+                className='w-8'
+                onClick={copyCode}
+                disabled={code.length == 0}
+              >
                 <img
                   src='/btn_copy.png'
                   alt='Copy code'
@@ -216,10 +217,10 @@ export default function CodeEditor() {
               <div className='h-full w-full'>
                 <Editor
                   className='border border-black py-0.5 rounded'
-                  theme="vs-light"
-                  defaultLanguage="html" 
-                  defaultValue="// Copia tu código aquí" 
-                  options={{readOnly:false}}
+                  theme='vs-light'
+                  defaultLanguage='html'
+                  defaultValue='// Copia tu código aquí'
+                  options={{ readOnly: false }}
                   value={code}
                   onChange={(value) => setCode(value || '')}
                 />
@@ -228,11 +229,11 @@ export default function CodeEditor() {
               <div className='h-full w-full'>
                 <Editor
                   className='border border-black py-0.5 rounded'
-                  theme="vs-light"
-                  defaultLanguage="html" 
-                  defaultValue="// Código accesibilizado" 
-                  value={accesibilizedCode}
-                  options={{readOnly:true}}
+                  theme='vs-light'
+                  defaultLanguage='html'
+                  defaultValue='// Código accesibilizado'
+                  onMount={(editor) => setEditorAccesibilized(editor)}
+                  options={{ readOnly: true }}
                 />
               </div>
             )}

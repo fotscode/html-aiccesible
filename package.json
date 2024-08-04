@@ -27,6 +27,7 @@
     "react-select": "^5.8.0"
   },
   "devDependencies": {
+    "@types/js-beautify": "^1.14.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
