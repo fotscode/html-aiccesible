@@ -43,7 +43,7 @@ export default function Home() {
               as={Link}
               href='/accesibility'
             >
-              Usar sin una cuenta
+              Entrar como invitado
             </Button>
           </div>
           <p className='text-left mx-3 mt-2 md:text-center md:text-xl'>

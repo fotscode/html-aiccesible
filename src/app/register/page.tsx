@@ -148,13 +148,19 @@ export default function Register() {
           >
             Registrar
           </Button>
-          <p className='text-left mx-3 mt-2 md:text-center md:text-xl'>
+          <p className='text-center mx-3 mt-2'>
             ¿Ya tenés una cuenta o no querés tener una? 
             &nbsp;
-            <a href='/' 
+            <a href='/login' 
             style={{ color: 'orangered' }}
             >
-              Iniciá sesión o ingresá como invitado
+              Iniciá sesión 
+            </a>
+            &nbsp; o &nbsp;
+            <a href='/accesibility' 
+            style={{ color: 'orangered' }}
+            >
+              ingresá como invitado
             </a>
             .
           </p>
