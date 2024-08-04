@@ -1,16 +1,16 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Editor from '@monaco-editor/react'
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify'
-import { listModels, accesibilizeCode } from '@/components/ApiModels'
+import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import Dropdown from '@/components/Dropdown'
 
 export default function CodeEditor() {
-  const [editorAccesibilized, setEditorAccesibilized] = useState(null)
+  const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
 
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
 
@@ -26,18 +26,10 @@ export default function CodeEditor() {
       indent_char: ' ',
       max_preserve_newlines: 0,
       preserve_newlines: false,
-      keep_array_indentation: false,
-      break_chained_methods: false,
       indent_scripts: 'normal',
-      brace_style: 'collapse',
-      space_before_conditional: true,
-      unescape_strings: false,
-      jslint_happy: false,
       end_with_newline: false,
       wrap_line_length: 0,
       indent_inner_html: false,
-      comma_first: false,
-      e4x: false,
       indent_empty_lines: false,
     })
   }
@@ -142,7 +134,7 @@ export default function CodeEditor() {
         </div>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
-          <div className='flex flex-col h-full w-full hidden md:flex'>
+          <div className='h-full w-full hidden md:flex md:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -163,7 +155,7 @@ export default function CodeEditor() {
           </div>
 
           <button
-            className='flex flex-col items-center px-10 hidden md:flex text-medium md:text-xl font-medium mt-5'
+            className='items-center px-10 hidden md:flex md:flex-col text-medium md:text-xl font-medium mt-5'
             onClick={accesibilize}
           >
             <img
@@ -174,7 +166,7 @@ export default function CodeEditor() {
             AIccesibilizar
           </button>
 
-          <div className='flex flex-col h-full w-full hidden md:flex'>
+          <div className='h-full w-full hidden md:flex md:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
