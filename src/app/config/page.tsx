@@ -49,25 +49,25 @@ export default function Config() {
   return (
     <>
       <Header />
-      <main className='flex flex-col justify-center items-center gap-5 mx-2 my-5'>
-        <Card className='w-full sm:w-1/2 p-5'>
+      <main className='flex flex-col justify-center items-center gap-5 mx-5 my-5'>
+        <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} text-xl sm:text-3xl`}>
+            <h1 className={`${poppins.className} text-2xl sm:text-3xl`}>
               Configuración
             </h1>
-            <p className='text-lg sm:text-xl'>
+            <p className='text-center text-lg sm:text-xl'>
               Toda la configuración del sistema en un mismo lugar.
             </p>
           </CardHeader>
           <CardBody className='px-20'>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Tema del sitio:
               </p>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
+                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
                     {selectedTheme}
                   </Button>
                 </DropdownTrigger>
@@ -86,13 +86,13 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Idioma:
               </p>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
+                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
                     {selectedLanguage}
                   </Button>
                 </DropdownTrigger>
@@ -111,13 +111,13 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Mostrar likes:
               </p>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
+                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
                     {showLikes}
                   </Button>
                 </DropdownTrigger>
@@ -136,13 +136,13 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p className={`${roboto.className} text-lg font-medium`}>
                 Mostrar comentarios:
               </p>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
+                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
                     {showComments}
                   </Button>
                 </DropdownTrigger>
@@ -161,7 +161,7 @@ export default function Config() {
               </Dropdown>
             </div>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p
                 id='titleSize'
                 className={`${roboto.className} text-lg font-medium`}
@@ -172,7 +172,7 @@ export default function Config() {
                 type='number'
                 placeholder='30'
                 aria-label='Tamaño de títulos (en píxeles)'
-                className='w-full sm:w-32'
+                className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
                 labelPlacement='outside'
                 aria-describedby='titleSize'
                 endContent={
@@ -183,7 +183,7 @@ export default function Config() {
               />
             </div>
             <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
               <p
                 id='textSize'
                 className={`${roboto.className} text-lg font-medium`}
@@ -194,7 +194,7 @@ export default function Config() {
                 aria-label={'Tamaño de textos (en píxeles)'}
                 type='number'
                 placeholder='20'
-                className='w-full sm:w-32'
+                className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
                 aria-describedby='textSize'
                 labelPlacement='outside'
                 endContent={
@@ -206,7 +206,7 @@ export default function Config() {
             </div>
             <Divider />
           </CardBody>
-          <CardFooter className='flex flex-col sm:flex-row gap-5'>
+          <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
             <Button
               className='w-full'
               style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
