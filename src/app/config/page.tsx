@@ -14,10 +14,12 @@ import {
   DropdownTrigger,
   Input,
 } from '@nextui-org/react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { isLoggedIn, getToken } from '@/utils/auth'
+import { getConfig, updateConfig } from '@/utils/ApiConfig'
 
 export default function Config() {
-  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['claro']))
+  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['Claro']))
 
   const selectedTheme = useMemo(
     () => Array.from(selectedKeysTheme).join(', ').replaceAll('_', ' '),
@@ -46,6 +48,86 @@ export default function Config() {
     [selKeysShowComments],
   )
 
+  const [sizeTitles, setSizeTitles] = useState<string>('30');
+
+  const [sizeText, setSizeText] = useState<string>('20');
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const [error, setError] = useState('');
+
+  const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    if (isLoggedIn()){
+      try {
+        getConfig(getToken()).then((response) => {
+
+          //THEME
+          if (response.data.theme === 'light')
+            setSelectedKeysTheme(new Set(['claro']));
+          else 
+            setSelectedKeysTheme(new Set(['oscuro']));
+
+          //LANGUAGE
+          if (response.data.language === 'es')
+            setSelectedKeysLanguage(new Set(['español']));
+          else 
+            setSelectedKeysLanguage(new Set(['inglés']));
+
+          //LIKES 
+          if (response.data.show_likes === true)
+            setSelKeysShowLikes(new Set(['Sí']));
+          else 
+            setSelKeysShowLikes(new Set(['No']));
+
+          //COMMENTS
+          if (response.data.show_comments === true)
+            setSelKeysShowComments(new Set(['Sí']));
+          else 
+            setSelKeysShowComments(new Set(['No']));
+
+          //TITLES
+          setSizeTitles(response.data.size_title as string);
+
+          //TEXT
+          setSizeText(response.data.size_text as string);
+        });
+      } catch (error: any) {
+        setError(`Error: ${error.message}`);
+      }
+    }
+    setLoading(false);
+  }, []);
+  
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setError('');
+
+    const show_likes = selKeysShowLikes.values().next().value;
+    const show_comments = selKeysShowComments.values().next().value;
+    const theme = selectedKeysTheme.values().next().value;
+    const language = selectedKeysLanguage.values().next().value;
+    const size_title = +sizeTitles ;
+    const size_text = +sizeText;
+
+    try{
+      const newConfig = {
+        show_likes: show_likes == 'Sí' ? true : false,
+        show_comments: show_comments == 'Sí' ? true : false,
+        theme: theme == 'Claro' ? 'light' : 'dark',
+        language: language == 'Español' ? 'es' : 'eng',
+        size_title: size_title,
+        size_text: size_text,
+      };
+
+      updateConfig(getToken(), newConfig);
+      setSuccess('Los cambios se han guardado con éxito');
+    } catch (error: any) {
+      setError(`Error: ${error.message}`);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -59,156 +141,167 @@ export default function Config() {
               Toda la configuración del sistema en un mismo lugar.
             </p>
           </CardHeader>
-          <CardBody className='px-20'>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Tema del sitio:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                    {selectedTheme}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Tema del sitio'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selectedKeysTheme}
-                  //@ts-ignore
-                  onSelectionChange={setSelectedKeysTheme}
+          {loading ? (
+            <div className='flex justify-center items-center h-[400px]'>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#D14805]"></div>
+            </div>
+          ) : (
+            <CardBody className='px-20'>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} text-lg font-medium`}>
+                  Tema del sitio:
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                      {selectedTheme}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Tema del sitio'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selectedKeysTheme}
+                    //@ts-ignore
+                    onSelectionChange={setSelectedKeysTheme}
+                  >
+                    <DropdownItem key='Claro'>Claro</DropdownItem>
+                    <DropdownItem key='Oscuro'>Oscuro</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} text-lg font-medium`}>
+                  Idioma:
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                      {selectedLanguage}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Idioma del sitio'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selectedKeysLanguage}
+                    //@ts-ignore
+                    onSelectionChange={setSelectedKeysLanguage}
+                  >
+                    <DropdownItem key='Español'>Español</DropdownItem>
+                    <DropdownItem key='English'>Inglés</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} text-lg font-medium`}>
+                  Mostrar likes:
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                      {showLikes}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Mostrar likes'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selKeysShowLikes}
+                    //@ts-ignore
+                    onSelectionChange={setSelKeysShowLikes}
+                  >
+                    <DropdownItem key='Si'>Si</DropdownItem>
+                    <DropdownItem key='No'>No</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} text-lg font-medium`}>
+                  Mostrar comentarios:
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                      {showComments}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Mostrar comentarios'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selKeysShowComments}
+                    //@ts-ignore
+                    onSelectionChange={setSelKeysShowComments}
+                  >
+                    <DropdownItem key='Si'>Si</DropdownItem>
+                    <DropdownItem key='No'>No</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p
+                  id='titleSize'
+                  className={`${roboto.className} text-lg font-medium`}
                 >
-                  <DropdownItem key='claro'>Claro</DropdownItem>
-                  <DropdownItem key='oscuro'>Oscuro</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Idioma:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                    {selectedLanguage}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Idioma del sitio'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selectedKeysLanguage}
-                  //@ts-ignore
-                  onSelectionChange={setSelectedKeysLanguage}
+                  Tamaño de títulos (en píxeles):
+                </p>
+                <Input
+                  type='number'
+                  placeholder='30'
+                  value={sizeTitles}
+                  onChange={(e) => setSizeTitles(e.target.value)}
+                  aria-label='Tamaño de títulos (en píxeles)'
+                  className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
+                  labelPlacement='outside'
+                  aria-describedby='titleSize'
+                  endContent={
+                    <div className='pointer-events-none flex items-center'>
+                      <span className='text-black text-small'>px</span>
+                    </div>
+                  }
+                />
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p
+                  id='textSize'
+                  className={`${roboto.className} text-lg font-medium`}
                 >
-                  <DropdownItem key='Español'>Español</DropdownItem>
-                  <DropdownItem key='English'>Inglés</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Mostrar likes:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                    {showLikes}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Mostrar likes'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selKeysShowLikes}
-                  //@ts-ignore
-                  onSelectionChange={setSelKeysShowLikes}
-                >
-                  <DropdownItem key='Si'>Si</DropdownItem>
-                  <DropdownItem key='No'>No</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Mostrar comentarios:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                    {showComments}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Mostrar comentarios'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selKeysShowComments}
-                  //@ts-ignore
-                  onSelectionChange={setSelKeysShowComments}
-                >
-                  <DropdownItem key='Si'>Si</DropdownItem>
-                  <DropdownItem key='No'>No</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p
-                id='titleSize'
-                className={`${roboto.className} text-lg font-medium`}
-              >
-                Tamaño de títulos (en píxeles):
-              </p>
-              <Input
-                type='number'
-                placeholder='30'
-                aria-label='Tamaño de títulos (en píxeles)'
-                className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
-                labelPlacement='outside'
-                aria-describedby='titleSize'
-                endContent={
-                  <div className='pointer-events-none flex items-center'>
-                    <span className='text-black text-small'>px</span>
-                  </div>
-                }
-              />
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-              <p
-                id='textSize'
-                className={`${roboto.className} text-lg font-medium`}
-              >
-                Tamaño de textos (en píxeles):
-              </p>
-              <Input
-                aria-label={'Tamaño de textos (en píxeles)'}
-                type='number'
-                placeholder='20'
-                className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
-                aria-describedby='textSize'
-                labelPlacement='outside'
-                endContent={
-                  <div className='pointer-events-none flex items-center'>
-                    <span className='text-black text-small'>px</span>
-                  </div>
-                }
-              />
-            </div>
-            <Divider />
-          </CardBody>
+                  Tamaño de textos (en píxeles):
+                </p>
+                <Input
+                  aria-label={'Tamaño de textos (en píxeles)'}
+                  type='number'
+                  value={sizeText}
+                  onChange={(e) => setSizeText(e.target.value)}
+                  placeholder='20'
+                  className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
+                  aria-describedby='textSize'
+                  labelPlacement='outside'
+                  endContent={
+                    <div className='pointer-events-none flex items-center'>
+                      <span className='text-black text-small'>px</span>
+                    </div>
+                  }
+                />
+              </div>
+              <Divider />
+            </CardBody>
+          )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
             <Button
               className='w-full'
+              onClick={handleSubmit}
               style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
             >
               Aplicar cambios
