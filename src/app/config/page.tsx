@@ -100,6 +100,41 @@ export default function Config() {
         });
       } catch (error: any) {
         setError(`Error: ${error.message}`);
+      } 
+    } else {
+      if (!!localStorage.getItem('config')){ 
+        //@ts-ignore
+        const config = JSON.parse(localStorage.getItem('config'));
+
+        //THEME
+        if (config.theme === 'light')
+          setSelectedKeysTheme(new Set(['claro']));
+        else 
+          setSelectedKeysTheme(new Set(['oscuro']));
+
+        //LANGUAGE
+        if (config.language === 'es')
+          setSelectedKeysLanguage(new Set(['español']));
+        else 
+          setSelectedKeysLanguage(new Set(['inglés']));
+
+        //LIKES 
+        if (config.show_likes === true)
+          setSelKeysShowLikes(new Set(['Sí']));
+        else 
+          setSelKeysShowLikes(new Set(['No']));
+
+        //COMMENTS
+        if (config.show_comments === true)
+          setSelKeysShowComments(new Set(['Sí']));
+        else 
+          setSelKeysShowComments(new Set(['No']));
+
+        //TITLES
+        setSizeTitles(`${config.size_title}`);
+
+        //TEXT
+        setSizeText(`${config.size_text}`);
       }
     }
     setLoading(false);
@@ -117,20 +152,25 @@ export default function Config() {
     const size_title = +sizeTitles ;
     const size_text = +sizeText;
 
-    try{
-      const newConfig = {
-        show_likes: show_likes == 'Sí',
-        show_comments: show_comments == 'Sí',
-        theme: theme == 'Claro' ? 'light' : 'dark',
-        language: language == 'Español' ? 'es' : 'eng',
-        size_title: size_title,
-        size_text: size_text,
-      };
+    const newConfig = {
+      show_likes: show_likes == 'Sí',
+      show_comments: show_comments == 'Sí',
+      theme: theme == 'Claro' ? 'light' : 'dark',
+      language: language == 'Español' ? 'es' : 'eng',
+      size_title: size_title,
+      size_text: size_text,
+    };
 
-      await updateConfig(getToken(), newConfig);
+    if (isLoggedIn()) {
+      try{
+        await updateConfig(getToken(), newConfig);
+        setSuccess('Los cambios se han guardado con éxito');
+      } catch (error: any) {
+        setError(`Error: ${error.message}`);
+      }
+    } else {
+      localStorage.setItem('config', JSON.stringify(newConfig));
       setSuccess('Los cambios se han guardado con éxito');
-    } catch (error: any) {
-      setError(`Error: ${error.message}`);
     }
   };
 
@@ -167,6 +207,9 @@ export default function Config() {
       } catch (error: any) {
         setError(`Error: ${error.message}`);
       }
+    } else {
+      localStorage.removeItem('config');
+      setSuccess('La configuración ha sido restaurada con éxito');
     }
 
   }
