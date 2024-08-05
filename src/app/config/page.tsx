@@ -20,7 +20,6 @@ import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
-//TODO add logic for storing config for guest users
 //TODO add logic for all the parameters
 
 export default function Config() {
