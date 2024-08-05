@@ -108,6 +108,7 @@ export default function Config() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     const show_likes = selKeysShowLikes.values().next().value;
     const show_comments = selKeysShowComments.values().next().value;
@@ -118,15 +119,15 @@ export default function Config() {
 
     try{
       const newConfig = {
-        show_likes: show_likes == 'Sí' ? true : false,
-        show_comments: show_comments == 'Sí' ? true : false,
+        show_likes: show_likes == 'Sí',
+        show_comments: show_comments == 'Sí',
         theme: theme == 'Claro' ? 'light' : 'dark',
         language: language == 'Español' ? 'es' : 'eng',
         size_title: size_title,
         size_text: size_text,
       };
 
-      updateConfig(getToken(), newConfig);
+      await updateConfig(getToken(), newConfig);
       setSuccess('Los cambios se han guardado con éxito');
     } catch (error: any) {
       setError(`Error: ${error.message}`);
@@ -179,7 +180,8 @@ export default function Config() {
           label: 'Sí',
           onClick: () => {
             console.log('Config updated');
-            handleSubmit;
+            const mockEvent = { preventDefault: () => {} };
+            handleSubmit(mockEvent);
           },
           style: {
             backgroundColor: '#D14805',
@@ -394,6 +396,8 @@ export default function Config() {
                 />
               </div>
               <Divider />
+              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+              {success && <p className="text-green-900 text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
