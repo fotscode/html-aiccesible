@@ -17,6 +17,11 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
+
+//TODO add logic for storing config for guest users
+//TODO add logic for all the parameters
 
 export default function Config() {
   const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['Claro']))
@@ -88,10 +93,10 @@ export default function Config() {
             setSelKeysShowComments(new Set(['No']));
 
           //TITLES
-          setSizeTitles(response.data.size_title as string);
+          setSizeTitles(`${response.data.size_title}`);
 
           //TEXT
-          setSizeText(response.data.size_text as string);
+          setSizeText(`${response.data.size_text}`);
         });
       } catch (error: any) {
         setError(`Error: ${error.message}`);
@@ -127,6 +132,99 @@ export default function Config() {
       setError(`Error: ${error.message}`);
     }
   };
+
+  const resetConfig = () => {
+
+    //THEME
+    setSelectedKeysTheme(new Set(['claro']));
+    //LANGUAGE
+    setSelectedKeysLanguage(new Set(['español']));
+    //LIKES 
+    setSelKeysShowLikes(new Set(['No']));
+    //COMMENTS
+    setSelKeysShowComments(new Set(['No']));
+    //TITLES
+    const default_titles = 30;
+    setSizeTitles(`${default_titles}`);
+    //TEXT
+    const default_text = 20;
+    setSizeText(`${default_text}`);
+
+    if (isLoggedIn()) {
+      try{
+        const newConfig = {
+          show_likes: false,
+          show_comments: false,
+          theme: 'light',
+          language: 'es',
+          size_title: default_titles,
+          size_text: default_text,
+        };
+
+        updateConfig(getToken(), newConfig);
+        setSuccess('La configuración ha sido restaurada con éxito');
+      } catch (error: any) {
+        setError(`Error: ${error.message}`);
+      }
+    }
+
+  }
+
+  const applyChanges = () => {
+    confirmAlert({
+      title: 'Confirmar cambios',
+      message: '¿Desea aplicar los cambios en la configuración?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: () => {
+            console.log('Config updated');
+            handleSubmit;
+          },
+          style: {
+            backgroundColor: '#D14805',
+            color: 'white',
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => console.log('User canceled apply changes'),
+          style: {
+            backgroundColor: '#D14805',
+            color: 'white',
+          }
+        }
+      ]
+    });
+  }
+
+  const confirmReset = () => {
+    confirmAlert({
+      title: 'Restaurar configuración',
+      message: '¿Desea volver a la configuración por defecto?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: () => {
+            console.log('Config resetted.');
+            resetConfig();
+          },
+          style: {
+            backgroundColor: '#D14805',
+            color: 'white',
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => console.log('User canceled config reset'),
+          style: {
+            backgroundColor: '#D14805',
+            color: 'white',
+          }
+        }
+      ]
+    });
+  }
 
   return (
     <>
@@ -301,12 +399,17 @@ export default function Config() {
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
             <Button
               className='w-full'
-              onClick={handleSubmit}
+              onClick={applyChanges}
               style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
             >
               Aplicar cambios
             </Button>
-            <Button className='w-full'>Restaurar</Button>
+            <Button 
+              className='w-full'
+              onClick={confirmReset}
+            >
+              Restaurar
+            </Button>
           </CardFooter>
         </Card>
       </main>
