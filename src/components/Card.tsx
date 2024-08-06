@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({
     <div
       className={
         handleClick
-          ? 'flex flex-row md:flex-col card bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+          ? 'flex flex-row md:flex-col card bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
           : '' + ' flex flex-row md:flex-col'
       }
       onClick={handleClick}
@@ -45,4 +45,4 @@ const Card: React.FC<CardProps> = ({
   )
 }
 
-export default Card
+export default Card;

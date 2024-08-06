@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { NextUIProvider } from '@nextui-org/react'
 import { roboto } from './fonts'
+import Providers from './context/ThemeProvider'
 
 export const metadata: Metadata = {
   title: 'HTML AIccesible',
@@ -17,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang='es'>
       <body className={roboto.className}>
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+          <Providers>
+              {children}
+          </Providers>
+        </NextUIProvider>
       </body>
     </html>
   )

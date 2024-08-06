@@ -2,30 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+/*
+ * Dark: 
+ *  - Popups de confirmación
+ *  - Dropdown de accesibility
+ * 
+ * Fix cambio de colores despues de cambiar de tema
+ *
+ */
 
-/* dark mode
-@media (prefers-color-scheme: dark) {
+
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-primary: rgb(255, 255, 255);
+    --color-secondary: rgb(214, 219, 220);
+    --color-buttons: #D14805;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(0, 0, 0);
+  }
+
+  :root[data-theme='light'] {
+    --color-primary: rgb(255, 255, 255);
+    --color-secondary: rgb(214, 219, 220);
+    --color-buttons: #D14805;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(0, 0, 0);
+  }
+
+  :root[data-theme='dark'] {
+    --color-primary: rgb(100,100,100);
+    --color-secondary: rgb(34, 34, 34);
+    --color-buttons: #C24609;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(255, 255, 255);
   }
 }
-*/
+
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--color-typography));
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      rgb(var(--color-primary))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--color-secondary));
+}
+
+span {
+  color: rgb(var(--color-typography));
+}
+
+button {
+  color: (var(--color-typography-buttons));
+  background: (var(--color-buttons));
 }
 
 @layer utilities {

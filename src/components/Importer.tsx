@@ -34,7 +34,7 @@ const Importer = () => {
   }
 
   return (
-    <section className='flex flex-col bg-gray-300 sm:px-4 py-4 sm:py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
+    <section className='flex flex-col bg-secondary sm:px-4 py-4 sm:py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
       <h2
         className={`${roboto.className} text-center card-title font-medium pb-3`}
       >

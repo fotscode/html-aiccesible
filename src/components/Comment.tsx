@@ -12,7 +12,7 @@ export default function CommentCard(props: CommentProps) {
         <CardHeader>
           <User
             name={comment.author}
-            description={(<span className="text-black">{comment.date}</span>)}
+            description={(<span>{comment.date}</span>)}
             // change color of description to black
             avatarProps={{ src: comment.avatar }}
           />

@@ -39,7 +39,7 @@ export default function Accesibility() {
         <div className='flex flex-col md:flex-row'>
           <Link
             href='/accesibility/editor'
-            className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+            className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
           >
             <Card
               title='Pegar código'
@@ -55,7 +55,7 @@ export default function Accesibility() {
               onChange={handleFileChange} 
               id="fileInput" 
           />
-          <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
+          <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
             <Card
               title='Cargar desde el equipo'
               description='Seleccione el archivo desde su computadora.'
@@ -65,7 +65,7 @@ export default function Accesibility() {
 
           <Link
             href='/accesibility/importer'
-            className='card flex flex-row md:flex-col bg-gray-300 md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
+            className='card flex flex-row md:flex-col md:px-10 md:py-8 bg-secondary rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
           >
             <Card
               title='Examinar página web'
