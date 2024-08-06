@@ -5,6 +5,7 @@ interface CardProps {
   title: string
   description: string
   image?: string
+  alt: string,
   handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void
 }
 
@@ -12,6 +13,7 @@ const Card: React.FC<CardProps> = ({
   title,
   description,
   image,
+  alt,
   handleClick,
 }) => {
   return (
@@ -27,7 +29,7 @@ const Card: React.FC<CardProps> = ({
         <div className='md:w-1/4'>
           <img
             src={image}
-            alt={title}
+            alt={alt}
             className='card-image md:pb-3 min-w-[50px]'
           />
         </div>

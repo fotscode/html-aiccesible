@@ -56,7 +56,6 @@ export default function LogIn() {
                     aria-label='Nombre de usuario'
                     className='w-full border'
                     labelPlacement='outside'
-                    aria-describedby='username'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -69,7 +68,6 @@ export default function LogIn() {
                     aria-label='Contraseña'
                     className='w-full border'
                     labelPlacement='outside'
-                    aria-describedby='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -95,13 +93,13 @@ export default function LogIn() {
                 ¿Todavía no tenés una cuenta o no querés tener una?
                 &nbsp;
                 <a href='/register' 
-                style={{ color: 'orangered' }}
+                style={{ color: '#8F3200' }}
                 >
                   Registrate
                 </a>
                 &nbsp; o &nbsp;
                 <a href='/accesibility' 
-                style={{ color: 'orangered' }}
+                style={{ color: '#8F3200' }}
                 >
                   ingresá como invitado
                 </a>

@@ -4,12 +4,14 @@ import { useTheme } from 'next-themes'
 
 interface EditorProps {
     code: string,
-    setCode: (value: string) => void
+    setCode: (value: string) => void,
+    label: string,
 }
 
 const NonAccesibilizedEditor: React.FC<EditorProps> = ({
     code,
-    setCode
+    setCode,
+    label,
 }) => {
 
   const {theme} = useTheme()
@@ -23,6 +25,7 @@ const NonAccesibilizedEditor: React.FC<EditorProps> = ({
       defaultValue='// Copia tu código aquí'
       value={code}
       onChange={(value) => setCode(value || '')}
+      aria-labeledBy={label}
     />
   )
 };

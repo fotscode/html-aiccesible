@@ -45,6 +45,7 @@ export default function Accesibility() {
               title='Pegar código'
               description='Ingrese el código HTML en una casilla de texto.'
               image='/btn_new.png'
+              alt='Botón para accesibilizar código ingresado manualmente'
             />
           </Link>
 
@@ -60,6 +61,7 @@ export default function Accesibility() {
               title='Cargar desde el equipo'
               description='Seleccione el archivo desde su computadora.'
               image='/btn_import.png'
+              alt='Botón para accesibilizar código a partir de un archivo HTML'
             />
           </label>
 
@@ -71,6 +73,7 @@ export default function Accesibility() {
               title='Examinar página web'
               description='Seleccione la URL de la página web a analizar.'
               image='/btn_link.png'
+              alt='Botón para accesibilizar código a partir de una URL'
             />
           </Link>
         </div>

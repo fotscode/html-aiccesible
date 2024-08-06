@@ -20,7 +20,7 @@ export default function ImporterPage() {
           Querés usar otro método?
           Podés &nbsp;
           <a href='/accesibility' 
-          style={{ color: 'orangered' }}
+          style={{ color: '#8F3200' }}
           >
            elegir otra opción de carga 
           </a>
