@@ -108,7 +108,7 @@ export default function CodeEditor() {
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='h-full flex flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -134,8 +134,8 @@ export default function CodeEditor() {
           />
         </div>
 
-        <div className='flex flex-row w-full h-screen justify-center items-center'>
-          <div className='h-full w-full hidden lg:flex lg:flex-col'>
+        <section className='flex flex-row w-full h-[50vh] xl:h-[40vh] justify-center items-center'>
+          <div className='h-full w-full hidden xl:flex xl:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -149,7 +149,7 @@ export default function CodeEditor() {
           </div>
 
           <button
-            className='items-center px-10 hidden lg:flex lg:flex-col text-medium lg:text-xl font-medium mt-5'
+            className='items-center px-10 hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium mt-5'
             onClick={accesibilize}
           >
             <img
@@ -160,7 +160,7 @@ export default function CodeEditor() {
             AIccesibilizar
           </button>
 
-          <div className='h-full w-full hidden lg:flex lg:flex-col'>
+          <div className='h-full w-full hidden xl:flex xl:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -172,8 +172,8 @@ export default function CodeEditor() {
             <AccesibilizedEditor func={setEditorAccesibilized}/>
           </div>
 
-          <div className='flex flex-col h-full w-full lg:hidden'>
-            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full lg:hidden justify-between'>
+          <div className='flex flex-col h-full w-full xl:hidden'>
+            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
               {!isAccesibilizePressed ? (
                 <Button
                   style={{
@@ -225,7 +225,7 @@ export default function CodeEditor() {
               </div>
             )}
           </div>
-        </div>
+        </section>
       </main>
     </>
   )
