@@ -8,8 +8,11 @@ import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import Dropdown from '@/components/Dropdown'
+import { useTheme } from 'next-themes'
 
 export default function CodeEditor() {
+  const {theme} = useTheme();
+
   const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
 
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
@@ -134,7 +137,7 @@ export default function CodeEditor() {
         </div>
 
         <div className='flex flex-row w-full h-screen justify-center items-center'>
-          <div className='h-full w-full hidden md:flex md:flex-col'>
+          <div className='h-full w-full hidden lg:flex lg:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -146,7 +149,7 @@ export default function CodeEditor() {
 
             <Editor
               className='border border-black py-0.5 rounded-b'
-              theme='vs-light'
+              theme={theme == 'light' ? 'light' : 'vs-dark'} 
               defaultLanguage='html'
               defaultValue='// Copia tu código aquí'
               value={code}
@@ -155,7 +158,7 @@ export default function CodeEditor() {
           </div>
 
           <button
-            className='items-center px-10 hidden md:flex md:flex-col text-medium md:text-xl font-medium mt-5'
+            className='items-center px-10 hidden lg:flex lg:flex-col text-medium lg:text-xl font-medium mt-5'
             onClick={accesibilize}
           >
             <img
@@ -166,7 +169,7 @@ export default function CodeEditor() {
             AIccesibilizar
           </button>
 
-          <div className='h-full w-full hidden md:flex md:flex-col'>
+          <div className='h-full w-full hidden lg:flex lg:flex-col'>
             <label
               htmlFor='code-results-big'
               className={
@@ -177,7 +180,7 @@ export default function CodeEditor() {
             </label>
             <Editor
               className='border border-black py-0.5 rounded-b'
-              theme='vs-light'
+              theme={theme == 'light' ? 'light' : 'vs-dark'} 
               defaultLanguage='html'
               defaultValue='// Código accesibilizado'
               onMount={(editor) => setEditorAccesibilized(editor)}
@@ -185,8 +188,8 @@ export default function CodeEditor() {
             />
           </div>
 
-          <div className='flex flex-col h-full w-full md:hidden'>
-            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full md:hidden justify-between'>
+          <div className='flex flex-col h-full w-full lg:hidden'>
+            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full lg:hidden justify-between'>
               <Button
                 style={{
                   backgroundColor: '#D14805',
@@ -217,7 +220,7 @@ export default function CodeEditor() {
               <div className='h-full w-full'>
                 <Editor
                   className='border border-black py-0.5 rounded'
-                  theme='vs-light'
+                  theme={theme == 'light' ? 'light' : 'vs-dark'} 
                   defaultLanguage='html'
                   defaultValue='// Copia tu código aquí'
                   options={{ readOnly: false }}
@@ -229,7 +232,7 @@ export default function CodeEditor() {
               <div className='h-full w-full'>
                 <Editor
                   className='border border-black py-0.5 rounded'
-                  theme='vs-light'
+                  theme={theme == 'light' ? 'light' : 'vs-dark'} 
                   defaultLanguage='html'
                   defaultValue='// Código accesibilizado'
                   onMount={(editor) => setEditorAccesibilized(editor)}

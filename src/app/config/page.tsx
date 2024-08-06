@@ -412,7 +412,7 @@ export default function Config() {
                   aria-describedby='titleSize'
                   endContent={
                     <div className='pointer-events-none flex items-center'>
-                      <span className='text-black text-small'>px</span>
+                      <span className='text-small'>px</span>
                     </div>
                   }
                 />
@@ -436,7 +436,7 @@ export default function Config() {
                   labelPlacement='outside'
                   endContent={
                     <div className='pointer-events-none flex items-center'>
-                      <span className='text-black text-small'>px</span>
+                      <span className='text-small'>px</span>
                     </div>
                   }
                 />
@@ -448,9 +448,8 @@ export default function Config() {
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
             <Button
-              className='w-full'
+              className='w-full bg-buttons text-typographybuttons'
               onClick={applyChanges}
-              style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
             >
               Aplicar cambios
             </Button>

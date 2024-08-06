@@ -41,6 +41,7 @@ export const Header = () => {
       setLoggedIn(true);
   }, []);
 
+
   const confirmLogout = () => {
     confirmAlert({
       title: 'Confirmar cierre de sesión',
@@ -66,7 +67,7 @@ export const Header = () => {
             color: 'white',
           }
         }
-      ]
+      ],
     });
   }
 
@@ -77,7 +78,7 @@ export const Header = () => {
       <NavbarBrand>
         <Link
           href={ loggedIn ? '/accesibility' : '/'}
-          className={`${poppins.className} text-black text-2xl font-bold`}
+          className={`${poppins.className} text-typography text-2xl font-bold`}
         >
           HTML{' '}
           <span className='ml-2' style={{ color: '#D14805' }}>

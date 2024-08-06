@@ -3,35 +3,59 @@
 @tailwind utilities;
 
 /*
-[data-theme="dark"] body {
-  background-color: #000;
-  color: #fff;
-}
-*/
+ * Dark: 
+ *  - Popups de confirmación
+ *  - Dropdown de accesibility
+ * 
+ * Fix cambio de colores despues de cambiar de tema
+ *
+ */
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+@layer base {
+  :root {
+    --color-primary: rgb(255, 255, 255);
+    --color-secondary: rgb(214, 219, 220);
+    --color-buttons: #D14805;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(0, 0, 0);
+  }
+
+  :root[data-theme='light'] {
+    --color-primary: rgb(255, 255, 255);
+    --color-secondary: rgb(214, 219, 220);
+    --color-buttons: #D14805;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(0, 0, 0);
+  }
+
+  :root[data-theme='dark'] {
+    --color-primary: rgb(100,100,100);
+    --color-secondary: rgb(34, 34, 34);
+    --color-buttons: #C24609;
+    --color-typography-buttons: rgb(255, 255, 255);
+    --color-typography: rgb(255, 255, 255);
+  }
 }
+
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--color-typography));
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      rgb(var(--color-primary))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--color-secondary));
 }
 
+span {
+  color: rgb(var(--color-typography));
+}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255; 
-    --background-start-rgb: 34, 34, 34;
-    --background-end-rgb: 0, 0, 0; 
-  }
+button {
+  color: (var(--color-typography-buttons));
+  background: (var(--color-buttons));
 }
 
 @layer utilities {
@@ -39,20 +63,3 @@ body {
     text-wrap: balance;
   }
 }
-
-h1, h2, h3, h4, h5, h6 {
-  color: rgb(var(--foreground-rgb));
-}
-
-p {
-  color: rgb(var(--foreground-rgb));
-}
-
-a {
-  color: rgb(0, 122, 255); /* Link color */
-}
-
-a:hover {
-  color: rgb(0, 100, 200); /* Link hover color */
-}
-
