@@ -105,7 +105,7 @@ export const Header = () => {
           className='flex items-center'
           key={'logout'}
         >
-        <button className='flex items-center' onClick={confirmLogout}>
+        <button className='flex items-center' aria-label="Cerrar sesión" onClick={confirmLogout}>
           <MdLogout size={32} color="#D14805" /> 
         </button>
         </NavbarItem>}
@@ -114,7 +114,10 @@ export const Header = () => {
 
       <NavbarMenu>
         {[...Object.entries(menuItems)].map(([key, value], index) => (
-          <NavbarMenuItem key={`${key}-${index}-menu`}>
+          <NavbarMenuItem 
+            key={`${key}-${index}-menu`}
+            className={activeSection === value ? 'font-bold' : ''}
+          >
             <Link className='w-full text-lg text-black' href={value} size='lg'>
               {key}
             </Link>
@@ -124,7 +127,7 @@ export const Header = () => {
         <NavbarItem
           key={'logout'}
         >
-        <button className='flex flex-row items-center text-lg' onClick={confirmLogout}>
+        <button className='flex flex-row items-center text-lg' aria-label="Cerrar sesión" onClick={confirmLogout}>
            Cerrar sesión &nbsp;
            <MdLogout size={32} color="#D14805" /> 
         </button>

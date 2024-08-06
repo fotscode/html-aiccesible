@@ -108,7 +108,7 @@ export default function CodeEditor() {
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='h-full flex flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -117,7 +117,7 @@ export default function CodeEditor() {
         <p className='text-left mx-3 mt-1 md:text-center md:text-xl'>
           Verificá que el código cargado es el deseado y presioná el botón
           naranja para accesibilizarlo. Podés &nbsp;
-          <a href='/accesibility' style={{ color: 'orangered' }}>
+          <a href='/accesibility' style={{ color: '#8F3200' }}>
             elegir otra opción de carga
           </a>
           &nbsp; del código HTML.
@@ -134,46 +134,46 @@ export default function CodeEditor() {
           />
         </div>
 
-        <div className='flex flex-row w-full h-screen justify-center items-center'>
-          <div className='h-full w-full hidden lg:flex lg:flex-col'>
-            <label
-              htmlFor='code-results-big'
+        <section className='flex flex-row w-full h-[50vh] xl:h-[40vh] justify-center items-center'>
+          <div className='h-full w-full hidden xl:flex xl:flex-col'>
+            <h2
+              id='code-nonaccesibilized-desktop'
               className={
                 poppins.className + ' text-xl md:text-2xl font-semibold mb-2'
               }
             >
               Código a accesibilizar
-            </label>
+            </h2>
 
-            <NonAccesibilizedEditor code={code} setCode={setCode}/>
+            <NonAccesibilizedEditor code={code} setCode={setCode} label='code-nonaccesibilized-desktop'/>
           </div>
 
           <button
-            className='items-center px-10 hidden lg:flex lg:flex-col text-medium lg:text-xl font-medium mt-5'
+            className='items-center px-10 hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium mt-5'
             onClick={accesibilize}
           >
             <img
               src='/btn_start.png'
-              alt='AIccesibilizar'
+              alt='Botón para accesibilizar el código ingresado'
               className='min-w-[80px] w-3'
             />
             AIccesibilizar
           </button>
 
-          <div className='h-full w-full hidden lg:flex lg:flex-col'>
-            <label
-              htmlFor='code-results-big'
+          <div className='h-full w-full hidden xl:flex xl:flex-col'>
+            <h2
+              id='code-accesibilized-desktop'
               className={
                 poppins.className + ' text-xl md:text-2xl font-semibold mb-2'
               }
             >
               Resultado
-            </label>
-            <AccesibilizedEditor func={setEditorAccesibilized}/>
+            </h2>
+            <AccesibilizedEditor label='code-accesibilized-desktop' func={setEditorAccesibilized}/>
           </div>
 
-          <div className='flex flex-col h-full w-full lg:hidden'>
-            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full lg:hidden justify-between'>
+          <div className='flex flex-col h-full w-full xl:hidden'>
+            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
               {!isAccesibilizePressed ? (
                 <Button
                   style={{
@@ -217,15 +217,15 @@ export default function CodeEditor() {
 
             {!isAccesibilizePressed ? (
               <div className='h-full w-full'>
-                <NonAccesibilizedEditor code={code} setCode={setCode}/>
+                <NonAccesibilizedEditor label='code-nonaccesibilized-mobile' code={code} setCode={setCode}/>
               </div>
             ) : (
               <div className='h-full w-full'>
-                <AccesibilizedEditor func={setEditorAccesibilized}/>
+                <AccesibilizedEditor label='code-accesibilized-mobile' func={setEditorAccesibilized}/>
               </div>
             )}
           </div>
-        </div>
+        </section>
       </main>
     </>
   )

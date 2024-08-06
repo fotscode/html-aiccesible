@@ -27,7 +27,7 @@ export default function Accesibility() {
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col items-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='flex h-full flex-col items-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -45,6 +45,7 @@ export default function Accesibility() {
               title='Pegar código'
               description='Ingrese el código HTML en una casilla de texto.'
               image='/btn_new.png'
+              alt='Botón para accesibilizar código ingresado manualmente'
             />
           </Link>
 
@@ -55,11 +56,12 @@ export default function Accesibility() {
               onChange={handleFileChange} 
               id="fileInput" 
           />
-          <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
+          <label tabIndex={0} htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
             <Card
               title='Cargar desde el equipo'
               description='Seleccione el archivo desde su computadora.'
               image='/btn_import.png'
+              alt='Botón para accesibilizar código a partir de un archivo HTML'
             />
           </label>
 
@@ -71,6 +73,7 @@ export default function Accesibility() {
               title='Examinar página web'
               description='Seleccione la URL de la página web a analizar.'
               image='/btn_link.png'
+              alt='Botón para accesibilizar código a partir de una URL'
             />
           </Link>
         </div>

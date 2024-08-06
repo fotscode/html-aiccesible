@@ -152,13 +152,13 @@ export default function Register() {
             ¿Ya tenés una cuenta o no querés tener una? 
             &nbsp;
             <a href='/login' 
-            style={{ color: 'orangered' }}
+            style={{ color: '#8F3200' }}
             >
               Iniciá sesión 
             </a>
             &nbsp; o &nbsp;
             <a href='/accesibility' 
-            style={{ color: 'orangered' }}
+            style={{ color: '#8F3200' }}
             >
               ingresá como invitado
             </a>

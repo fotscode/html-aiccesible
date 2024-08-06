@@ -50,7 +50,7 @@ export default function Home() {
             ¿No tenés una cuenta? 
             &nbsp;
             <a href='/register' 
-            style={{ color: 'orangered' }}
+            style={{ color: '#8F3200' }}
             >
               Registrate
             </a>

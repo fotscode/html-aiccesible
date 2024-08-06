@@ -10,7 +10,7 @@ export default function ImporterPage() {
   return (
     <>
       <Header />
-      <main className='flex h-screen flex-col items-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='flex h-full flex-col items-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -20,7 +20,7 @@ export default function ImporterPage() {
           Querés usar otro método?
           Podés &nbsp;
           <a href='/accesibility' 
-          style={{ color: 'orangered' }}
+          style={{ color: '#8F3200' }}
           >
            elegir otra opción de carga 
           </a>

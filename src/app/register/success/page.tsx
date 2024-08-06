@@ -1,10 +1,15 @@
+'use client'
+
 import { poppins, roboto } from '../../fonts'
 import React from 'react'
 import {
   Button,
 } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
 
 export default function RegisterSuccess() {
+
+  const router = useRouter();
 
   return (
     <>
@@ -18,7 +23,7 @@ export default function RegisterSuccess() {
           Ahora podés 
           &nbsp;
           <a href='/' 
-          style={{ color: 'orangered' }}
+          style={{ color: '#8F3200' }}
           >
             iniciar sesión 
           </a>
@@ -30,9 +35,9 @@ export default function RegisterSuccess() {
             color: 'white',
           }}
           className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
-          href='/'
+          onClick={() => {router.push('/')}}
         >
-          Volver al menú principal 
+          Volver a la página principal
         </Button>
       </main>
     </>

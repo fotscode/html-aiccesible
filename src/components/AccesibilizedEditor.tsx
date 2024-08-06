@@ -3,10 +3,12 @@ import Editor from '@monaco-editor/react'
 import { useTheme } from 'next-themes'
 
 interface EditorProps {
+    label: string,
     func: (value: any) => void
 }
 
 const NonAccesibilizedEditor: React.FC<EditorProps> = ({
+    label,
     func,
 }) => {
 
@@ -21,6 +23,7 @@ const NonAccesibilizedEditor: React.FC<EditorProps> = ({
       defaultValue='// Código accesibilizado'
       onMount={(editor) => func(editor)}
       options={{ readOnly: true }}
+      aria-describedBy={label}
     />
   )
 };
