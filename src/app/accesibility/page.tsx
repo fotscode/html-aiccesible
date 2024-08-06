@@ -56,7 +56,7 @@ export default function Accesibility() {
               onChange={handleFileChange} 
               id="fileInput" 
           />
-          <label htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
+          <label tabIndex={0} htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
             <Card
               title='Cargar desde el equipo'
               description='Seleccione el archivo desde su computadora.'

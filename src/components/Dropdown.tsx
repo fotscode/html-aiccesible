@@ -24,6 +24,7 @@ const Dropdown: React.FC<DropdownProps> = ({ models, selectedModel, setSelectedM
         onChange={handleChange}
         options={models}
         placeholder="Seleccione una opción"
+        aria-label="Seleccione un modelo"
         styles={{
           control: (provided) => ({
             ...provided,
