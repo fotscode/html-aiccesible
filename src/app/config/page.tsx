@@ -19,10 +19,14 @@ import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import { useTheme } from 'next-themes';
 
 //TODO add logic for all the parameters
 
 export default function Config() {
+
+  const { setTheme } = useTheme();
+
   const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['Claro']))
 
   const selectedTheme = useMemo(
@@ -160,16 +164,16 @@ export default function Config() {
       size_text: size_text,
     };
 
-    if (isLoggedIn()) {
-      try{
+    try {
+      if (isLoggedIn()) {
         await updateConfig(getToken(), newConfig);
-        setSuccess('Los cambios se han guardado con éxito');
-      } catch (error: any) {
-        setError(`Error: ${error.message}`);
+      } else {
+        localStorage.setItem('config', JSON.stringify(newConfig));
       }
-    } else {
-      localStorage.setItem('config', JSON.stringify(newConfig));
       setSuccess('Los cambios se han guardado con éxito');
+      setTheme(newConfig.theme); 
+    } catch (error: any) {
+      setError(`Error: ${error.message}`);
     }
   };
 

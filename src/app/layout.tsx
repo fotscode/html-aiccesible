@@ -3,7 +3,6 @@ import './globals.css'
 import { NextUIProvider } from '@nextui-org/react'
 import { roboto } from './fonts'
 import Providers from './context/ThemeProvider'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export const metadata: Metadata = {
   title: 'HTML AIccesible',
@@ -19,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang='es'>
       <body className={roboto.className}>
-        <Providers>
-          <ThemeSwitcher>
-            <NextUIProvider>{children}</NextUIProvider>
-          </ThemeSwitcher>
-        </Providers>
+        <NextUIProvider>
+          <Providers>
+              {children}
+          </Providers>
+        </NextUIProvider>
       </body>
     </html>
   )

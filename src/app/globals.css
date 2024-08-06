@@ -2,21 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+[data-theme="dark"] body {
+  background-color: #000;
+  color: #fff;
+}
+*/
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
-
-/* dark mode
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-*/
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -28,9 +25,13 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-[data-theme="dark"] body {
-  background-color: #000;
-  color: #fff;
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255; 
+    --background-start-rgb: 34, 34, 34;
+    --background-end-rgb: 0, 0, 0; 
+  }
 }
 
 @layer utilities {
@@ -38,3 +39,20 @@ body {
     text-wrap: balance;
   }
 }
+
+h1, h2, h3, h4, h5, h6 {
+  color: rgb(var(--foreground-rgb));
+}
+
+p {
+  color: rgb(var(--foreground-rgb));
+}
+
+a {
+  color: rgb(0, 122, 255); /* Link color */
+}
+
+a:hover {
+  color: rgb(0, 100, 200); /* Link hover color */
+}
+
