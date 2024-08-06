@@ -1,18 +1,16 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Editor from '@monaco-editor/react'
 import { poppins } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import Dropdown from '@/components/Dropdown'
-import { useTheme } from 'next-themes'
+import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
+import AccesibilizedEditor from '@/components/AccesibilizedEditor'
 
 export default function CodeEditor() {
-  const {theme} = useTheme();
-
   const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
 
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
@@ -147,14 +145,7 @@ export default function CodeEditor() {
               Código a accesibilizar
             </label>
 
-            <Editor
-              className='border border-black py-0.5 rounded-b'
-              theme={theme == 'light' ? 'light' : 'vs-dark'} 
-              defaultLanguage='html'
-              defaultValue='// Copia tu código aquí'
-              value={code}
-              onChange={(value) => setCode(value || '')}
-            />
+            <NonAccesibilizedEditor code={code} setCode={setCode}/>
           </div>
 
           <button
@@ -178,30 +169,38 @@ export default function CodeEditor() {
             >
               Resultado
             </label>
-            <Editor
-              className='border border-black py-0.5 rounded-b'
-              theme={theme == 'light' ? 'light' : 'vs-dark'} 
-              defaultLanguage='html'
-              defaultValue='// Código accesibilizado'
-              onMount={(editor) => setEditorAccesibilized(editor)}
-              options={{ readOnly: true }}
-            />
+            <AccesibilizedEditor func={setEditorAccesibilized}/>
           </div>
 
           <div className='flex flex-col h-full w-full lg:hidden'>
             <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full lg:hidden justify-between'>
-              <Button
-                style={{
-                  backgroundColor: '#D14805',
-                  color: 'white',
-                  fontSize: '11pt',
-                  height: '30px',
-                }}
-                className='sm:px-5 mx-1 sm:text-xl font-medium'
-                onClick={accesibilize}
-              >
-                AIccesibilizar
-              </Button>
+              {!isAccesibilizePressed ? (
+                <Button
+                  style={{
+                    backgroundColor: '#D14805',
+                    color: 'white',
+                    fontSize: '11pt',
+                    height: '30px',
+                  }}
+                  className='sm:px-5 mx-1 sm:text-xl font-medium'
+                  onClick={accesibilize}
+                >
+                  AIccesibilizar
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: '#D14805',
+                    color: 'white',
+                    fontSize: '11pt',
+                    height: '30px',
+                  }}
+                  className='sm:px-5 mx-1 sm:text-xl font-medium'
+                  onClick={() => setIsAccesibilizePressed(false)}
+                >
+                  Mostrar código sin accesibilizar
+                </Button>
+              )}
 
               <button
                 className='w-8'
@@ -218,26 +217,11 @@ export default function CodeEditor() {
 
             {!isAccesibilizePressed ? (
               <div className='h-full w-full'>
-                <Editor
-                  className='border border-black py-0.5 rounded'
-                  theme={theme == 'light' ? 'light' : 'vs-dark'} 
-                  defaultLanguage='html'
-                  defaultValue='// Copia tu código aquí'
-                  options={{ readOnly: false }}
-                  value={code}
-                  onChange={(value) => setCode(value || '')}
-                />
+                <NonAccesibilizedEditor code={code} setCode={setCode}/>
               </div>
             ) : (
               <div className='h-full w-full'>
-                <Editor
-                  className='border border-black py-0.5 rounded'
-                  theme={theme == 'light' ? 'light' : 'vs-dark'} 
-                  defaultLanguage='html'
-                  defaultValue='// Código accesibilizado'
-                  onMount={(editor) => setEditorAccesibilized(editor)}
-                  options={{ readOnly: true }}
-                />
+                <AccesibilizedEditor func={setEditorAccesibilized}/>
               </div>
             )}
           </div>
