@@ -67,6 +67,10 @@ button {
   color: #8F3200;
 }
 
+.logo{
+  color: #D14805;
+}
+
 
 @layer utilities {
   .text-balance {

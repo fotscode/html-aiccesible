@@ -44,7 +44,7 @@ export default function LogIn() {
               <h1
                 className={`${poppins.className} text-center text-3xl md:text-4xl lg:text-5xl font-bold`}
               >
-                HTML <span style={{ color: '#D14805' }}>AI</span>ccesible
+                HTML <span className='logo'>AI</span>ccesible
               </h1>
             </CardHeader>
             <CardBody className='px-1 sm:px-4'>

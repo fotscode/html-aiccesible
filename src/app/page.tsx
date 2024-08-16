@@ -12,7 +12,7 @@ export default function Home() {
         <h1
           className={`${poppins.className} text-center  text-4xl md:text-6xl lg:text-8xl font-bold`}
         >
-          HTML <span style={{ color: '#D14805' }}>AI</span>ccesible
+          HTML <span className='logo'>AI</span>ccesible
         </h1>
         <p className='text-center md:text-xl  xl:my-12'>
           Es una herramienta de inteligencia artificial que convierte

@@ -81,7 +81,7 @@ export const Header = () => {
           className={`${poppins.className} text-typography text-2xl font-bold`}
         >
           HTML{' '}
-          <span className='ml-2' style={{ color: '#D14805' }}>
+          <span className='logo ml-2'>
             AI
           </span>
           ccesible
