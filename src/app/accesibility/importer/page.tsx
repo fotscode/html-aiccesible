@@ -19,9 +19,7 @@ export default function ImporterPage() {
         <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
           Querés usar otro método?
           Podés &nbsp;
-          <a href='/accesibility' 
-          style={{ color: '#8F3200' }}
-          >
+          <a href='/accesibility' className='link'>
            elegir otra opción de carga 
           </a>
           &nbsp; del código HTML.

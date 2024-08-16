@@ -88,15 +88,11 @@ export default function LogIn() {
               <p className='mx-3 mt-2 text-center'>
                 ¿Todavía no tenés una cuenta o no querés tener una?
                 &nbsp;
-                <a href='/register' 
-                style={{ color: '#8F3200' }}
-                >
+                <a href='/register' className='link'>
                   Registrate
                 </a>
                 &nbsp; o &nbsp;
-                <a href='/accesibility' 
-                style={{ color: '#8F3200' }}
-                >
+                <a href='/accesibility' className='link'>
                   ingresá como invitado
                 </a>
                 .

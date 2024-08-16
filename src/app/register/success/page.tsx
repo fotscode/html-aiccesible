@@ -22,9 +22,7 @@ export default function RegisterSuccess() {
         <p className='mx-3 mt-3 text-center md:text-xl xl:mb-12'>
           Ahora podés 
           &nbsp;
-          <a href='/' 
-          style={{ color: '#8F3200' }}
-          >
+          <a href='/' className='link'>
             iniciar sesión 
           </a>
           &nbsp; utilizando tu nombre de usuario y contraseña.

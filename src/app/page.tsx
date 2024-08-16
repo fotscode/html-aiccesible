@@ -41,9 +41,7 @@ export default function Home() {
           <p className='text-left mx-3 mt-2 md:text-center md:text-xl'>
             ¿No tenés una cuenta? 
             &nbsp;
-            <a href='/register' 
-            style={{ color: '#8F3200' }}
-            >
+            <a href='/register' className='link'>
               Registrate
             </a>
             .
