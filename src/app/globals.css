@@ -19,6 +19,8 @@
     --color-buttons: #D14805;
     --color-typography-buttons: rgb(255, 255, 255);
     --color-typography: rgb(0, 0, 0);
+    --color-success: #0C6435;
+    --color-danger: #AE0943;
   }
 
   :root[data-theme='light'] {

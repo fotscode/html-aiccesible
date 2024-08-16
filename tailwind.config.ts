@@ -18,6 +18,8 @@ const config: Config = {
       colors: {
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
+        success: 'var(--color-success)',
+        danger: 'var(--color-danger)',
         buttons: 'var(--color-buttons)',
         typography: 'var(--color-typography)',
         typographybuttons: 'var(--color-typography-buttons)',
