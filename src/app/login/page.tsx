@@ -48,30 +48,28 @@ export default function LogIn() {
               </h1>
             </CardHeader>
             <CardBody className='px-1 sm:px-4'>
-              <form id='login-form' onSubmit={handleSubmit}>
-                <div className='py-2'>
-                  <Input
-                    type='text'
-                    placeholder='Nombre de usuario'
-                    aria-label='Nombre de usuario'
-                    className='w-full border'
-                    labelPlacement='outside'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                </div>
+              <form id='login-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
+                <Input
+                  type='text'
+                  placeholder='Nombre de usuario'
+                  aria-label='Nombre de usuario'
+                  className='w-full'
+                  variant='bordered'
+                  labelPlacement='outside'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
 
-                <div className='py-2'>
-                  <Input
-                    type='password'
-                    placeholder='Contraseña'
-                    aria-label='Contraseña'
-                    className='w-full border'
-                    labelPlacement='outside'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
+                <Input
+                  type='password'
+                  placeholder='Contraseña'
+                  aria-label='Contraseña'
+                  className='w-full'
+                  variant='bordered'
+                  labelPlacement='outside'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </form>
 
               {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}

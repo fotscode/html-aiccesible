@@ -17,24 +17,19 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [error, setError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [repeatedPasswordError, setRepeatedPasswordError] = useState('');
 
-  const validatePassword = (pass: string) => {
-    if (pass.length < 8) {
-      setPasswordError('La contraseña debe tener al menos 8 caracteres.');
-    } else {
-      setPasswordError('');
-    }
-  };
 
-  const validateRepeatedPassword = (repeatedPass: string) => {
-    if (password != repeatedPass) {
-      setRepeatedPasswordError('La contraseña repetida no coincide con la primera.');
-    } else {
-      setRepeatedPasswordError('');
-    }
-  };
+  const isInvalidPassword = React.useMemo(() => {
+    if (password.length < 8) return true;
+
+    return false;
+  }, [password]);
+
+  const isInvalidRepeatedPassword = React.useMemo(() => {
+    if (password != repeatedPassword) return true;
+
+    return false;
+  }, [repeatedPassword]);
 
 
   const handleSubmit = (e: any) => {
@@ -73,74 +68,72 @@ export default function Register() {
         </p>
         <Card className='w-full md:w-3/4 2xl:w-1/2 p-5'>
           <CardBody className='px-1 sm:px-4'>
-            <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-              <p id='username' className={`${roboto.className} text-sm md:text-lg font-medium`}>
-                Nombre de usuario:
-              </p>
-              <Input
-                type='text'
-                placeholder='Accesibilizador01'
-                aria-label='Nombre de usuario'
-                className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
-                labelPlacement='outside'
-                aria-describedby='username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
+            <form id='register-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
+              <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
+                <p id='username' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                  Nombre de usuario:
+                </p>
+                <Input
+                  type='text'
+                  placeholder='Accesibilizador01'
+                  aria-label='Nombre de usuario'
+                  className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
+                  labelPlacement='outside'
+                  variant="bordered"
+                  aria-describedby='username'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
 
-            <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-              <p id='password' className={`${roboto.className} text-sm md:text-lg font-medium`}>
-                Contraseña:
-              </p>
-              <Input
-                type='password'
-                placeholder='Bananas1'
-                aria-label='Contraseña'
-                className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
-                labelPlacement='outside'
-                aria-describedby='password'
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  validatePassword(e.target.value);
-                }}
-              />
-            </div>
+              <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
+                <p id='password' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                  Contraseña:
+                </p>
+                <Input
+                  type='password'
+                  placeholder='Bananas1'
+                  aria-label='Contraseña'
+                  className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
+                  labelPlacement='outside'
+                  variant="bordered"
+                  isInvalid={isInvalidPassword}
+                  color={isInvalidPassword ? "danger" : "success"}
+                  errorMessage="La contraseña debe tener al menos 8 caracteres"
+                  aria-describedby='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-            {passwordError && (
-              <p className='text-center text-red-500 text-sm'>{passwordError}</p>
-            )}
-
-            <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-              <p id='repeatedPassword' className={`${roboto.className} text-sm md:text-lg font-medium`}>
-                Repetir contraseña:
-              </p>
-              <Input
-                type='password'
-                placeholder='Bananas1'
-                aria-label='Repetir contraseña'
-                className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
-                labelPlacement='outside'
-                aria-describedby='repeatedPassword'
-                value={repeatedPassword}
-                onChange={(e) => {
-                  setRepeatedPassword(e.target.value);
-                  validateRepeatedPassword(e.target.value);
-                }}
-              />
-            </div>
-            {repeatedPasswordError && (
-              <p className='text-center text-red-500 text-sm'>{repeatedPasswordError}</p>
-            )}
-
-            {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+              <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
+                <p id='repeatedPassword' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                  Repetir contraseña:
+                </p>
+                <Input
+                  type='password'
+                  placeholder='Bananas1'
+                  aria-label='Repetir contraseña'
+                  className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
+                  labelPlacement='outside'
+                  variant="bordered"
+                  isInvalid={isInvalidRepeatedPassword}
+                  color={isInvalidRepeatedPassword ? "danger" : "success"}
+                  errorMessage="La contraseña repetida no coincide con la primera"
+                  aria-describedby='repeatedPassword'
+                  value={repeatedPassword}
+                  onChange={(e) => setRepeatedPassword(e.target.value)}
+                />
+              </div>
+              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+            </form>
           </CardBody>
         </Card>
         <div className='flex flex-col items-center'>
           <Button
+            form='register-form'
             className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
-            onClick={handleSubmit}
+            type="submit"
           >
             Registrar
           </Button>

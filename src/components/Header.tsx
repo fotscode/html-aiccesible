@@ -76,15 +76,10 @@ export const Header = () => {
       <NavbarMenuToggle className="sm:hidden" />
 
       <NavbarBrand>
-        <Link
-          href={ loggedIn ? '/accesibility' : '/'}
-          className={`${poppins.className} text-typography text-2xl font-bold`}
-        >
-          HTML{' '}
-          <span className='logo ml-2'>
-            AI
-          </span>
-          ccesible
+        <Link href={ loggedIn ? '/accesibility' : '/'}>
+          <h1 className={`${poppins.className} text-2xl font-bold`}>
+            HTML <span className='logo ml-2'>AI</span>ccesible
+          </h1>
         </Link>
       </NavbarBrand>
 

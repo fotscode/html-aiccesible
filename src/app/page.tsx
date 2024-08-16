@@ -10,7 +10,7 @@ export default function Home() {
     <RouteGuard>
       <main className='flex h-screen flex-col items-center justify-center py-8 px-4 sm:p-24 lg:p-32 gap-2 sm:gap-4 lg:gap-8'>
         <h1
-          className={`${poppins.className} text-center  text-4xl md:text-6xl lg:text-8xl font-bold`}
+          className={`${poppins.className} text-center text-4xl md:text-6xl lg:text-8xl font-bold`}
         >
           HTML <span className='logo'>AI</span>ccesible
         </h1>
