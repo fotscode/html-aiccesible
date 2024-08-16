@@ -80,11 +80,7 @@ export default function LogIn() {
             <CardFooter className='flex flex-col items-center'>
               <Button
                 form='login-form'
-                style={{
-                  backgroundColor: '#D14805',
-                  color: 'white',
-                }}
-                className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+                className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
                 type="submit"
               >
                 Iniciar sesión 

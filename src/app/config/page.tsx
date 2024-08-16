@@ -448,7 +448,7 @@ export default function Config() {
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
             <Button
-              className='w-full bg-buttons text-typographybuttons'
+              className='button w-full' 
               onClick={applyChanges}
             >
               Aplicar cambios

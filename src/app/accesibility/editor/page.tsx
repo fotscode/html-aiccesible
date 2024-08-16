@@ -177,12 +177,10 @@ export default function CodeEditor() {
               {!isAccesibilizePressed ? (
                 <Button
                   style={{
-                    backgroundColor: '#D14805',
-                    color: 'white',
                     fontSize: '11pt',
                     height: '30px',
                   }}
-                  className='sm:px-5 mx-1 sm:text-xl font-medium'
+                  className='button sm:px-5 mx-1 sm:text-xl font-medium'
                   onClick={accesibilize}
                 >
                   AIccesibilizar
@@ -190,12 +188,10 @@ export default function CodeEditor() {
               ) : (
                 <Button
                   style={{
-                    backgroundColor: '#D14805',
-                    color: 'white',
                     fontSize: '11pt',
                     height: '30px',
                   }}
-                  className='sm:px-5 mx-1 sm:text-xl font-medium'
+                  className='button sm:px-5 mx-1 sm:text-xl font-medium'
                   onClick={() => setIsAccesibilizePressed(false)}
                 >
                   Mostrar código sin accesibilizar

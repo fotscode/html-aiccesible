@@ -30,11 +30,7 @@ export default function RegisterSuccess() {
           &nbsp; utilizando tu nombre de usuario y contraseña.
         </p>
         <Button
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-          }}
-          className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+          className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
           onClick={() => {router.push('/')}}
         >
           Volver a la página principal

@@ -62,11 +62,9 @@ const Importer = () => {
 
       <section className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
-          className='sm:px-5 sm:mx-1 sm:text-xl'
+          className='button sm:px-5 sm:mx-1 sm:text-xl'
           onClick={fetchHTML}
           style={{
-            backgroundColor: '#D14805',
-            color: 'white',
             fontSize: '11pt',
             height: '30px',
           }}
@@ -74,11 +72,9 @@ const Importer = () => {
           Obtener código HTML
         </Button>
         <Button
-          className='sm:px-5 sm:mx-1 sm:text-xl'
+          className='button sm:px-5 sm:mx-1 sm:text-xl'
           onClick={backToMenu}
           style={{
-            backgroundColor: '#D14805',
-            color: 'white',
             fontSize: '11pt',
             height: '30px',
           }}

@@ -58,6 +58,12 @@ button {
   background: (var(--color-buttons));
 }
 
+.button{
+  background-color: #D14805;
+  color: white;
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

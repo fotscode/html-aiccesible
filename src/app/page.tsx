@@ -23,11 +23,7 @@ export default function Home() {
         <section className='flex flex-col'>
           <div className='flex flex-col md:flex-row justify-center'>
             <Button
-              style={{
-                backgroundColor: '#D14805',
-                color: 'white',
-              }}
-              className='sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
+              className='button sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
               as={Link}
               href='/login'
             >
@@ -35,11 +31,7 @@ export default function Home() {
             </Button>
 
             <Button
-              style={{
-                backgroundColor: '#D14805',
-                color: 'white',
-              }}
-              className='sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
+              className='button sm:px-20 sm:text-xl my-1 md:my-0 md:mx-1'
               as={Link}
               href='/accesibility'
             >
