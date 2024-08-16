@@ -1,12 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { poppins } from '../../fonts'
+import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
-import { Button } from '@nextui-org/react'
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
-import Dropdown from '@/components/Dropdown'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
 
@@ -17,9 +16,9 @@ export default function CodeEditor() {
 
   const [code, setCode] = useState<string>('')
 
-  const [models, setModels] = useState<{ value: string; label: string }[]>([])
+  const [models, setModels] = useState<{ key: string; label: string }[]>([])
 
-  const [selectedModel, setSelectedModel] = useState<string>('')
+  const [selectedModel, setSelectedModel] = useState(new Set(['']))
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -50,13 +49,12 @@ export default function CodeEditor() {
       try {
         const models = await listModels()
         const formattedModels = models.data.map((model: string) => ({
-          value: model,
+          key: model,
           label: model,
         }))
         setModels(formattedModels)
-        if (formattedModels.length > 0) {
-          setSelectedModel(formattedModels[0].value)
-        }
+        if (formattedModels.length > 0) 
+          setSelectedModel(new Set([formattedModels[0].label]))
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -65,9 +63,10 @@ export default function CodeEditor() {
     loadModels()
   }, []) // Empty dependency array ensures this runs only once
 
+
   const accesibilize = async () => {
     try {
-      const responseBody = await accesibilizeCode(selectedModel, code)
+      const responseBody = await accesibilizeCode(selectedModel.values().next().value, code)
       const reader = responseBody
         .pipeThrough(new TextDecoderStream())
         .getReader()
@@ -124,14 +123,37 @@ export default function CodeEditor() {
         </p>
 
         <div className='flex flex-col items-center justify-center w-full'>
-          <h2 className={`${poppins.className} text-center`}>
+          <h2 className={`${roboto.className} text-center font-medium`}>
             Elegí el modelo de IA
           </h2>
-          <Dropdown
-            models={models}
-            selectedModel={selectedModel}
-            setSelectedModel={setSelectedModel}
-          />
+          <Dropdown>
+            <DropdownTrigger>
+              <Button 
+                variant="bordered" 
+                className="capitalize"
+              >
+                {selectedModel}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu 
+              aria-label="Selección del modelo" 
+              variant="flat" 
+              disallowEmptySelection 
+              selectionMode="single" 
+              items={models}
+              selectedKeys={selectedModel} 
+              //@ts-ignore
+              onSelectionChange={setSelectedModel}
+            >
+              {(item) => (
+                <DropdownItem
+                  key={item.key}
+                >
+                  {item.label}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
         </div>
 
         <section className='flex flex-row w-full h-[50vh] xl:h-[40vh] justify-center items-center'>
