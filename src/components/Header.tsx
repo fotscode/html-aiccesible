@@ -72,12 +72,12 @@ export const Header = () => {
   }
 
   return (
-    <Navbar disableAnimation isBordered>
+    <Navbar className='bg-default-900' disableAnimation isBordered>
       <NavbarMenuToggle className="sm:hidden" />
 
       <NavbarBrand>
         <Link href={ loggedIn ? '/accesibility' : '/'}>
-          <h1 className={`${poppins.className} text-2xl font-bold`}>
+          <h1 className={`${poppins.className} text-primary text-2xl font-bold`}>
             HTML <span className='logo ml-2'>AI</span>ccesible
           </h1>
         </Link>

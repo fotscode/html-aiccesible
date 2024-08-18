@@ -289,7 +289,7 @@ export default function Config() {
           </CardHeader>
           {loading ? (
             <div className='flex justify-center items-center h-[400px]'>
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#D14805]"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
             </div>
           ) : (
             <CardBody className='px-20'>

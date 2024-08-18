@@ -2,75 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
- * Dark: 
- *  - Popups de confirmación
- *  - Dropdown de accesibility
- * 
- * Fix cambio de colores despues de cambiar de tema
- *
- */
-
-
-@layer base {
-  :root {
-    --color-primary: rgb(255, 255, 255);
-    --color-secondary: rgb(214, 219, 220);
-    --color-buttons: #D14805;
-    --color-typography-buttons: rgb(255, 255, 255);
-    --color-typography: rgb(0, 0, 0);
-    --color-success: #0C6435;
-    --color-danger: #AE0943;
-  }
-
-  :root[data-theme='light'] {
-    --color-primary: rgb(255, 255, 255);
-    --color-secondary: rgb(214, 219, 220);
-    --color-buttons: #D14805;
-    --color-typography-buttons: rgb(255, 255, 255);
-    --color-typography: rgb(0, 0, 0);
-  }
-
-  :root[data-theme='dark'] {
-    --color-primary: rgb(100,100,100);
-    --color-secondary: rgb(34, 34, 34);
-    --color-buttons: #C24609;
-    --color-typography-buttons: rgb(255, 255, 255);
-    --color-typography: rgb(255, 255, 255);
-  }
-}
-
 
 body {
-  color: rgb(var(--color-typography));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--color-primary))
-    )
-    rgb(var(--color-secondary));
+  @apply text-foreground bg-gradient-to-t from-background to-divider;
 }
 
-span {
-  color: rgb(var(--color-typography));
+.button {
+  @apply bg-primary text-primary-foreground;
 }
 
-button {
-  color: (var(--color-typography-buttons));
-  background: (var(--color-buttons));
+.link {
+  @apply text-secondary;
 }
 
-.button{
-  background-color: #D14805;
-  color: white;
-}
-
-.link{
-  color: #8F3200;
-}
-
-.logo{
-  color: #D14805;
+.logo {
+  @apply text-foreground;
 }
 
 
