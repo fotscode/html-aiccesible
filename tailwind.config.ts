@@ -29,7 +29,7 @@ const config: Config = {
             default: {
               900: "#FFFFFF",
             },
-            focus: "#FFFFFF",
+            focus: "#000000",
             primary: {
               50: "#FFECDD",
               100: "#FFCBB0",
@@ -62,7 +62,7 @@ const config: Config = {
             default: {
               900: "#18181B",
             },
-            focus: "#000000",
+            focus: "#FFFFFF",
             primary: {
               50: "#FFECE0",
               100: "#FFCCB3",

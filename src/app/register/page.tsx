@@ -125,7 +125,7 @@ export default function Register() {
                   onChange={(e) => setRepeatedPassword(e.target.value)}
                 />
               </div>
-              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+              {error && <p className="text-danger text-sm text-center mt-2">{error}</p>}
             </form>
           </CardBody>
         </Card>

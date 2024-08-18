@@ -1,6 +1,6 @@
 'use client'
 
-import { poppins, roboto } from '../../fonts'
+import { poppins } from '../../fonts'
 import React from 'react'
 import {
   Button,

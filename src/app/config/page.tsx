@@ -13,12 +13,16 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from '@nextui-org/react'
 import { useEffect, useMemo, useState } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
-import { confirmAlert } from 'react-confirm-alert'; 
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
 import { useTheme } from 'next-themes';
 
 //TODO add logic for all the parameters
@@ -65,6 +69,9 @@ export default function Config() {
   const [error, setError] = useState('');
 
   const [success, setSuccess] = useState('');
+
+  const modalReset = useDisclosure();
+  const modalApply = useDisclosure();
 
   useEffect(() => {
     if (isLoggedIn()){
@@ -214,65 +221,10 @@ export default function Config() {
       localStorage.removeItem('config');
       setSuccess('La configuración ha sido restaurada con éxito');
     }
+    setTheme("light"); 
 
   }
 
-  const applyChanges = () => {
-    confirmAlert({
-      title: 'Confirmar cambios',
-      message: '¿Desea aplicar los cambios en la configuración?',
-      buttons: [
-        {
-          label: 'Sí',
-          onClick: () => {
-            console.log('Config updated');
-            const mockEvent = { preventDefault: () => {} };
-            handleSubmit(mockEvent);
-          },
-          style: {
-            backgroundColor: '#D14805',
-            color: 'white',
-          }
-        },
-        {
-          label: 'No',
-          onClick: () => console.log('User canceled apply changes'),
-          style: {
-            backgroundColor: '#D14805',
-            color: 'white',
-          }
-        }
-      ]
-    });
-  }
-
-  const confirmReset = () => {
-    confirmAlert({
-      title: 'Restaurar configuración',
-      message: '¿Desea volver a la configuración por defecto?',
-      buttons: [
-        {
-          label: 'Sí',
-          onClick: () => {
-            console.log('Config resetted.');
-            resetConfig();
-          },
-          style: {
-            backgroundColor: '#D14805',
-            color: 'white',
-          }
-        },
-        {
-          label: 'No',
-          onClick: () => console.log('User canceled config reset'),
-          style: {
-            backgroundColor: '#D14805',
-            color: 'white',
-          }
-        }
-      ]
-    });
-  }
 
   return (
     <>
@@ -442,23 +394,94 @@ export default function Config() {
                 />
               </div>
               <Divider />
-              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
-              {success && <p className="text-green-900 text-sm text-center mt-2">{success}</p>}
+              {error && <p className="danger text-sm text-center mt-2">{error}</p>}
+              {success && <p className="success text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
-            <Button
-              className='button w-full' 
-              onClick={applyChanges}
+            <Button className='button w-full' onPress={modalApply.onOpen}>Aplicar cambios</Button>
+            <Modal 
+              backdrop="opaque" 
+              isOpen={modalApply.isOpen} 
+              onOpenChange={modalApply.onOpenChange}
+              classNames={{
+                backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+              }}
             >
-              Aplicar cambios
-            </Button>
-            <Button 
-              className='w-full'
-              onClick={confirmReset}
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">Confirmar cambios</ModalHeader>
+                    <ModalBody>
+                      <p> 
+                        ¿Desea aplicar los cambios en la configuración?
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button 
+                        color="danger" 
+                        variant="light" 
+                        onPress={onClose}
+                      >
+                        Cancelar 
+                      </Button>
+                      <Button 
+                        color="primary" 
+                        onPress={() => {
+                          console.log('Config updated');
+                          const mockEvent = { preventDefault: () => {} };
+                          handleSubmit(mockEvent);
+                          modalApply.onClose();
+                        }}
+                      >
+                        Aplicar
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
+            <Button className='w-full' onPress={modalReset.onOpen}>Restaurar</Button>
+            <Modal 
+              backdrop="opaque" 
+              isOpen={modalReset.isOpen} 
+              onOpenChange={modalReset.onOpenChange}
+              classNames={{
+                backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+              }}
             >
-              Restaurar
-            </Button>
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">Restaurar configuración</ModalHeader>
+                    <ModalBody>
+                      <p> 
+                        ¿Desea volver a la configuración por defecto?
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button 
+                        color="danger" 
+                        variant="light" 
+                        onPress={onClose}
+                      >
+                        Cancelar 
+                      </Button>
+                      <Button 
+                        color="primary" 
+                        onPress={() => {
+                          console.log('Config resetted.');
+                          resetConfig();
+                          modalReset.onClose();
+                        }}
+                      >
+                        Restaurar 
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
           </CardFooter>
         </Card>
       </main>

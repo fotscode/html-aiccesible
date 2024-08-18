@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-o
 import { roboto } from '@/app/fonts'
 import { useState } from 'react'
 import DOMPurify from 'dompurify';
-import { fetchHtml } from './HtmlFetcher'
+import { fetchHtml } from '@/utils/htmlFetcher'
 
 const Importer = () => {
   const router = useRouter()
@@ -86,7 +86,7 @@ const Importer = () => {
       </CardFooter>
       <section className='py-2 justify-center'>
         { error && (
-          <p style={{color: 'red'}}>Ha ocurrido un error al intentar examinar la URL especificada</p>
+          <p className='text-danger'>Ha ocurrido un error al intentar examinar la URL especificada</p>
         )}
       </section>
     </Card>
