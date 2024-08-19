@@ -25,7 +25,6 @@ import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { useTheme } from 'next-themes';
 
-//TODO add logic for all the parameters
 
 export default function Config() {
 
@@ -394,8 +393,8 @@ export default function Config() {
                 />
               </div>
               <Divider />
-              {error && <p className="danger text-sm text-center mt-2">{error}</p>}
-              {success && <p className="success text-sm text-center mt-2">{success}</p>}
+              {error && <p className="text-danger text-sm text-center mt-2">{error}</p>}
+              {success && <p className="text-success text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>

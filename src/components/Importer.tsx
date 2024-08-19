@@ -60,7 +60,7 @@ const Importer = () => {
           errorMessage="Por favor, ingrese un enlace válido"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-[#55555E] text-small">https://</span>
+              <span className="text-default-500 text-small">https://</span>
             </div>
           }
           value={url}

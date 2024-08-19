@@ -27,6 +27,7 @@ const config: Config = {
             foreground: "#11181C", // or 50 to 900 DEFAULT
             divider: "rgba(0, 0, 0, 0.15)",
             default: {
+              500: "#55555E",
               900: "#FFFFFF",
             },
             focus: "#000000",
@@ -60,6 +61,7 @@ const config: Config = {
             foreground: "#ECEDEE", // or 50 to 900 DEFAULT
             divider: "rgba(255, 255, 255, 0.15)",
             default: {
+              500: "#A7A7AF",
               900: "#18181B",
             },
             focus: "#FFFFFF",
