@@ -20,6 +20,7 @@ export default function Register() {
 
 
   const isInvalidPassword = React.useMemo(() => {
+    if (password === "") return false;
     if (password.length < 8) return true;
 
     return false;

@@ -3,22 +3,27 @@
 import React, { useState, useEffect } from 'react'
 import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
+import { FaWandMagicSparkles } from "react-icons/fa6";
 
 export default function CodeEditor() {
   const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
 
-  const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
+  const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
 
-  const [code, setCode] = useState<string>('')
+  const [isAccesibilizing, setIsAccesibilizing] = useState(false);
 
-  const [models, setModels] = useState<{ key: string; label: string }[]>([])
+  const [code, setCode] = useState<string>('');
 
-  const [selectedModel, setSelectedModel] = useState(new Set(['']))
+  const [models, setModels] = useState<{ key: string; label: string }[]>([]);
+
+  const [selectedModel, setSelectedModel] = useState(new Set(['']));
+
+
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -65,6 +70,7 @@ export default function CodeEditor() {
 
 
   const accesibilize = async () => {
+    console.log("CALL")
     try {
       const responseBody = await accesibilizeCode(selectedModel.values().next().value, code)
       const reader = responseBody
@@ -72,6 +78,8 @@ export default function CodeEditor() {
         .getReader()
       setIsAccesibilizePressed(true)
       let accesibilizedContent = ''
+
+      setIsAccesibilizing(true);
 
       while (true) {
         const { done, value } = await reader.read()
@@ -89,10 +97,13 @@ export default function CodeEditor() {
           }
         }
       }
+
     } catch (error) {
       setIsAccesibilizePressed(true)
       console.error('Error sending code:', error)
     }
+
+    setIsAccesibilizing(false);
   }
 
   const copyCode = async () => {
@@ -170,17 +181,21 @@ export default function CodeEditor() {
             <NonAccesibilizedEditor code={code} setCode={setCode} label='code-nonaccesibilized-desktop'/>
           </div>
 
-          <button
-            className='items-center px-10 hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium mt-5'
-            onClick={accesibilize}
-          >
-            <img
-              src='/btn_start.png'
-              alt='Botón para accesibilizar el código ingresado'
-              className='min-w-[80px] w-3'
-            />
-            AIccesibilizar
-          </button>
+          <div className='hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium items-center justify-center px-5'>
+            <Button 
+              isIconOnly 
+              className='h-32 w-32 p-2'
+              spinner={<Spinner size='lg' color='default'/>} 
+              color="primary" 
+              aria-label="Accesibilizar" 
+              radius="full" 
+              isLoading={isAccesibilizing}
+              onPress={accesibilize}
+            >
+              <FaWandMagicSparkles className='w-1/2 h-1/2'/> 
+            </Button>    
+            <p className='mt-1'>AIccesibilizar</p>
+          </div> 
 
           <div className='h-full w-full hidden xl:flex xl:flex-col'>
             <h2
