@@ -1,6 +1,6 @@
 'use client'
 
-/* TODO cambiar accesibilizedEditor para tener acceso a value y copiar bien
+/* TODO 
  * Agregar animación de carga en mobile
  * Botón para limpiar la entrada
  * Agregar Toast para notificaciones
@@ -18,8 +18,6 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 import { MdContentCopy } from "react-icons/md";
 
 export default function CodeEditor() {
-  const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
-
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
 
   const [isAccesibilizing, setIsAccesibilizing] = useState(false);
@@ -27,6 +25,8 @@ export default function CodeEditor() {
   const [accesibilizeColor, setAccesibilizeColor] = useState('primary');
 
   const [code, setCode] = useState<string>('');
+
+  const [codeAccesibilized, setCodeAccesibilized] = useState<string>('');
 
   const [models, setModels] = useState<{ key: string; label: string }[]>([]);
 
@@ -85,6 +85,8 @@ export default function CodeEditor() {
   const accesibilize = async () => {
     setIsAccesibilizing(true);
 
+    setCodeAccesibilized("")
+
     try {
       const responseBody = await accesibilizeCode(selectedModel.values().next().value, code)
       const reader = responseBody
@@ -104,8 +106,8 @@ export default function CodeEditor() {
           const parsedData = JSON.parse(data)
           if (!parsedData.done) {
             accesibilizedContent += parsedData.response // Accumulate the response
-            // @ts-ignore
-            editorAccesibilized.setValue(accesibilizedContent) // Update editor
+
+            setCodeAccesibilized(accesibilizedContent)
           }
         }
       }
@@ -124,14 +126,11 @@ export default function CodeEditor() {
   const copyCode = async () => {
     try {
       if (isAccesibilizePressed){ 
-        console.log("COPIA");
-        await navigator.clipboard.writeText(editorAccesibilized.value);
+        await navigator.clipboard.writeText(codeAccesibilized);
       }
       else 
         await navigator.clipboard.writeText(code);
       console.log('Texto copiado en el portapapeles')
-      const text =  navigator.clipboard.readText();
-      console.log(text);
     } catch (err) {
       console.error('Fallo al copiar: ', err)
     }
@@ -229,7 +228,7 @@ export default function CodeEditor() {
             >
               Resultado
             </h2>
-            <AccesibilizedEditor label='code-accesibilized-desktop' func={setEditorAccesibilized}/>
+            <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-desktop'/>
           </div>
 
           <div className='flex flex-col h-full w-full xl:hidden'>
@@ -264,7 +263,7 @@ export default function CodeEditor() {
               </div>
             ) : (
               <div className='h-full w-full'>
-                <AccesibilizedEditor label='code-accesibilized-mobile' func={setEditorAccesibilized}/>
+                <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-mobile'/>
               </div>
             )}
           </div>

@@ -3,13 +3,13 @@ import Editor from '@monaco-editor/react'
 import { useTheme } from 'next-themes'
 
 interface EditorProps {
+    code: string,
     label: string,
-    func: (value: any) => void
 }
 
-const NonAccesibilizedEditor: React.FC<EditorProps> = ({
+const AccesibilizedEditor: React.FC<EditorProps> = ({
+    code,
     label,
-    func,
 }) => {
 
   const {theme} = useTheme()
@@ -21,7 +21,7 @@ const NonAccesibilizedEditor: React.FC<EditorProps> = ({
       theme={theme == 'light' ? 'light' : 'vs-dark'} 
       defaultLanguage='html'
       defaultValue='<!-- Código accesibilizado -->'
-      onMount={(editor) => func(editor)}
+      value={code}
       options={{ readOnly: true }}
       aria-describedBy={label}
       loading='Cargando...'
@@ -29,5 +29,5 @@ const NonAccesibilizedEditor: React.FC<EditorProps> = ({
   )
 };
 
-export default NonAccesibilizedEditor; 
+export default AccesibilizedEditor; 
 
