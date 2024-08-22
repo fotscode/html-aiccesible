@@ -17,13 +17,14 @@ const NonAccesibilizedEditor: React.FC<EditorProps> = ({
 
   return (
     <Editor
-      className='border border-black py-0.5 rounded-b'
+      className='border border-default py-0.5 rounded-b'
       theme={theme == 'light' ? 'light' : 'vs-dark'} 
       defaultLanguage='html'
-      defaultValue='// Código accesibilizado'
+      defaultValue='<!-- Código accesibilizado -->'
       onMount={(editor) => func(editor)}
       options={{ readOnly: true }}
       aria-describedBy={label}
+      loading='Cargando...'
     />
   )
 };

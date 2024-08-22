@@ -1,5 +1,11 @@
 'use client'
 
+/* TODO cambiar accesibilizedEditor para tener acceso a value y copiar bien
+ * Agregar animación de carga en mobile
+ * Botón para limpiar la entrada
+ * Agregar Toast para notificaciones
+ */
+
 import React, { useState, useEffect } from 'react'
 import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
@@ -9,6 +15,7 @@ import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
 import { FaWandMagicSparkles } from "react-icons/fa6";
+import { MdContentCopy } from "react-icons/md";
 
 export default function CodeEditor() {
   const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
@@ -16,6 +23,8 @@ export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
 
   const [isAccesibilizing, setIsAccesibilizing] = useState(false);
+
+  const [accesibilizeColor, setAccesibilizeColor] = useState('primary');
 
   const [code, setCode] = useState<string>('');
 
@@ -68,9 +77,14 @@ export default function CodeEditor() {
     loadModels()
   }, []) // Empty dependency array ensures this runs only once
 
+  useEffect(() => {
+    if (accesibilizeColor != 'primary')
+      setAccesibilizeColor('primary');
+  }, [code])
 
   const accesibilize = async () => {
-    console.log("CALL")
+    setIsAccesibilizing(true);
+
     try {
       const responseBody = await accesibilizeCode(selectedModel.values().next().value, code)
       const reader = responseBody
@@ -78,8 +92,6 @@ export default function CodeEditor() {
         .getReader()
       setIsAccesibilizePressed(true)
       let accesibilizedContent = ''
-
-      setIsAccesibilizing(true);
 
       while (true) {
         const { done, value } = await reader.read()
@@ -98,8 +110,11 @@ export default function CodeEditor() {
         }
       }
 
+      setAccesibilizeColor('success');
+
     } catch (error) {
       setIsAccesibilizePressed(true)
+      setAccesibilizeColor('danger');
       console.error('Error sending code:', error)
     }
 
@@ -108,8 +123,15 @@ export default function CodeEditor() {
 
   const copyCode = async () => {
     try {
-      await navigator.clipboard.writeText(code)
+      if (isAccesibilizePressed){ 
+        console.log("COPIA");
+        await navigator.clipboard.writeText(editorAccesibilized.value);
+      }
+      else 
+        await navigator.clipboard.writeText(code);
       console.log('Texto copiado en el portapapeles')
+      const text =  navigator.clipboard.readText();
+      console.log(text);
     } catch (err) {
       console.error('Fallo al copiar: ', err)
     }
@@ -124,7 +146,7 @@ export default function CodeEditor() {
         >
           Accesibilizador
         </h1>
-        <p className='text-left mx-3 mt-1 md:text-center md:text-xl'>
+        <p className='text-center mx-3 mt-1 md:text-xl'>
           Verificá que el código cargado es el deseado y presioná el botón
           naranja para accesibilizarlo. Podés &nbsp;
           <a href='/accesibility' className='link'>
@@ -186,13 +208,14 @@ export default function CodeEditor() {
               isIconOnly 
               className='h-32 w-32 p-2'
               spinner={<Spinner size='lg' color='default'/>} 
-              color="primary" 
+              //@ts-ignore
+              color={accesibilizeColor}
               aria-label="Accesibilizar" 
               radius="full" 
               isLoading={isAccesibilizing}
               onPress={accesibilize}
             >
-              <FaWandMagicSparkles className='w-1/2 h-1/2'/> 
+              <FaWandMagicSparkles className='text-primary-foreground w-1/2 h-1/2'/> 
             </Button>    
             <p className='mt-1'>AIccesibilizar</p>
           </div> 
@@ -213,39 +236,26 @@ export default function CodeEditor() {
             <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
               {!isAccesibilizePressed ? (
                 <Button
-                  style={{
-                    fontSize: '11pt',
-                    height: '30px',
-                  }}
                   className='button sm:px-5 mx-1 sm:text-xl font-medium'
+                  size='sm'
                   onClick={accesibilize}
+                  endContent={<FaWandMagicSparkles/>}
                 >
                   AIccesibilizar
                 </Button>
               ) : (
                 <Button
-                  style={{
-                    fontSize: '11pt',
-                    height: '30px',
-                  }}
                   className='button sm:px-5 mx-1 sm:text-xl font-medium'
+                  size='sm'
                   onClick={() => setIsAccesibilizePressed(false)}
                 >
                   Mostrar código sin accesibilizar
                 </Button>
               )}
 
-              <button
-                className='w-8'
-                onClick={copyCode}
-                disabled={code.length == 0}
-              >
-                <img
-                  src='/btn_copy.png'
-                  alt='Copy code'
-                  className='rounded-md'
-                />
-              </button>
+              <Button isIconOnly variant='light' color='primary' size='sm' onPress={copyCode} disabled={code.length == 0}>
+                <MdContentCopy className='h-3/4 w-3/4'/>
+              </Button>
             </div>
 
             {!isAccesibilizePressed ? (
