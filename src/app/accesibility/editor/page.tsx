@@ -1,8 +1,6 @@
 'use client'
 
 /* TODO 
- * Agregar animación de carga en mobile
- * Botón para limpiar la entrada
  * Agregar Toast para notificaciones
  */
 
@@ -15,7 +13,9 @@ import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
 import { FaWandMagicSparkles } from "react-icons/fa6";
+import { PiBroomFill } from "react-icons/pi";
 import { MdContentCopy } from "react-icons/md";
+import BouncingDotsLoader from '@/components/BouncingDotsLoader'
 
 export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
@@ -84,7 +84,6 @@ export default function CodeEditor() {
 
   const accesibilize = async () => {
     setIsAccesibilizing(true);
-
     setCodeAccesibilized("")
 
     try {
@@ -136,10 +135,14 @@ export default function CodeEditor() {
     }
   }
 
+  const clearCode = () => {
+    setCode('')
+  }
+
   return (
     <>
       <Header />
-      <main className='h-full flex flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='h-full flex flex-col justify-center px-4 p-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
         >
@@ -212,6 +215,7 @@ export default function CodeEditor() {
               aria-label="Accesibilizar" 
               radius="full" 
               isLoading={isAccesibilizing}
+              isDisabled={code == ''} 
               onPress={accesibilize}
             >
               <FaWandMagicSparkles className='text-primary-foreground w-1/2 h-1/2'/> 
@@ -232,40 +236,54 @@ export default function CodeEditor() {
           </div>
 
           <div className='flex flex-col h-full w-full xl:hidden'>
-            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
-              {!isAccesibilizePressed ? (
-                <Button
-                  className='button sm:px-5 mx-1 sm:text-xl font-medium'
-                  size='sm'
-                  onClick={accesibilize}
-                  endContent={<FaWandMagicSparkles/>}
-                >
-                  AIccesibilizar
-                </Button>
-              ) : (
-                <Button
-                  className='button sm:px-5 mx-1 sm:text-xl font-medium'
-                  size='sm'
-                  onClick={() => setIsAccesibilizePressed(false)}
-                >
-                  Mostrar código sin accesibilizar
-                </Button>
+            <div className='flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
+              {isAccesibilizing ? <BouncingDotsLoader/> : (
+                !isAccesibilizePressed ? (
+                  <Button
+                    isIconOnly={isAccesibilizing}
+                    className='button sm:px-5 mx-1 sm:text-xl font-medium'
+                    //@ts-ignore
+                    color={accesibilizeColor}
+                    aria-label="Accesibilizar" 
+                    size='sm'
+                    onPress={accesibilize}
+                    endContent={<FaWandMagicSparkles className='text-primary-foreground'/>}
+                    isDisabled={code == ''} 
+                  >
+                    AIccesibilizar
+                  </Button>
+                ) : (
+                  <Button
+                    className='button sm:px-5 mx-1 sm:text-xl font-medium'
+                    color="primary"
+                    size='sm'
+                    onClick={() => setIsAccesibilizePressed(false)}
+                  >
+                    Mostrar código sin accesibilizar
+                  </Button>
+                )
               )}
 
-              <Button isIconOnly variant='light' color='primary' size='sm' onPress={copyCode} disabled={code.length == 0}>
-                <MdContentCopy className='h-3/4 w-3/4'/>
-              </Button>
+              <div className='flex flex-row gap-1'>
+                {!isAccesibilizePressed && (
+                  <Button isIconOnly variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                    <PiBroomFill className='h-3/4 w-3/4'/>
+                  </Button>
+                )}
+                <Button isIconOnly variant='light' color='primary' size='sm' onPress={copyCode} disabled={code.length == 0}>
+                  <MdContentCopy className='h-3/4 w-3/4'/>
+                </Button>
+              </div>
             </div>
 
-            {!isAccesibilizePressed ? (
-              <div className='h-full w-full'>
+
+            <div className='h-full w-full'>
+              {!isAccesibilizePressed ? (
                 <NonAccesibilizedEditor label='code-nonaccesibilized-mobile' code={code} setCode={setCode}/>
-              </div>
-            ) : (
-              <div className='h-full w-full'>
+              ) : (
                 <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-mobile'/>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </section>
       </main>
