@@ -16,6 +16,9 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 import { PiBroomFill } from "react-icons/pi";
 import { MdContentCopy } from "react-icons/md";
 import BouncingDotsLoader from '@/components/BouncingDotsLoader'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { useTheme } from 'next-themes'
 
 export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
@@ -31,6 +34,8 @@ export default function CodeEditor() {
   const [models, setModels] = useState<{ key: string; label: string }[]>([]);
 
   const [selectedModel, setSelectedModel] = useState(new Set(['']));
+
+  const {theme} = useTheme()
 
 
 
@@ -112,11 +117,12 @@ export default function CodeEditor() {
       }
 
       setAccesibilizeColor('success');
-
+      toast.success("Código accesibilizado con éxito!");
     } catch (error) {
       setIsAccesibilizePressed(true)
       setAccesibilizeColor('danger');
       console.error('Error sending code:', error)
+      toast.error("No se pudo accesibilizar tu código")
     }
 
     setIsAccesibilizing(false);
@@ -130,6 +136,9 @@ export default function CodeEditor() {
       else 
         await navigator.clipboard.writeText(code);
       console.log('Texto copiado en el portapapeles')
+      toast.info("Código copiado en el portapapeles", {
+        autoClose: 3000,
+      })
     } catch (err) {
       console.error('Fallo al copiar: ', err)
     }
@@ -141,6 +150,11 @@ export default function CodeEditor() {
 
   return (
     <>
+      <ToastContainer
+        position={window.innerWidth > 1280 ? "top-right" : "top-center"}
+        autoClose={5000}
+        theme={theme == 'light' ? 'light' : 'dark'} 
+      />
       <Header />
       <main className='h-full flex flex-col justify-center px-4 p-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
