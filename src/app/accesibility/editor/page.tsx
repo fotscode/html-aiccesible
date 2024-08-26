@@ -1,13 +1,9 @@
 'use client'
 
-/* TODO 
- * Agregar switcher entre accesibilized y not accesibilized en mobile
- */
-
 import React, { useState, useEffect } from 'react'
 import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
-import { Button, Card, CardFooter, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner } from '@nextui-org/react'
+import { Button, Card, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
@@ -18,11 +14,20 @@ import { MdContentCopy } from "react-icons/md";
 import BouncingDotsLoader from '@/components/BouncingDotsLoader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import PaginationDots from '@/components/PaginationDots'
+import '@/styles/buttonAnimated.css';
+import '@/styles/editorAnimated.css';
 
 export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
 
   const [isAccesibilizing, setIsAccesibilizing] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const [direction, setDirection] = useState('');
 
   const [accesibilizeColor, setAccesibilizeColor] = useState('primary');
 
@@ -85,6 +90,7 @@ export default function CodeEditor() {
 
   const accesibilize = async () => {
     setIsAccesibilizing(true);
+    setCurrentPage(1);
     setCodeAccesibilized("")
 
     try {
@@ -148,10 +154,11 @@ export default function CodeEditor() {
     setCode('')
   }
 
+
   return (
     <>
       <Header />
-      <main className='h-full flex flex-col justify-center px-4 p-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='h-full flex flex-col justify-center px-4 pt-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
           className={`${poppins.className} text-center text-4xl md:text-6xl font-medium`}
         >
@@ -214,11 +221,11 @@ export default function CodeEditor() {
 
               <div className='flex flex-row gap-1'>
                 {!isAccesibilizePressed && (
-                  <Button isIconOnly variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly variant='light' color='primary' size='sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label='Copiar código no accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -257,7 +264,7 @@ export default function CodeEditor() {
               </h2>
 
               <div className='flex flex-row gap-1'>
-                <Button isIconOnly variant='light' color='primary' size='sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label='Copiar código accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -265,10 +272,10 @@ export default function CodeEditor() {
             <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-desktop'/>
           </Card>
 
-          <Card className='flex flex-col h-full w-full xl:hidden'>
+          <Card className={`flex flex-col h-full w-full xl:hidden dots-container ${isAnimating ? direction : ''}`}>
             <CardHeader className='flex flex-row px-6 py-2 rounded-t-[20px] w-full xl:hidden justify-between'>
               {isAccesibilizing ? <BouncingDotsLoader/> : (
-                !isAccesibilizePressed ? (
+                currentPage == 0 ? (
                   <h2
                     id='code-nonaccesibilized-desktop'
                     className={
@@ -284,17 +291,17 @@ export default function CodeEditor() {
                       poppins.className + 'text-xl md:text-2xl font-semibold'
                     }
                   >
-                    Código a accesibilizar
+                    Resultado
                   </h2>
                 )
               )}
               <div className='flex flex-row gap-1'>
-                {!isAccesibilizePressed && (
-                  <Button isIconOnly variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                {currentPage == 0 && (
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly variant='light' color='primary' size='sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={`Copiar código ${currentPage == 0 ? 'no accesible' : 'accesible'}`} variant='light' color='primary' size='sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -302,7 +309,7 @@ export default function CodeEditor() {
 
 
             <div className='h-full w-full'>
-              {!isAccesibilizePressed ? (
+              {currentPage == 0 ? (
                 <NonAccesibilizedEditor label='code-nonaccesibilized-mobile' code={code} setCode={setCode}/>
               ) : (
                 <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-mobile'/>
@@ -311,20 +318,24 @@ export default function CodeEditor() {
           </Card>
 
           <div className='xl:hidden mt-5'>
-            {!isAccesibilizePressed && (
+            {currentPage == 0 && (
               <Button
-                isIconOnly={isAccesibilizing}
-                className='button sm:px-5 mx-1 sm:text-xl font-medium'
+                className={`button button-animated sm:px-5 mx-1 sm:text-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
                 //@ts-ignore
                 color={accesibilizeColor}
                 aria-label="Accesibilizar" 
                 size='sm'
                 onPress={accesibilize}
                 endContent={<FaWandMagicSparkles className='text-primary-foreground'/>}
-                isDisabled={code == ''} 
+                isDisabled={code === ''} 
               >
                 AIccesibilizar
               </Button>
+            )}
+            {isAccesibilizePressed && ! isAccesibilizing && (
+              <div className='mt-2 flex justify-center'>
+                <PaginationDots currentPage={currentPage} totalPages={2} setCurrentPage={setCurrentPage} setIsAnimating={setIsAnimating} setDirection={setDirection}/>
+              </div>
             )}
           </div>
         </section>
