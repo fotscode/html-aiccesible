@@ -1,25 +1,44 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { poppins } from '../../fonts'
+import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
-import { Button } from '@nextui-org/react'
+import { Button, Card, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner } from '@nextui-org/react'
 import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
-import Dropdown from '@/components/Dropdown'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
+import { FaWandMagicSparkles } from "react-icons/fa6";
+import { PiBroomFill } from "react-icons/pi";
+import { MdContentCopy } from "react-icons/md";
+import BouncingDotsLoader from '@/components/BouncingDotsLoader'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import PaginationDots from '@/components/PaginationDots'
+import '@/styles/buttonAnimated.css';
+import '@/styles/editorAnimated.css';
 
 export default function CodeEditor() {
-  const [editorAccesibilized, setEditorAccesibilized] = useState<any>(null);
+  const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
 
-  const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false)
+  const [isAccesibilizing, setIsAccesibilizing] = useState(false);
 
-  const [code, setCode] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const [models, setModels] = useState<{ value: string; label: string }[]>([])
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const [selectedModel, setSelectedModel] = useState<string>('')
+  const [direction, setDirection] = useState('');
+
+  const [accesibilizeColor, setAccesibilizeColor] = useState('primary');
+
+  const [code, setCode] = useState<string>('');
+
+  const [codeAccesibilized, setCodeAccesibilized] = useState<string>('');
+
+  const [models, setModels] = useState<{ key: string; label: string }[]>([]);
+
+  const [selectedModel, setSelectedModel] = useState(new Set(['']));
+
 
   const beautifyHTML = (code: string): string => {
     return html(code, {
@@ -50,13 +69,12 @@ export default function CodeEditor() {
       try {
         const models = await listModels()
         const formattedModels = models.data.map((model: string) => ({
-          value: model,
+          key: model,
           label: model,
         }))
         setModels(formattedModels)
-        if (formattedModels.length > 0) {
-          setSelectedModel(formattedModels[0].value)
-        }
+        if (formattedModels.length > 0) 
+          setSelectedModel(new Set([formattedModels[0].label]))
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -65,9 +83,18 @@ export default function CodeEditor() {
     loadModels()
   }, []) // Empty dependency array ensures this runs only once
 
+  useEffect(() => {
+    if (accesibilizeColor != 'primary')
+      setAccesibilizeColor('primary');
+  }, [code])
+
   const accesibilize = async () => {
+    setIsAccesibilizing(true);
+    setCurrentPage(1);
+    setCodeAccesibilized("")
+
     try {
-      const responseBody = await accesibilizeCode(selectedModel, code)
+      const responseBody = await accesibilizeCode(selectedModel.values().next().value, code)
       const reader = responseBody
         .pipeThrough(new TextDecoderStream())
         .getReader()
@@ -85,143 +112,229 @@ export default function CodeEditor() {
           const parsedData = JSON.parse(data)
           if (!parsedData.done) {
             accesibilizedContent += parsedData.response // Accumulate the response
-            // @ts-ignore
-            editorAccesibilized.setValue(accesibilizedContent) // Update editor
+
+            setCodeAccesibilized(accesibilizedContent)
           }
         }
       }
+
+      setAccesibilizeColor('success');
+      toast.success("Código accesibilizado con éxito!");
     } catch (error) {
       setIsAccesibilizePressed(true)
+      setAccesibilizeColor('danger');
       console.error('Error sending code:', error)
+      toast.error("No se pudo accesibilizar tu código")
+    }
+
+    setIsAccesibilizing(false);
+  }
+
+  const copyCode = async (buttonId: string) => {
+    try {
+      let textToCopy;
+
+      if (buttonId === 'accesibilizedButton') {
+        textToCopy = codeAccesibilized;
+      } else {
+        textToCopy = code;
+      }
+
+      await navigator.clipboard.writeText(textToCopy);
+      console.log('Texto copiado en el portapapeles');
+      toast.info("Copiado!", {
+        autoClose: 3000,
+      });
+    } catch (err) {
+      console.error('Fallo al copiar: ', err);
     }
   }
 
-  const copyCode = async () => {
-    try {
-      await navigator.clipboard.writeText(code)
-      console.log('Texto copiado en el portapapeles')
-    } catch (err) {
-      console.error('Fallo al copiar: ', err)
-    }
+  const clearCode = () => {
+    setCode('')
   }
+
 
   return (
     <>
       <Header />
-      <main className='h-full flex flex-col justify-center px-4 sm:p-24 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
+      <main className='h-full flex flex-col justify-center px-4 pt-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
-          className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
+          className={`${poppins.className} text-center text-4xl md:text-6xl font-medium`}
         >
           Accesibilizador
         </h1>
-        <p className='text-left mx-3 mt-1 md:text-center md:text-xl'>
+        <p className='text-center mx-3 mt-1 md:text-xl'>
           Verificá que el código cargado es el deseado y presioná el botón
           naranja para accesibilizarlo. Podés &nbsp;
-          <a href='/accesibility' style={{ color: '#8F3200' }}>
+          <a href='/accesibility' className='link'>
             elegir otra opción de carga
           </a>
           &nbsp; del código HTML.
         </p>
 
         <div className='flex flex-col items-center justify-center w-full'>
-          <h2 className={`${poppins.className} text-center`}>
+          <h2 className={`${roboto.className} text-center font-medium`}>
             Elegí el modelo de IA
           </h2>
-          <Dropdown
-            models={models}
-            selectedModel={selectedModel}
-            setSelectedModel={setSelectedModel}
-          />
+          <Dropdown>
+            <DropdownTrigger>
+              <Button 
+                variant="bordered" 
+                className="capitalize"
+              >
+                {selectedModel}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu 
+              aria-label="Selección del modelo" 
+              variant="flat" 
+              disallowEmptySelection 
+              selectionMode="single" 
+              items={models}
+              selectedKeys={selectedModel} 
+              //@ts-ignore
+              onSelectionChange={setSelectedModel}
+            >
+              {(item) => (
+                <DropdownItem
+                  key={item.key}
+                >
+                  {item.label}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
         </div>
 
-        <section className='flex flex-row w-full h-[50vh] xl:h-[40vh] justify-center items-center'>
-          <div className='h-full w-full hidden xl:flex xl:flex-col'>
-            <h2
-              id='code-nonaccesibilized-desktop'
-              className={
-                poppins.className + ' text-xl md:text-2xl font-semibold mb-2'
-              }
-            >
-              Código a accesibilizar
-            </h2>
+        <section className='flex flex-col xl:flex-row w-full h-[50vh] xl:h-[40vh] justify-center items-center'>
+          <Card className='h-full w-full hidden xl:flex xl:flex-col'>
+            <CardHeader className='flex flex-row px-6 py-2 rounded-t-[20px] w-full justify-between'>
+              <h2
+                id='code-nonaccesibilized-desktop'
+                className={
+                  poppins.className + 'text-xl md:text-2xl font-semibold'
+                }
+              >
+                Código a accesibilizar
+              </h2>
+
+              <div className='flex flex-row gap-1'>
+                {!isAccesibilizePressed && (
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                    <PiBroomFill className='h-3/4 w-3/4'/>
+                  </Button>
+                )}
+                <Button isIconOnly aria-label='Copiar código no accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
+                  <MdContentCopy className='h-3/4 w-3/4'/>
+                </Button>
+              </div>
+            </CardHeader>
 
             <NonAccesibilizedEditor code={code} setCode={setCode} label='code-nonaccesibilized-desktop'/>
-          </div>
+          </Card>
 
-          <button
-            className='items-center px-10 hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium mt-5'
-            onClick={accesibilize}
-          >
-            <img
-              src='/btn_start.png'
-              alt='Botón para accesibilizar el código ingresado'
-              className='min-w-[80px] w-3'
-            />
-            AIccesibilizar
-          </button>
-
-          <div className='h-full w-full hidden xl:flex xl:flex-col'>
-            <h2
-              id='code-accesibilized-desktop'
-              className={
-                poppins.className + ' text-xl md:text-2xl font-semibold mb-2'
-              }
+          <div className='hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium items-center justify-center px-5'>
+            <Button 
+              isIconOnly 
+              className='h-32 w-32 p-2'
+              spinner={<Spinner size='lg' color='default'/>} 
+              //@ts-ignore
+              color={accesibilizeColor}
+              aria-label="Accesibilizar" 
+              radius="full" 
+              isLoading={isAccesibilizing}
+              isDisabled={code == ''} 
+              onPress={accesibilize}
             >
-              Resultado
-            </h2>
-            <AccesibilizedEditor label='code-accesibilized-desktop' func={setEditorAccesibilized}/>
-          </div>
+              <FaWandMagicSparkles className='text-primary-foreground w-1/2 h-1/2'/> 
+            </Button>    
+            <p className='mt-1'>AIccesibilizar</p>
+          </div> 
 
-          <div className='flex flex-col h-full w-full xl:hidden'>
-            <div className='card flex flex-row bg-neutral-900 px-6 py-2 rounded-t-[20px] mt-3 w-full xl:hidden justify-between'>
-              {!isAccesibilizePressed ? (
-                <Button
-                  style={{
-                    backgroundColor: '#D14805',
-                    color: 'white',
-                    fontSize: '11pt',
-                    height: '30px',
-                  }}
-                  className='sm:px-5 mx-1 sm:text-xl font-medium'
-                  onClick={accesibilize}
-                >
-                  AIccesibilizar
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: '#D14805',
-                    color: 'white',
-                    fontSize: '11pt',
-                    height: '30px',
-                  }}
-                  className='sm:px-5 mx-1 sm:text-xl font-medium'
-                  onClick={() => setIsAccesibilizePressed(false)}
-                >
-                  Mostrar código sin accesibilizar
-                </Button>
-              )}
-
-              <button
-                className='w-8'
-                onClick={copyCode}
-                disabled={code.length == 0}
+          <Card className='h-full w-full hidden xl:flex xl:flex-col'>
+            <CardHeader className='flex flex-row px-6 py-2 rounded-t-[20px] w-full justify-between'>
+              <h2
+                id='code-nonaccesibilized-desktop'
+                className={
+                  poppins.className + 'text-xl md:text-2xl font-semibold'
+                }
               >
-                <img
-                  src='/btn_copy.png'
-                  alt='Copy code'
-                  className='rounded-md'
-                />
-              </button>
-            </div>
+                Resultado
+              </h2>
 
-            {!isAccesibilizePressed ? (
-              <div className='h-full w-full'>
-                <NonAccesibilizedEditor label='code-nonaccesibilized-mobile' code={code} setCode={setCode}/>
+              <div className='flex flex-row gap-1'>
+                <Button isIconOnly aria-label='Copiar código accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
+                  <MdContentCopy className='h-3/4 w-3/4'/>
+                </Button>
               </div>
-            ) : (
-              <div className='h-full w-full'>
-                <AccesibilizedEditor label='code-accesibilized-mobile' func={setEditorAccesibilized}/>
+            </CardHeader>
+            <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-desktop'/>
+          </Card>
+
+          <Card className={`flex flex-col h-full w-full xl:hidden dots-container ${isAnimating ? direction : ''}`}>
+            <CardHeader className='flex flex-row px-6 py-2 rounded-t-[20px] w-full xl:hidden justify-between'>
+              {isAccesibilizing ? <BouncingDotsLoader/> : (
+                currentPage == 0 ? (
+                  <h2
+                    id='code-nonaccesibilized-desktop'
+                    className={
+                      poppins.className + 'text-xl md:text-2xl font-semibold'
+                    }
+                  >
+                    Código a accesibilizar
+                  </h2>
+                ) : (
+                  <h2
+                    id='code-nonaccesibilized-desktop'
+                    className={
+                      poppins.className + 'text-xl md:text-2xl font-semibold'
+                    }
+                  >
+                    Resultado
+                  </h2>
+                )
+              )}
+              <div className='flex flex-row gap-1'>
+                {currentPage == 0 && (
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                    <PiBroomFill className='h-3/4 w-3/4'/>
+                  </Button>
+                )}
+                <Button isIconOnly aria-label={`Copiar código ${currentPage == 0 ? 'no accesible' : 'accesible'}`} variant='light' color='primary' size='sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
+                  <MdContentCopy className='h-3/4 w-3/4'/>
+                </Button>
+              </div>
+            </CardHeader>
+
+
+            <div className='h-full w-full'>
+              {currentPage == 0 ? (
+                <NonAccesibilizedEditor label='code-nonaccesibilized-mobile' code={code} setCode={setCode}/>
+              ) : (
+                <AccesibilizedEditor code={codeAccesibilized} label='code-accesibilized-mobile'/>
+              )}
+            </div>
+          </Card>
+
+          <div className='xl:hidden mt-5'>
+            {currentPage == 0 && (
+              <Button
+                className={`button button-animated sm:px-5 mx-1 sm:text-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
+                //@ts-ignore
+                color={accesibilizeColor}
+                aria-label="Accesibilizar" 
+                size='sm'
+                onPress={accesibilize}
+                endContent={<FaWandMagicSparkles className='text-primary-foreground'/>}
+                isDisabled={code === ''} 
+              >
+                AIccesibilizar
+              </Button>
+            )}
+            {isAccesibilizePressed && ! isAccesibilizing && (
+              <div className='mt-2 flex justify-center'>
+                <PaginationDots currentPage={currentPage} totalPages={2} setCurrentPage={setCurrentPage} setIsAnimating={setIsAnimating} setDirection={setDirection}/>
               </div>
             )}
           </div>

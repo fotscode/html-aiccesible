@@ -2,10 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import { Header } from '@/components/Header'
-import Card from '@/components/Card'
+import OptionCard from '@/components/OptionCard'
 import { poppins } from '../fonts'
 import React from 'react'
 import Link from 'next/link'
+import { BiSolidFileHtml } from "react-icons/bi";
+import { MdOpenInBrowser } from "react-icons/md";
+import { FiLink } from "react-icons/fi";
 
 export default function Accesibility() {
   const router = useRouter()
@@ -36,15 +39,12 @@ export default function Accesibility() {
         <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
           Podés cargar el código HTML de múltiples maneras.
         </p>
-        <div className='flex flex-col md:flex-row'>
-          <Link
-            href='/accesibility/editor'
-            className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
-          >
-            <Card
+        <section className='flex flex-col md:flex-row'>
+          <Link href='/accesibility/editor' passHref>
+            <OptionCard
               title='Pegar código'
               description='Ingrese el código HTML en una casilla de texto.'
-              image='/btn_new.png'
+              Icon={BiSolidFileHtml}
               alt='Botón para accesibilizar código ingresado manualmente'
             />
           </Link>
@@ -56,27 +56,24 @@ export default function Accesibility() {
               onChange={handleFileChange} 
               id="fileInput" 
           />
-          <label tabIndex={0} htmlFor="fileInput" className='card flex flex-row md:flex-col bg-secondary md:px-10 md:py-8 rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'>
-            <Card
+          <label tabIndex={0} htmlFor="fileInput"> 
+            <OptionCard
               title='Cargar desde el equipo'
               description='Seleccione el archivo desde su computadora.'
-              image='/btn_import.png'
+              Icon={MdOpenInBrowser}
               alt='Botón para accesibilizar código a partir de un archivo HTML'
             />
           </label>
 
-          <Link
-            href='/accesibility/importer'
-            className='card flex flex-row md:flex-col md:px-10 md:py-8 bg-secondary rounded-[20px] mx-3 my-3 md:max-w-[300px] cursor-pointer'
-          >
-            <Card
+          <Link href='/accesibility/importer' passHref>
+            <OptionCard
               title='Examinar página web'
               description='Seleccione la URL de la página web a analizar.'
-              image='/btn_link.png'
+              Icon={FiLink}
               alt='Botón para accesibilizar código a partir de una URL'
             />
           </Link>
-        </div>
+        </section>
       </main>
     </>
   )

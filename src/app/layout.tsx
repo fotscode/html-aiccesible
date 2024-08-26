@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={`${roboto.className} flex flex-col h-screen`}>
         <NextUIProvider>
           <Providers>
-              {children}
+            {children}
           </Providers>
         </NextUIProvider>
       </body>

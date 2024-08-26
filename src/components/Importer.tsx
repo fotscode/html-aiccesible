@@ -1,21 +1,28 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@nextui-org/react'
+import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react'
 import { roboto } from '@/app/fonts'
 import { useState } from 'react'
 import DOMPurify from 'dompurify';
-import { fetchHtml } from './HtmlFetcher'
+import { fetchHtml } from '@/utils/htmlFetcher'
 
 const Importer = () => {
   const router = useRouter()
   const [url, setUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const validateUrl = (url: string) => ('https://' + url).match(/^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})([\/\w .-]*)*\/?$/);
+
+  const isInvalidUrl = React.useMemo(() => {
+    if (url === "") return false;
+
+    return validateUrl(url) ? false : true;
+  }, [url]);
 
   const fetchHTML = async () => {
       setError(''); 
       try {
-        const data = await fetchHtml(url);
+        const data = await fetchHtml('https://' + url);
         const sanitizedHtml = DOMPurify.sanitize(data);
         console.log(sanitizedHtml)
         localStorage.setItem('htmlCode', sanitizedHtml);
@@ -29,69 +36,60 @@ const Importer = () => {
       }
   };
 
-  const backToMenu = () => {
-    router.back()
-  }
 
   return (
-    <section className='flex flex-col bg-secondary sm:px-4 py-4 sm:py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
-      <h2
-        className={`${roboto.className} text-center card-title font-medium pb-3`}
-      >
-        Examinar página web
-      </h2>
-
-      <section className='search-bar flex flex-row justify-center py-5'>
-        <img
-          src='/link.png'
-          alt='Examinar página web'
-          className='md:pb-3 max-w-[40px]'
-        />
-        <div className='flex flex-col sm:w-full'>
-          <input
-            className='sm:w-full sm:px-2 py-1.5 outline-none text-base font-light'
-            type='text'
-            aria-label='url del sitio web'
-            id='url'
-            placeholder='https://www.google.com'
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </div>
-      </section>
-
-      <section className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
-        <Button
-          className='sm:px-5 sm:mx-1 sm:text-xl'
-          onClick={fetchHTML}
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-            fontSize: '11pt',
-            height: '30px',
-          }}
+    <Card className='flex flex-col w-3/4 md:w-1/2 sm:px-4 py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
+      <CardHeader className='flex flex-col text-center'>
+        <h2
+          className={`${roboto.className} text-xl font-medium pb-3`}
         >
-          Obtener código HTML
+          Examinar página web
+        </h2>
+      </CardHeader>
+
+      <CardBody className='flex flex-row justify-center py-5'>
+        <Input
+          type="url"
+          aria-label='url del sitio web'
+          label="Sitio web"
+          placeholder="www.google.com"
+          labelPlacement="outside"
+          variant="bordered"
+          isInvalid={isInvalidUrl}
+          color={isInvalidUrl ? "danger" : "success"}
+          errorMessage="Por favor, ingrese un enlace válido"
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-500 text-small">https://</span>
+            </div>
+          }
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+      </CardBody>
+
+      <CardFooter className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
+        <Button
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          onClick={fetchHTML}
+          size='sm'
+        >
+          Obtener HTML
         </Button>
         <Button
-          className='sm:px-5 sm:mx-1 sm:text-xl'
-          onClick={backToMenu}
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-            fontSize: '11pt',
-            height: '30px',
-          }}
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          onClick={() => {router.back()}}
+          size='sm'
         >
           Atrás
         </Button>
-      </section>
+      </CardFooter>
       <section className='py-2 justify-center'>
         { error && (
-          <p style={{color: 'red'}}>Ha ocurrido un error al intentar examinar la URL especificada</p>
+          <p className='text-danger'>Ha ocurrido un error al intentar examinar la URL especificada</p>
         )}
       </section>
-    </section>
+    </Card>
   )
 }
 

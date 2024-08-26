@@ -1,6 +1,6 @@
 'use client'
 
-import { poppins, roboto } from '../../fonts'
+import { poppins } from '../../fonts'
 import React from 'react'
 import {
   Button,
@@ -22,19 +22,13 @@ export default function RegisterSuccess() {
         <p className='mx-3 mt-3 text-center md:text-xl xl:mb-12'>
           Ahora podés 
           &nbsp;
-          <a href='/' 
-          style={{ color: '#8F3200' }}
-          >
+          <a href='/' className='link'>
             iniciar sesión 
           </a>
           &nbsp; utilizando tu nombre de usuario y contraseña.
         </p>
         <Button
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-          }}
-          className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+          className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
           onClick={() => {router.push('/')}}
         >
           Volver a la página principal

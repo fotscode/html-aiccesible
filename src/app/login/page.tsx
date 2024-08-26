@@ -44,34 +44,32 @@ export default function LogIn() {
               <h1
                 className={`${poppins.className} text-center text-3xl md:text-4xl lg:text-5xl font-bold`}
               >
-                HTML <span style={{ color: '#D14805' }}>AI</span>ccesible
+                HTML <span className='logo'>AI</span>ccesible
               </h1>
             </CardHeader>
             <CardBody className='px-1 sm:px-4'>
-              <form id='login-form' onSubmit={handleSubmit}>
-                <div className='py-2'>
-                  <Input
-                    type='text'
-                    placeholder='Nombre de usuario'
-                    aria-label='Nombre de usuario'
-                    className='w-full border'
-                    labelPlacement='outside'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                </div>
+              <form id='login-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
+                <Input
+                  type='text'
+                  placeholder='Nombre de usuario'
+                  aria-label='Nombre de usuario'
+                  className='w-full'
+                  variant='bordered'
+                  labelPlacement='outside'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
 
-                <div className='py-2'>
-                  <Input
-                    type='password'
-                    placeholder='Contraseña'
-                    aria-label='Contraseña'
-                    className='w-full border'
-                    labelPlacement='outside'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
+                <Input
+                  type='password'
+                  placeholder='Contraseña'
+                  aria-label='Contraseña'
+                  className='w-full'
+                  variant='bordered'
+                  labelPlacement='outside'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </form>
 
               {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
@@ -80,11 +78,7 @@ export default function LogIn() {
             <CardFooter className='flex flex-col items-center'>
               <Button
                 form='login-form'
-                style={{
-                  backgroundColor: '#D14805',
-                  color: 'white',
-                }}
-                className='w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+                className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
                 type="submit"
               >
                 Iniciar sesión 
@@ -92,15 +86,11 @@ export default function LogIn() {
               <p className='mx-3 mt-2 text-center'>
                 ¿Todavía no tenés una cuenta o no querés tener una?
                 &nbsp;
-                <a href='/register' 
-                style={{ color: '#8F3200' }}
-                >
+                <a href='/register' className='link'>
                   Registrate
                 </a>
                 &nbsp; o &nbsp;
-                <a href='/accesibility' 
-                style={{ color: '#8F3200' }}
-                >
+                <a href='/accesibility' className='link'>
                   ingresá como invitado
                 </a>
                 .
