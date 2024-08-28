@@ -140,10 +140,10 @@ export const Header = () => {
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
-                  name: loggedIn ? "@" + username : "@invitado"
+                  name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"
                 }}
                 className="transition-transform"
-                name={ loggedIn ? "@" + username : "@invitado"}
+                name={ loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
