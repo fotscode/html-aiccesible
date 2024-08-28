@@ -14,12 +14,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownTrigger,
+  User
 } from '@nextui-org/react'
 
 import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { MdLogout } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 import { isLoggedIn } from '@/utils/auth';
 
 
@@ -60,7 +66,7 @@ export const Header = () => {
         </Link>
       </NavbarBrand>
 
-      <NavbarContent className='hidden sm:flex gap-4 items-center' justify='end'>
+      <NavbarContent className='hidden sm:flex gap-4 items-center' justify='center'>
         {[...Object.entries(menuItems)].map(([key, value], index) => (
           <NavbarItem 
             key={`${key}-${index}-nav`}
@@ -119,6 +125,53 @@ export const Header = () => {
             </ModalContent>
           </Modal>
         </NavbarItem>}
+
+      </NavbarContent>
+
+      <NavbarContent justify='end'>
+        <NavbarItem className='flex items-center'>
+          <Dropdown placement="bottom-start">
+            <DropdownTrigger>
+              <User
+                as="button"
+                avatarProps={{
+                  isBordered: true,
+                  src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
+                  showFallback: true,
+                  fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
+                }}
+                className="transition-transform"
+                name={ loggedIn ? "@tonyreichert" : "@invitado"}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Acciones del usuario" variant="flat">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                { loggedIn ? (
+                  <div> 
+                    <p className="font-bold">Iniciaste sesión como</p>
+                    <p className="font-bold">@tonyreichert</p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="font-bold">No iniciaste sesión</p>
+                    <a href='/login' className="font-bold link">Iniciar sesión</a>
+                  </div>
+                )}
+              </DropdownItem>
+              <DropdownItem key="settings">
+                <Link className='text-foreground' href='/config' size='sm'>
+                  Configuración
+                </Link>
+              </DropdownItem>
+             {loggedIn && (
+                <DropdownItem key="logout" color="danger">
+                  Cerrar sesión
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarItem>
+
 
       </NavbarContent>
 
