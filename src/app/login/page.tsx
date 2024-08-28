@@ -25,8 +25,10 @@ export default function LogIn() {
     setError('');
 
     try{
+      const savedUsername = username;
       const response = await loginUser(username, password);
       sessionStorage.setItem('token', response.data.token);
+      sessionStorage.setItem('username', savedUsername)
       const returnUrl = searchParams.get('returnUrl') || '/accesibility';
       router.push(returnUrl);
     } catch (error: any) {

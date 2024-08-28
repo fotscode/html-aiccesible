@@ -33,6 +33,7 @@ export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>('');
   const [activeSection, setActiveSection] = useState<string>(pathname);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -54,10 +55,18 @@ export const Header = () => {
 
 
   useEffect(() => {
-    if (isLoggedIn())
+    if (isLoggedIn()) {
       setLoggedIn(true);
+      setUsername(sessionStorage.getItem('username')!!);
+    }
   }, []);
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    console.log('User logged out');
+    router.replace('/');
+  };
 
   return (
     <Navbar className='bg-default-900' isBordered>
@@ -88,11 +97,7 @@ export const Header = () => {
                 </Button>
                 <Button 
                   color="primary" 
-                  onPress={() => {
-                    sessionStorage.removeItem('token');
-                    console.log('User logged out');
-                    router.replace('/');
-                  }}
+                  onPress={handleLogout}
                 >
                   Sí
                 </Button>
@@ -135,10 +140,10 @@ export const Header = () => {
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
-                  name: loggedIn ? "@tonyreichert" : "@invitado"
+                  name: loggedIn ? "@" + username : "@invitado"
                 }}
                 className="transition-transform"
-                name={ loggedIn ? "@tonyreichert" : "@invitado"}
+                name={ loggedIn ? "@" + username : "@invitado"}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
@@ -146,7 +151,7 @@ export const Header = () => {
                 { loggedIn ? (
                   <div> 
                     <p className="font-bold">Iniciaste sesión como</p>
-                    <p className="font-bold text-primary">@tonyreichert</p>
+                    <p className="font-bold text-primary">@{username}</p>
                   </div>
                 ) : (
                   <div>
