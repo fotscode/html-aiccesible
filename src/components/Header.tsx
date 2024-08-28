@@ -36,8 +36,13 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState<string>(pathname);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  const menuItems = {
-    Accesibilidad: '/accesibility',
+  const desktopMenuItems = {
+    Home: '/accesibility',
+    Comunidad: '/community',
+  }
+
+  const mobileMenuItems = {
+    Home: '/accesibility',
     Comunidad: '/community',
     Configuración: '/config',
   }
@@ -55,7 +60,47 @@ export const Header = () => {
 
 
   return (
-    <Navbar className='bg-default-900' disableAnimation isBordered>
+    <Navbar className='bg-default-900' isBordered>
+      <Modal //Modal for logout
+        backdrop="opaque" 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        classNames={{
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Confirmar cierre de sesión</ModalHeader>
+              <ModalBody>
+                <p> 
+                  ¿Está segurx de que desea cerrar sesión?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button 
+                  color="danger" 
+                  variant="light" 
+                  onPress={onClose}
+                >
+                  No
+                </Button>
+                <Button 
+                  color="primary" 
+                  onPress={() => {
+                    sessionStorage.removeItem('token');
+                    console.log('User logged out');
+                    router.replace('/');
+                  }}
+                >
+                  Sí
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <NavbarMenuToggle className="sm:hidden" />
 
       <NavbarBrand>
@@ -67,65 +112,16 @@ export const Header = () => {
       </NavbarBrand>
 
       <NavbarContent className='hidden sm:flex gap-4 items-center' justify='center'>
-        {[...Object.entries(menuItems)].map(([key, value], index) => (
+        {[...Object.entries(desktopMenuItems)].map(([key, value], index) => (
           <NavbarItem 
             key={`${key}-${index}-nav`}
-            className={activeSection === value ? 'font-bold' : ''}
+            isActive={activeSection === value}
           >
           <Link color='foreground' href={value}>
             {key}
           </Link>
           </NavbarItem>
         ))}
-
-        {loggedIn && 
-        <NavbarItem
-          className='flex items-center'
-          key={'logout'}
-        >
-          <Button isIconOnly className='w-full bg-primary' aria-label='Cerrar sesión' onPress={onOpen}><MdLogout className='text-primary-foreground' size={32}/></Button>
-          <Modal 
-            backdrop="opaque" 
-            isOpen={isOpen} 
-            onOpenChange={onOpenChange}
-            classNames={{
-              backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
-            }}
-          >
-            <ModalContent>
-              {(onClose) => (
-                <>
-                  <ModalHeader className="flex flex-col gap-1">Confirmar cierre de sesión</ModalHeader>
-                  <ModalBody>
-                    <p> 
-                      ¿Está segurx de que desea cerrar sesión?
-                    </p>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button 
-                      color="danger" 
-                      variant="light" 
-                      onPress={onClose}
-                    >
-                      No
-                    </Button>
-                    <Button 
-                      color="primary" 
-                      onPress={() => {
-                        sessionStorage.removeItem('token');
-                        console.log('User logged out');
-                        router.replace('/');
-                      }}
-                    >
-                      Sí
-                    </Button>
-                  </ModalFooter>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
-        </NavbarItem>}
-
       </NavbarContent>
 
       <NavbarContent justify='end'>
@@ -139,22 +135,23 @@ export const Header = () => {
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
+                  name: loggedIn ? "@tonyreichert" : "@invitado"
                 }}
                 className="transition-transform"
                 name={ loggedIn ? "@tonyreichert" : "@invitado"}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'}>
                 { loggedIn ? (
                   <div> 
                     <p className="font-bold">Iniciaste sesión como</p>
-                    <p className="font-bold">@tonyreichert</p>
+                    <p className="font-bold text-primary">@tonyreichert</p>
                   </div>
                 ) : (
                   <div>
                     <p className="font-bold">No iniciaste sesión</p>
-                    <a href='/login' className="font-bold link">Iniciar sesión</a>
+                    <p className="font-bold text-primary">Iniciar sesión</p>
                   </div>
                 )}
               </DropdownItem>
@@ -163,8 +160,8 @@ export const Header = () => {
                   Configuración
                 </Link>
               </DropdownItem>
-             {loggedIn && (
-                <DropdownItem key="logout" color="danger">
+              { loggedIn && (
+                <DropdownItem key="logout" color="danger" onPress={onOpen}>
                   Cerrar sesión
                 </DropdownItem>
               )}
@@ -172,21 +169,22 @@ export const Header = () => {
           </Dropdown>
         </NavbarItem>
 
-
       </NavbarContent>
 
       <NavbarMenu className=''>
-        {[...Object.entries(menuItems)].map(([key, value], index) => (
+        {[...Object.entries(mobileMenuItems)].map(([key, value], index) => (
           <NavbarMenuItem 
             key={`${key}-${index}-menu`}
-            className={activeSection === value ? 'font-bold' : ''}
+            isActive={activeSection === value}
           >
             <Link className='w-full text-lg text-foreground my-1' href={value} size='lg'>
               {key}
             </Link>
           </NavbarMenuItem>
         ))}
-        {loggedIn && 
+        {
+        /*
+        loggedIn && 
           <NavbarItem
             key={'logout'}
             className='mt-auto mb-3'
@@ -201,6 +199,16 @@ export const Header = () => {
               Cerrar sesión
             </Button>
           </NavbarItem>
+        */
+        }
+        {loggedIn && 
+          <NavbarMenuItem
+            key={'logout-menu'}
+          >
+            <Link className='my-1 hover:cursor-pointer' color='danger' aria-label='Cerrar sesión' onPress={onOpen} size='lg'>
+              Cerrar sesión
+            </Link>
+          </NavbarMenuItem>
         }
       </NavbarMenu>
     </Navbar>
