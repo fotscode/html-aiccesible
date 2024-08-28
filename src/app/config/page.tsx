@@ -397,7 +397,7 @@ export default function Config() {
               {success && <p className="text-success text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
-          <CardFooter className='flex flex-col sm:flex-row gap-5 md:px-20 mt-2'>
+          <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
             <Button className='button w-full' onPress={modalApply.onOpen}>Aplicar cambios</Button>
             <Modal 
               backdrop="opaque" 
