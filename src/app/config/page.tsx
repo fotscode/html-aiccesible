@@ -20,10 +20,11 @@ import {
   ModalFooter,
   useDisclosure
 } from '@nextui-org/react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { useTheme } from 'next-themes';
+import { ConfigContext } from '../context/ConfigProvider'
 
 
 export default function Config() {
@@ -68,6 +69,8 @@ export default function Config() {
   const [error, setError] = useState('');
 
   const [success, setSuccess] = useState('');
+
+  const { changesConfig, setChangesConfig } = useContext(ConfigContext);
 
   const modalReset = useDisclosure();
   const modalApply = useDisclosure();
@@ -154,6 +157,7 @@ export default function Config() {
     setError('');
     setSuccess('');
 
+
     const show_likes = selKeysShowLikes.values().next().value;
     const show_comments = selKeysShowComments.values().next().value;
     const theme = selectedKeysTheme.values().next().value;
@@ -177,7 +181,13 @@ export default function Config() {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
       setSuccess('Los cambios se han guardado con éxito');
-      setTheme(newConfig.theme); 
+
+      // setTheme(newConfig.theme); 
+      //Call update after changes
+      setChangesConfig(changesConfig + 1);
+
+      //setTitleSize(newConfig.size_title); 
+      //setTextSize(newConfig.size_text); 
     } catch (error: any) {
       setError(`Error: ${error.message}`);
     }
@@ -228,10 +238,10 @@ export default function Config() {
   return (
     <>
       <Header />
-      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5'>
+      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-adjust'>
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} text-2xl sm:text-3xl`}>
+            <h1 className={`${poppins.className} font-size-adjust text-2xl sm:text-3xl`}>
               Configuración
             </h1>
             <p className='text-center text-lg sm:text-xl'>

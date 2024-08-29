@@ -1,7 +1,7 @@
 'use client'
 
 import { poppins } from '../fonts'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   Input,
 } from '@nextui-org/react'
 import { loginUser } from '@/utils/ApiUser';
+import { ConfigContext } from '../context/ConfigProvider'
 
 export default function LogIn() {
   const router = useRouter()
@@ -19,6 +20,7 @@ export default function LogIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { changesConfig, setChangesConfig } = useContext(ConfigContext);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -31,6 +33,7 @@ export default function LogIn() {
       sessionStorage.setItem('username', savedUsername)
       const returnUrl = searchParams.get('returnUrl') || '/accesibility';
       router.push(returnUrl);
+      setChangesConfig(changesConfig + 1);
     } catch (error: any) {
       setError(`Error: ${error.message}`);
     }

@@ -22,11 +22,12 @@ import {
   User
 } from '@nextui-org/react'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { MdLogout } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { isLoggedIn } from '@/utils/auth';
+import { ConfigContext } from '@/app/context/ConfigProvider';
 
 
 export const Header = () => {
@@ -36,6 +37,8 @@ export const Header = () => {
   const [username, setUsername] = useState<string>('');
   const [activeSection, setActiveSection] = useState<string>(pathname);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { changesConfig, setChangesConfig } = useContext(ConfigContext);
+
 
   const desktopMenuItems = {
     Home: '/accesibility',
@@ -66,6 +69,7 @@ export const Header = () => {
     sessionStorage.removeItem('username');
     console.log('User logged out');
     router.replace('/');
+    setChangesConfig(changesConfig + 1);
   };
 
   return (

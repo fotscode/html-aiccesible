@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { NextUIProvider } from '@nextui-org/react'
 import { roboto } from './fonts'
-import Providers from './context/ThemeProvider'
+import Providers from './context/Provider'
 
 export const metadata: Metadata = {
   title: 'HTML AIccesible',

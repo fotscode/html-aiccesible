@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 
+:root {
+  --font-size-base: 16px;
+}
+
+.font-size-adjust {
+  @apply text-base;
+}
+
 body {
   @apply text-foreground bg-gradient-to-t from-background to-divider;
 }
