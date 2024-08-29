@@ -24,7 +24,8 @@ import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
 
@@ -62,10 +63,6 @@ export default function Config() {
   const [sizeText, setSizeText] = useState<string>(defaultConfigKeys.text_size);
 
   const [loading, setLoading] = useState<boolean>(true);
-
-  const [error, setError] = useState('');
-
-  const [success, setSuccess] = useState('');
 
   const { changesConfig, setChangesConfig } = useContext(ConfigContext);
 
@@ -120,9 +117,6 @@ export default function Config() {
   
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
 
     const show_likes = selKeysShowLikes.values().next().value;
     const show_comments = selKeysShowComments.values().next().value;
@@ -146,11 +140,12 @@ export default function Config() {
       } else {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
-      setSuccess('Los cambios se han guardado con éxito');
       setChangesConfig(changesConfig + 1);
+      toast.success('Los cambios se han guardado con éxito');
 
     } catch (error: any) {
-      setError(`Error: ${error.message}`);
+      console.error(error.message);
+      toast.error('No se han podido guardar los cambios debido a un error');
     }
   };
 
@@ -172,13 +167,14 @@ export default function Config() {
     if (isLoggedIn()) {
       try{
         updateConfig(getToken(), defaultConfig);
-        setSuccess('La configuración ha sido restaurada con éxito');
+        toast.success('La configuración ha sido restaurada con éxito')
       } catch (error: any) {
-        setError(`Error: ${error.message}`);
+        console.error(error.message);
+        toast.error('No se ha podido restaurar la configuración debido a un error');
       }
     } else {
       localStorage.removeItem('config');
-      setSuccess('La configuración ha sido restaurada con éxito');
+      toast.success('La configuración ha sido restaurada con éxito')
     }
     setChangesConfig(changesConfig + 1);
 
@@ -212,7 +208,7 @@ export default function Config() {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {selectedTheme}
+                      {selectedTheme == 'light' ? 'Claro' : 'Oscuro'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -237,7 +233,7 @@ export default function Config() {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {selectedLanguage}
+                      {selectedLanguage == 'es' ? 'Español' : 'Inglés'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -262,7 +258,7 @@ export default function Config() {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {showLikes}
+                      {showLikes == 'likes-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -287,7 +283,7 @@ export default function Config() {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {showComments}
+                      {showComments == 'comments-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -353,8 +349,6 @@ export default function Config() {
                 />
               </div>
               <Divider />
-              {error && <p className="text-danger text-sm text-center mt-2">{error}</p>}
-              {success && <p className="text-success text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
@@ -434,7 +428,7 @@ export default function Config() {
                           modalReset.onClose();
                         }}
                       >
-                        Restaurar 
+                        Continuar 
                       </Button>
                     </ModalFooter>
                   </>

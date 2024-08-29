@@ -71,7 +71,6 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
 
 
     useEffect(() => {
-        console.log("EXEC")
         if (isLoggedIn()) {
             getConfig(getToken()).then((response) => {
                 applyConfig(response.data);
