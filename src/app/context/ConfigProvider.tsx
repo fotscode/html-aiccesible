@@ -11,6 +11,24 @@ const defaultConfigContext: ConfigContext = {
 
 export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
 
+export const defaultConfigKeys = {
+    theme: 'light',
+    language: 'es',
+    show_likes: 'likes-yes',
+    show_comments: 'comments-yes',
+    text_size: '2', 
+    title_size: '3' 
+};
+
+export const defaultConfig: Config = {
+  show_likes: defaultConfigKeys.show_likes === 'likes-yes' ? true : false,
+  show_comments: defaultConfigKeys.show_comments === 'comments-no' ? true : false,
+  theme: defaultConfigKeys.theme,
+  language: defaultConfigKeys.language,
+  size_title: +defaultConfigKeys.title_size,
+  size_text: +defaultConfigKeys.text_size,
+};
+
 const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     // Theme color
     const { setTheme } = useTheme();
@@ -26,7 +44,10 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     const getLocalConfig = () => {
         const strConfig = localStorage.getItem('config');
         const config = JSON.parse(strConfig!!);
-
+        if (!!config)
+            applyConfig(config);
+        else
+            applyConfig(defaultConfig);
         /*
           Fields:
           show_likes: show_likes == 'Sí',
@@ -37,20 +58,20 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
           size_text: size_text,
         */
 
-        applyConfig(config);
     };
 
     const applyConfig = (data: Config) => {
-        
+       
         setTheme(data.theme);
-        document.documentElement.style.setProperty('--font-size-text', `${data.size_text}px`);
-        document.documentElement.style.setProperty('--font-size-title', `${data.size_title}px`);
+        document.documentElement.style.setProperty('--font-size-text', `${data.size_text}rem`);
+        document.documentElement.style.setProperty('--font-size-title', `${data.size_title}rem`);
 
         //TODO apply changes for lang, likes and comments
     }
 
 
     useEffect(() => {
+        console.log("EXEC")
         if (isLoggedIn()) {
             getConfig(getToken()).then((response) => {
                 applyConfig(response.data);

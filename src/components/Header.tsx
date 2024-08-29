@@ -152,17 +152,8 @@ export const Header = () => {
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'}>
-                { loggedIn ? (
-                  <div> 
-                    <p className="font-bold">Iniciaste sesión como</p>
-                    <p className="font-bold text-primary">@{username}</p>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="font-bold">No iniciaste sesión</p>
-                    <p className="font-bold text-primary">Iniciar sesión</p>
-                  </div>
-                )}
+                <p className="font-bold">{loggedIn ? "Iniciaste sesión como" : "No iniciaste sesión"}</p>
+                <p className="font-bold text-primary">{loggedIn ? `@${username}` : "Iniciar sesión"}</p>
               </DropdownItem>
               <DropdownItem key="settings">
                 <Link className='text-foreground' href='/config' size='sm'>

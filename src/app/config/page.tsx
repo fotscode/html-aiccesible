@@ -23,15 +23,12 @@ import {
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
-import { useTheme } from 'next-themes';
-import { ConfigContext } from '../context/ConfigProvider'
+import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
 
 
 export default function Config() {
 
-  const { setTheme } = useTheme();
-
-  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['Claro']))
+  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set([defaultConfigKeys.theme]))
 
   const selectedTheme = useMemo(
     () => Array.from(selectedKeysTheme).join(', ').replaceAll('_', ' '),
@@ -39,30 +36,30 @@ export default function Config() {
   )
 
   const [selectedKeysLanguage, setSelectedKeysLanguage] = useState(
-    new Set(['Español']),
+    new Set([defaultConfigKeys.language]),
   )
   const selectedLanguage = useMemo(
     () => Array.from(selectedKeysLanguage).join(', ').replaceAll('_', ' '),
     [selectedKeysLanguage],
   )
 
-  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set(['Sí']))
+  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set([defaultConfigKeys.show_likes]))
   const showLikes = useMemo(
     () => Array.from(selKeysShowLikes).join(', ').replaceAll('_', ' '),
     [selKeysShowLikes],
   )
 
   const [selKeysShowComments, setSelKeysShowComments] = useState(
-    new Set(['Sí']),
+    new Set([defaultConfigKeys.show_comments]),
   )
   const showComments = useMemo(
     () => Array.from(selKeysShowComments).join(', ').replaceAll('_', ' '),
     [selKeysShowComments],
   )
 
-  const [sizeTitles, setSizeTitles] = useState<string>('30');
+  const [sizeTitles, setSizeTitles] = useState<string>(defaultConfigKeys.title_size);
 
-  const [sizeText, setSizeText] = useState<string>('20');
+  const [sizeText, setSizeText] = useState<string>(defaultConfigKeys.text_size);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -75,78 +72,47 @@ export default function Config() {
   const modalReset = useDisclosure();
   const modalApply = useDisclosure();
 
+  const applyConfig = (config: Config) => {
+
+    //THEME
+    setSelectedKeysTheme(new Set([config.theme]));
+
+    //LANGUAGE
+    setSelectedKeysLanguage(new Set([config.language]));
+
+    //LIKES 
+    if (config.show_likes === true)
+      setSelKeysShowLikes(new Set(['likes-yes']));
+    else 
+      setSelKeysShowLikes(new Set(['likes-no']));
+
+    //COMMENTS
+    if (config.show_comments === true)
+      setSelKeysShowComments(new Set(['comments-yes']));
+    else 
+      setSelKeysShowComments(new Set(['comments-no']));
+
+    //TITLES
+    setSizeTitles(`${config.size_title}`);
+
+    //TEXT
+    setSizeText(`${config.size_text}`);
+
+  }
+
   useEffect(() => {
     if (isLoggedIn()){
       try {
         getConfig(getToken()).then((response) => {
-
-          //THEME
-          if (response.data.theme === 'light')
-            setSelectedKeysTheme(new Set(['claro']));
-          else 
-            setSelectedKeysTheme(new Set(['oscuro']));
-
-          //LANGUAGE
-          if (response.data.language === 'es')
-            setSelectedKeysLanguage(new Set(['español']));
-          else 
-            setSelectedKeysLanguage(new Set(['inglés']));
-
-          //LIKES 
-          if (response.data.show_likes === true)
-            setSelKeysShowLikes(new Set(['Sí']));
-          else 
-            setSelKeysShowLikes(new Set(['No']));
-
-          //COMMENTS
-          if (response.data.show_comments === true)
-            setSelKeysShowComments(new Set(['Sí']));
-          else 
-            setSelKeysShowComments(new Set(['No']));
-
-          //TITLES
-          setSizeTitles(`${response.data.size_title}`);
-
-          //TEXT
-          setSizeText(`${response.data.size_text}`);
+          applyConfig(response.data as Config);
         });
       } catch (error: any) {
         setError(`Error: ${error.message}`);
       } 
     } else {
       if (!!localStorage.getItem('config')){ 
-        //@ts-ignore
-        const config = JSON.parse(localStorage.getItem('config'));
-
-        //THEME
-        if (config.theme === 'light')
-          setSelectedKeysTheme(new Set(['claro']));
-        else 
-          setSelectedKeysTheme(new Set(['oscuro']));
-
-        //LANGUAGE
-        if (config.language === 'es')
-          setSelectedKeysLanguage(new Set(['español']));
-        else 
-          setSelectedKeysLanguage(new Set(['inglés']));
-
-        //LIKES 
-        if (config.show_likes === true)
-          setSelKeysShowLikes(new Set(['Sí']));
-        else 
-          setSelKeysShowLikes(new Set(['No']));
-
-        //COMMENTS
-        if (config.show_comments === true)
-          setSelKeysShowComments(new Set(['Sí']));
-        else 
-          setSelKeysShowComments(new Set(['No']));
-
-        //TITLES
-        setSizeTitles(`${config.size_title}`);
-
-        //TEXT
-        setSizeText(`${config.size_text}`);
+        const config: Config = JSON.parse(localStorage.getItem('config')!!);
+        applyConfig(config);
       }
     }
     setLoading(false);
@@ -165,11 +131,11 @@ export default function Config() {
     const size_title = +sizeTitles ;
     const size_text = +sizeText;
 
-    const newConfig = {
-      show_likes: show_likes == 'Sí',
-      show_comments: show_comments == 'Sí',
-      theme: theme == 'Claro' ? 'light' : 'dark',
-      language: language == 'Español' ? 'es' : 'eng',
+    const newConfig: Config = {
+      show_likes: show_likes == 'likes-yes',
+      show_comments: show_comments == 'comments-yes',
+      theme: theme,
+      language: language,
       size_title: size_title,
       size_text: size_text,
     };
@@ -181,13 +147,8 @@ export default function Config() {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
       setSuccess('Los cambios se han guardado con éxito');
-
-      // setTheme(newConfig.theme); 
-      //Call update after changes
       setChangesConfig(changesConfig + 1);
 
-      //setTitleSize(newConfig.size_title); 
-      //setTextSize(newConfig.size_text); 
     } catch (error: any) {
       setError(`Error: ${error.message}`);
     }
@@ -196,32 +157,21 @@ export default function Config() {
   const resetConfig = () => {
 
     //THEME
-    setSelectedKeysTheme(new Set(['claro']));
+    setSelectedKeysTheme(new Set([defaultConfigKeys.theme]));
     //LANGUAGE
-    setSelectedKeysLanguage(new Set(['español']));
+    setSelectedKeysLanguage(new Set([defaultConfigKeys.language]));
     //LIKES 
-    setSelKeysShowLikes(new Set(['No']));
+    setSelKeysShowLikes(new Set([defaultConfigKeys.show_likes]));
     //COMMENTS
-    setSelKeysShowComments(new Set(['No']));
+    setSelKeysShowComments(new Set([defaultConfigKeys.show_comments]));
     //TITLES
-    const default_titles = 30;
-    setSizeTitles(`${default_titles}`);
+    setSizeTitles(defaultConfigKeys.title_size);
     //TEXT
-    const default_text = 20;
-    setSizeText(`${default_text}`);
+    setSizeText(defaultConfigKeys.text_size);
 
     if (isLoggedIn()) {
       try{
-        const newConfig = {
-          show_likes: false,
-          show_comments: false,
-          theme: 'light',
-          language: 'es',
-          size_title: default_titles,
-          size_text: default_text,
-        };
-
-        updateConfig(getToken(), newConfig);
+        updateConfig(getToken(), defaultConfig);
         setSuccess('La configuración ha sido restaurada con éxito');
       } catch (error: any) {
         setError(`Error: ${error.message}`);
@@ -230,7 +180,7 @@ export default function Config() {
       localStorage.removeItem('config');
       setSuccess('La configuración ha sido restaurada con éxito');
     }
-    setTheme("light"); 
+    setChangesConfig(changesConfig + 1);
 
   }
 
@@ -238,10 +188,10 @@ export default function Config() {
   return (
     <>
       <Header />
-      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-adjust'>
+      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-text-adjust'>
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} font-size-adjust text-2xl sm:text-3xl`}>
+            <h1 className={`${poppins.className} font-size-title-adjust text-2xl sm:text-3xl`}>
               Configuración
             </h1>
             <p className='text-center text-lg sm:text-xl'>
@@ -274,8 +224,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysTheme}
                   >
-                    <DropdownItem key='Claro'>Claro</DropdownItem>
-                    <DropdownItem key='Oscuro'>Oscuro</DropdownItem>
+                    <DropdownItem key='light'>Claro</DropdownItem>
+                    <DropdownItem key='dark'>Oscuro</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -299,8 +249,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysLanguage}
                   >
-                    <DropdownItem key='Español'>Español</DropdownItem>
-                    <DropdownItem key='English'>Inglés</DropdownItem>
+                    <DropdownItem key='es'>Español</DropdownItem>
+                    <DropdownItem key='eng'>Inglés</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -324,8 +274,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowLikes}
                   >
-                    <DropdownItem key='Si'>Si</DropdownItem>
-                    <DropdownItem key='No'>No</DropdownItem>
+                    <DropdownItem key='likes-yes'>Si</DropdownItem>
+                    <DropdownItem key='likes-no'>No</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -349,8 +299,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowComments}
                   >
-                    <DropdownItem key='Si'>Si</DropdownItem>
-                    <DropdownItem key='No'>No</DropdownItem>
+                    <DropdownItem key='comments-yes'>Si</DropdownItem>
+                    <DropdownItem key='comments-no'>No</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
