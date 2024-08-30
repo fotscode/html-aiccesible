@@ -44,7 +44,7 @@ export default function Community() {
           aria-busy={loading}
           role='feed'
         >
-          <h1 className={poppins.className+' text-3xl font-bold'}>Comunidad</h1>
+          <h1 className={poppins.className+' font-size-title-adjust-3xl font-bold'}>Comunidad</h1>
           {posts.map((post, index) => (
             <PostCard
               post={post}

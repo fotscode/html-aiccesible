@@ -60,7 +60,7 @@ export default function Register() {
     <>
       <main className='h-screen flex flex-col justify-center items-center py-8 px-4 sm:p-24 lg:p-32 gap-5 sm:gap-4 lg:gap-8'>
         <h1
-          className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
+          className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
           Registro de cuenta 
         </h1>

@@ -160,7 +160,7 @@ export default function CodeEditor() {
       <Header />
       <main className='h-full flex flex-col justify-center px-4 pt-10 lg:p-20 gap-2 sm:gap-4 lg:gap-8'>
         <h1
-          className={`${poppins.className} text-center text-4xl md:text-6xl font-medium`}
+          className={`${poppins.className} text-center font-size-title-adjust-4xl md:font-size-title-adjust-6xl font-medium`}
         >
           Accesibilizador
         </h1>
@@ -174,7 +174,7 @@ export default function CodeEditor() {
         </p>
 
         <div className='flex flex-col items-center justify-center w-full'>
-          <h2 className={`${roboto.className} text-center font-medium`}>
+          <h2 className={`${roboto.className} text-center font-size-title-adjust-base font-medium`}>
             Elegí el modelo de IA
           </h2>
           <Dropdown>
@@ -213,7 +213,7 @@ export default function CodeEditor() {
               <h2
                 id='code-nonaccesibilized-desktop'
                 className={
-                  poppins.className + 'text-xl md:text-2xl font-semibold'
+                  poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                 }
               >
                 Código a accesibilizar
@@ -257,7 +257,7 @@ export default function CodeEditor() {
               <h2
                 id='code-nonaccesibilized-desktop'
                 className={
-                  poppins.className + 'text-xl md:text-2xl font-semibold'
+                  poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                 }
               >
                 Resultado
@@ -279,7 +279,7 @@ export default function CodeEditor() {
                   <h2
                     id='code-nonaccesibilized-desktop'
                     className={
-                      poppins.className + 'text-xl md:text-2xl font-semibold'
+                      poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                     }
                   >
                     Código a accesibilizar
@@ -288,7 +288,7 @@ export default function CodeEditor() {
                   <h2
                     id='code-nonaccesibilized-desktop'
                     className={
-                      poppins.className + 'text-xl md:text-2xl font-semibold'
+                      poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                     }
                   >
                     Resultado

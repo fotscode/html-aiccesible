@@ -114,7 +114,7 @@ export const Header = () => {
 
       <NavbarBrand>
         <Link href={ loggedIn ? '/accesibility' : '/'}>
-          <h1 className={`${poppins.className} text-primary text-2xl font-bold`}>
+          <h1 className={`${poppins.className} text-primary font-size-title-adjust-2xl font-bold`}>
             HTML <span className='logo ml-2'>AI</span>ccesible
           </h1>
         </Link>

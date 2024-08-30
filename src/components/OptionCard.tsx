@@ -41,7 +41,7 @@ const OptionCard: React.FC<CardProps> = ({
 
       <CardBody className='px-3 md:px-0 flex flex-col justify-center'>
         <h2
-          className={`${roboto.className} text-sm md:text-base font-medium pb-3`}
+          className={`${roboto.className} font-size-title-adjust-sm md:font-size-title-adjust-base font-medium pb-3`}
         >
           {title}
         </h2>

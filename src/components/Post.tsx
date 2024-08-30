@@ -45,14 +45,14 @@ export default function PostCard(props: PostProps) {
     >
       <Card className='p-4'>
         <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
-          <h2 className={`${poppins.className} text-xl md:text-3xl`}>
+          <h2 className={`${poppins.className} font-size-title-adjust-xl md:font-size-title-adjust-3xl`}>
             {post.title}
           </h2>
           <p>{post.description}</p>
         </CardHeader>
         <CardBody className='overflow-visible py-2 flex justify-end items-end'>
           <section className='w-full flex flex-col justify-center items-start'>
-            <h3>Antes:</h3>
+            <h3 className='font-size-title-adjust-base'>Antes:</h3>
             <CopyBlock
               text={format(post.before)}
               language='html'
@@ -60,7 +60,7 @@ export default function PostCard(props: PostProps) {
               theme={dracula}
               wrapLongLines
             />
-            <h3>Despues:</h3>
+            <h3 className='font-size-title-adjust-base'>Despues:</h3>
             <CopyBlock
               text={format(post.after)}
               language='html'

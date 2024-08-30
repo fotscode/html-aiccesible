@@ -104,7 +104,7 @@ export default function Config() {
           applyConfig(response.data as Config);
         });
       } catch (error: any) {
-        setError(`Error: ${error.message}`);
+        console.error(error.message);
       } 
     } else {
       if (!!localStorage.getItem('config')){ 
@@ -187,7 +187,7 @@ export default function Config() {
       <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-text-adjust'>
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} font-size-title-adjust text-2xl sm:text-3xl`}>
+            <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
               Configuración
             </h1>
             <p className='text-center text-lg sm:text-xl'>

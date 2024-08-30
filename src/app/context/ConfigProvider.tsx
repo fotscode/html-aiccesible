@@ -63,8 +63,8 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     const applyConfig = (data: Config) => {
        
         setTheme(data.theme);
-        document.documentElement.style.setProperty('--font-size-text', `${data.size_text}rem`);
-        document.documentElement.style.setProperty('--font-size-title', `${data.size_title}rem`);
+        document.documentElement.style.setProperty('--text-scaler', `${data.size_text}`);
+        document.documentElement.style.setProperty('--title-scaler', `${data.size_title}`);
 
         //TODO apply changes for lang, likes and comments
     }

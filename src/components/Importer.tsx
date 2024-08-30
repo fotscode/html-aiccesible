@@ -41,7 +41,7 @@ const Importer = () => {
     <Card className='flex flex-col w-3/4 md:w-1/2 sm:px-4 py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
       <CardHeader className='flex flex-col text-center'>
         <h2
-          className={`${roboto.className} text-xl font-medium pb-3`}
+          className={`${roboto.className} font-size-title-adjust-xl font-medium pb-3`}
         >
           Examinar página web
         </h2>

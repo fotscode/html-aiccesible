@@ -2,19 +2,167 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * text-xs	font-size: 0.75rem; 
+ * line-height: 1rem; 
+ * text-sm	font-size: 0.875rem; 
+ * line-height: 1.25rem; 
+ * text-base	font-size: 1rem;
+ * line-height: 1.5rem; 
+ * text-lg	font-size: 1.125rem;
+ * line-height: 1.75rem; 
+ * text-xl	font-size: 1.25rem; 
+ * line-height: 1.75rem; 
+ * text-2xl	font-size: 1.5rem; 
+ * line-height: 2rem; 
+ * text-3xl	font-size: 1.875rem; 
+ * line-height: 2.25rem; 
+ * text-4xl	font-size: 2.25rem; 
+ * line-height: 2.5rem; 
+ * text-5xl	font-size: 3rem;
+ * line-height: 1;
+ * text-6xl	font-size: 3.75rem; 
+ * line-height: 1;
+ */
+
 
 :root {
-  --font-size-text: 1rem;
-  --font-size-title: 1rem;
+  --font-size-text-xs: 0.75rem;
+  --line-height-xs: 1rem;
+  --font-size-text-sm: 0.875rem;
+  --line-height-sm: 1.25rem;
+  --font-size-text-base: 1rem;
+  --line-height-base: 1.5rem;
+  --font-size-text-lg: 1.125rem;
+  --line-height-lg: 1.75rem;
+  --font-size-text-xl: 1.25rem;
+  --line-height-xl: 1.75rem;
+  --font-size-text-2xl: 1.5rem;
+  --line-height-2xl: 2rem;
+  --font-size-text-3xl: 1.875rem;
+  --line-height-3xl: 2.25rem;
+  --font-size-text-4xl: 2.25rem;
+  --line-height-4xl: 2.5rem;
+  --font-size-text-5xl: 3rem;
+  --line-height-5xl: 1;
+  --font-size-text-6xl: 3.75rem;
+  --line-height-6xl: 1;
+  --font-size-text-8xl: 6rem;
+  --line-height-8xl: 1;
+
+  --text-scaler: 1;
+  --title-scaler: 1;
 }
 
-.font-size-text-adjust {
-  font-size: var(--font-size-text);
+@layer components {
+
+  .font-size-text-adjust-xs {
+    font-size: calc(var(--font-size-text-xs)*var(--text-scaler));
+    line-height: calc(var(--line-height-xs)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-sm {
+    font-size: calc(var(--font-size-text-sm)*var(--text-scaler));
+    line-height: calc(var(--line-height-sm)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-base {
+    font-size: calc(var(--font-size-text-base)*var(--text-scaler));
+    line-height: calc(var(--line-height-base)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-lg {
+    font-size: calc(var(--font-size-text-lg)*var(--text-scaler));
+    line-height: calc(var(--line-height-lg)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-xl {
+    font-size: calc(var(--font-size-text-xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-xl)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-2xl {
+    font-size: calc(var(--font-size-text-2xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-2xl)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-3xl {
+    font-size: calc(var(--font-size-text-3xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-3xl)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-4xl {
+    font-size: calc(var(--font-size-text-4xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-4xl)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-5xl {
+    font-size: calc(var(--font-size-text-5xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-5xl)*var(--text-scaler));
+  }
+
+  .font-size-text-adjust-6xl {
+    font-size: calc(var(--font-size-text-6xl)*var(--text-scaler));
+    line-height: calc(var(--line-height-6xl)*var(--text-scaler));
+  }
+
+  .font-size-title-adjust-xs {
+    font-size: calc(var(--font-size-text-xs)*var(--title-scaler));
+    line-height: calc(var(--line-height-xs)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-sm {
+    font-size: calc(var(--font-size-text-sm)*var(--title-scaler));
+    line-height: calc(var(--line-height-sm)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-base {
+    font-size: calc(var(--font-size-text-base)*var(--title-scaler));
+    line-height: calc(var(--line-height-base)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-lg {
+    font-size: calc(var(--font-size-text-lg)*var(--title-scaler));
+    line-height: calc(var(--line-height-lg)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-xl {
+    font-size: calc(var(--font-size-text-xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-xl)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-2xl {
+    font-size: calc(var(--font-size-text-2xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-2xl)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-3xl {
+    font-size: calc(var(--font-size-text-3xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-3xl)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-4xl {
+    font-size: calc(var(--font-size-text-4xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-4xl)*var(--title-scaler));
+  }
+
+  .font-size-title-adjust-5xl {
+    font-size: calc(var(--font-size-text-5xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-5xl)*var(--title-scaler)/2);
+  }
+
+  .font-size-title-adjust-6xl {
+    font-size: calc(var(--font-size-text-6xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-6xl)*var(--title-scaler)/2);
+  }
+
+  .font-size-title-adjust-8xl {
+    font-size: calc(var(--font-size-text-8xl)*var(--title-scaler));
+    line-height: calc(var(--line-height-8xl)*var(--title-scaler)/2);
+  }
+
 }
 
-.font-size-title-adjust {
-  font-size: var(--font-size-title);
-}
 
 body {
   @apply text-foreground bg-gradient-to-t from-background to-divider;

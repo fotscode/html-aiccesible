@@ -47,7 +47,7 @@ export default function LogIn() {
           <Card className='w-full md:w-3/4 p-5'>
             <CardHeader className='flex justify-center'>
               <h1
-                className={`${poppins.className} text-center text-3xl md:text-4xl lg:text-5xl font-bold`}
+                className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-4xl lg:font-size-title-adjust-5xl font-bold`}
               >
                 HTML <span className='logo'>AI</span>ccesible
               </h1>
