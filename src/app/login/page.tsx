@@ -77,13 +77,13 @@ export default function LogIn() {
                 />
               </form>
 
-              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+              {error && <p className="text-red-500 font-size-text-adjust-sm text-center mt-2">{error}</p>}
             </CardBody>
 
             <CardFooter className='flex flex-col items-center'>
               <Button
                 form='login-form'
-                className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+                className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
                 type="submit"
               >
                 Iniciar sesión 

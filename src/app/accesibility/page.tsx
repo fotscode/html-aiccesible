@@ -36,7 +36,7 @@ export default function Accesibility() {
         >
           Accesibilizá tu código
         </h1>
-        <p className='text-left mx-3 mt-1 md:text-center md:text-xl xl:mb-12'>
+        <p className='text-left mx-3 mt-1 md:text-center md:font-size-text-adjust-xl xl:mb-12'>
           Podés cargar el código HTML de múltiples maneras.
         </p>
         <section className='flex flex-col md:flex-row'>

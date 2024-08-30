@@ -60,7 +60,7 @@ const Importer = () => {
           errorMessage="Por favor, ingrese un enlace válido"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-500 text-small">https://</span>
+              <span className="text-default-500 font-size-text-adjust-sm">https://</span>
             </div>
           }
           value={url}
@@ -70,14 +70,14 @@ const Importer = () => {
 
       <CardFooter className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1'
           onClick={fetchHTML}
           size='sm'
         >
           Obtener HTML
         </Button>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1'
           onClick={() => {router.back()}}
           size='sm'
         >

@@ -18,7 +18,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Slider
 } from '@nextui-org/react'
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
@@ -58,9 +59,9 @@ export default function Config() {
     [selKeysShowComments],
   )
 
-  const [sizeTitles, setSizeTitles] = useState<string>(defaultConfigKeys.title_size);
+  const [sizeTitles, setSizeTitles] = useState<number>(defaultConfigKeys.title_size);
 
-  const [sizeText, setSizeText] = useState<string>(defaultConfigKeys.text_size);
+  const [sizeText, setSizeText] = useState<number>(defaultConfigKeys.text_size);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -90,10 +91,10 @@ export default function Config() {
       setSelKeysShowComments(new Set(['comments-no']));
 
     //TITLES
-    setSizeTitles(`${config.size_title}`);
+    setSizeTitles(config.size_title);
 
     //TEXT
-    setSizeText(`${config.size_text}`);
+    setSizeText(config.size_text);
 
   }
 
@@ -122,8 +123,8 @@ export default function Config() {
     const show_comments = selKeysShowComments.values().next().value;
     const theme = selectedKeysTheme.values().next().value;
     const language = selectedKeysLanguage.values().next().value;
-    const size_title = +sizeTitles ;
-    const size_text = +sizeText;
+    const size_title = sizeTitles ;
+    const size_text = sizeText;
 
     const newConfig: Config = {
       show_likes: show_likes == 'likes-yes',
@@ -190,7 +191,7 @@ export default function Config() {
             <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
               Configuración
             </h1>
-            <p className='text-center text-lg sm:text-xl'>
+            <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
               Toda la configuración del sistema en un mismo lugar.
             </p>
           </CardHeader>
@@ -202,7 +203,7 @@ export default function Config() {
             <CardBody className='px-20'>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Tema del sitio:
                 </p>
                 <Dropdown>
@@ -227,7 +228,7 @@ export default function Config() {
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Idioma:
                 </p>
                 <Dropdown>
@@ -252,7 +253,7 @@ export default function Config() {
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Mostrar likes:
                 </p>
                 <Dropdown>
@@ -277,7 +278,7 @@ export default function Config() {
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Mostrar comentarios:
                 </p>
                 <Dropdown>
@@ -302,6 +303,80 @@ export default function Config() {
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <Slider 
+                  label="Tamaño de títulos" 
+                  aria-labelledby='slider-titles'
+                  hideValue 
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeTitles}
+                  //@ts-ignore
+                  onChange={(value) => setSizeTitles(value)}
+                  className="w-full"
+                  renderLabel={() => <p id='slider-titles' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de títulos:</p>}
+                />
+              </div>
+              <Divider/>
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <Slider 
+                  label="Tamaño de textos" 
+                  aria-labelledby='slider-texts'
+                  hideValue
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeText}
+                  //@ts-ignore
+                  onChange={(value) => setSizeText(value)}
+                  className="w-full"
+                  renderLabel={() => <p id='slider-texts' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de textos:</p>}
+                />
+              </div>
+              {/*
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p
                   id='titleSize'
                   className={`${roboto.className} text-lg font-medium`}
@@ -324,7 +399,6 @@ export default function Config() {
                   }
                 />
               </div>
-              <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p
                   id='textSize'
@@ -348,6 +422,7 @@ export default function Config() {
                   }
                 />
               </div>
+              */}
               <Divider />
             </CardBody>
           )}

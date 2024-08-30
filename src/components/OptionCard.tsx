@@ -45,7 +45,7 @@ const OptionCard: React.FC<CardProps> = ({
         >
           {title}
         </h2>
-        <p className='text-sm md:text-base'>{description}</p>
+        <p className='font-size-text-adjust-sm md:font-size-text-adjust-base'>{description}</p>
       </CardBody>
     </Card>
   )

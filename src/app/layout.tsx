@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='es'>
-      <body className={`${roboto.className} flex flex-col h-screen`}>
+      <body className={`${roboto.className} flex flex-col h-screen font-size-text-adjust-base`}>
         <NextUIProvider>
           <Providers>
             {children}

@@ -16,7 +16,7 @@ export default function ImporterPage() {
         >
           Importar código HTML vía URL
         </h1>
-        <p className='mx-3 mt-1 text-center md:text-xl xl:mb-12'>
+        <p className='mx-3 mt-1 text-center md:font-size-text-adjust-xl xl:mb-12'>
           Querés usar otro método?
           Podés &nbsp;
           <a href='/accesibility' className='link'>

@@ -118,47 +118,47 @@
 
   .font-size-title-adjust-base {
     font-size: calc(var(--font-size-text-base)*var(--title-scaler));
-    line-height: calc(var(--line-height-base)*var(--title-scaler)/1.25);
+    line-height: calc(var(--line-height-base)*var(--title-scaler));
   }
 
   .font-size-title-adjust-lg {
     font-size: calc(var(--font-size-text-lg)*var(--title-scaler));
-    line-height: calc(var(--line-height-lg)*var(--title-scaler)/1.25);
+    line-height: calc(var(--line-height-lg)*var(--title-scaler));
   }
 
   .font-size-title-adjust-xl {
     font-size: calc(var(--font-size-text-xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-xl)*var(--title-scaler)/1.5);
+    line-height: calc(var(--line-height-xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-2xl {
     font-size: calc(var(--font-size-text-2xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-2xl)*var(--title-scaler)/1.5);
+    line-height: calc(var(--line-height-2xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-3xl {
     font-size: calc(var(--font-size-text-3xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-3xl)*var(--title-scaler)/1.25);
+    line-height: calc(var(--line-height-3xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-4xl {
     font-size: calc(var(--font-size-text-4xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-4xl)*var(--title-scaler)/1.25);
+    line-height: calc(var(--line-height-4xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-5xl {
     font-size: calc(var(--font-size-text-5xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-5xl)*var(--title-scaler)/2);
+    line-height: calc(var(--line-height-5xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-6xl {
     font-size: calc(var(--font-size-text-6xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-6xl)*var(--title-scaler)/2);
+    line-height: calc(var(--line-height-6xl)*var(--title-scaler));
   }
 
   .font-size-title-adjust-8xl {
     font-size: calc(var(--font-size-text-8xl)*var(--title-scaler));
-    line-height: calc(var(--line-height-8xl)*var(--title-scaler)/2);
+    line-height: calc(var(--line-height-8xl)*var(--title-scaler));
   }
 
 }

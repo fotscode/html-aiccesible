@@ -164,7 +164,7 @@ export default function CodeEditor() {
         >
           Accesibilizador
         </h1>
-        <p className='text-center mx-3 mt-1 md:text-xl'>
+        <p className='text-center mx-3 mt-1 md:font-size-text-adjust-xl'>
           Verificá que el código cargado es el deseado y presioná el botón
           naranja para accesibilizarlo. Podés &nbsp;
           <a href='/accesibility' className='link'>
@@ -234,7 +234,7 @@ export default function CodeEditor() {
             <NonAccesibilizedEditor code={code} setCode={setCode} label='code-nonaccesibilized-desktop'/>
           </Card>
 
-          <div className='hidden xl:flex xl:flex-col text-medium lg:text-xl font-medium items-center justify-center px-5'>
+          <div className='hidden xl:flex xl:flex-col text-medium lg:font-size-text-adjust-xl font-medium items-center justify-center px-5'>
             <Button 
               isIconOnly 
               className='h-32 w-32 p-2'
@@ -320,7 +320,7 @@ export default function CodeEditor() {
           <div className='xl:hidden mt-5'>
             {currentPage == 0 && (
               <Button
-                className={`button button-animated sm:px-5 mx-1 sm:text-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
+                className={`button button-animated sm:px-5 mx-1 sm:font-size-text-adjust-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
                 //@ts-ignore
                 color={accesibilizeColor}
                 aria-label="Accesibilizar" 

@@ -177,7 +177,7 @@ export const Header = () => {
             key={`${key}-${index}-menu`}
             isActive={activeSection === value}
           >
-            <Link className='w-full text-lg text-foreground my-1' href={value} size='lg'>
+            <Link className='w-full font-size-text-adjust-lg text-foreground my-1' href={value} size='lg'>
               {key}
             </Link>
           </NavbarMenuItem>

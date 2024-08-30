@@ -16,8 +16,8 @@ export const defaultConfigKeys = {
     language: 'es',
     show_likes: 'likes-yes',
     show_comments: 'comments-yes',
-    text_size: '2', 
-    title_size: '3' 
+    text_size: 1.0, 
+    title_size: 1.0, 
 };
 
 export const defaultConfig: Config = {
@@ -25,17 +25,13 @@ export const defaultConfig: Config = {
   show_comments: defaultConfigKeys.show_comments === 'comments-no' ? true : false,
   theme: defaultConfigKeys.theme,
   language: defaultConfigKeys.language,
-  size_title: +defaultConfigKeys.title_size,
-  size_text: +defaultConfigKeys.text_size,
+  size_title: defaultConfigKeys.title_size,
+  size_text: defaultConfigKeys.text_size,
 };
 
 const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     // Theme color
     const { setTheme } = useTheme();
-
-    // Font sizes
-    const [ textSize, setTextSize ] = useState<number>();
-    const [ titleSize, setTitleSize ] = useState<number>();
 
     // Modified after applying changes
     const [ changesConfig, setChangesConfig ] = useState(0);
@@ -61,7 +57,6 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     };
 
     const applyConfig = (data: Config) => {
-       
         setTheme(data.theme);
         document.documentElement.style.setProperty('--text-scaler', `${data.size_text}`);
         document.documentElement.style.setProperty('--title-scaler', `${data.size_title}`);
