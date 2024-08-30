@@ -11,13 +11,27 @@ const defaultConfigContext: ConfigContext = {
 
 export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
 
+export const defaultConfigKeys = {
+    theme: 'light',
+    language: 'es',
+    show_likes: 'likes-yes',
+    show_comments: 'comments-yes',
+    text_size: 1.0, 
+    title_size: 1.0, 
+};
+
+export const defaultConfig: Config = {
+  show_likes: defaultConfigKeys.show_likes === 'likes-yes' ? true : false,
+  show_comments: defaultConfigKeys.show_comments === 'comments-no' ? true : false,
+  theme: defaultConfigKeys.theme,
+  language: defaultConfigKeys.language,
+  size_title: defaultConfigKeys.title_size,
+  size_text: defaultConfigKeys.text_size,
+};
+
 const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     // Theme color
     const { setTheme } = useTheme();
-
-    // Font sizes
-    const [ textSize, setTextSize ] = useState<number>();
-    const [ titleSize, setTitleSize ] = useState<number>();
 
     // Modified after applying changes
     const [ changesConfig, setChangesConfig ] = useState(0);
@@ -26,7 +40,10 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     const getLocalConfig = () => {
         const strConfig = localStorage.getItem('config');
         const config = JSON.parse(strConfig!!);
-
+        if (!!config)
+            applyConfig(config);
+        else
+            applyConfig(defaultConfig);
         /*
           Fields:
           show_likes: show_likes == 'Sí',
@@ -37,14 +54,12 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
           size_text: size_text,
         */
 
-        applyConfig(config);
     };
 
     const applyConfig = (data: Config) => {
-        
         setTheme(data.theme);
-        document.documentElement.style.setProperty('--font-size-text', `${data.size_text}px`);
-        document.documentElement.style.setProperty('--font-size-title', `${data.size_title}px`);
+        document.documentElement.style.setProperty('--text-scaler', `${data.size_text}`);
+        document.documentElement.style.setProperty('--title-scaler', `${data.size_title}`);
 
         //TODO apply changes for lang, likes and comments
     }

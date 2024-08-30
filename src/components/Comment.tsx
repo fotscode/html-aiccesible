@@ -18,7 +18,7 @@ export default function CommentCard(props: CommentProps) {
           />
         </CardHeader>
         <CardBody>
-          <h3 className='font-bold'>{comment.title}</h3>
+          <h3 className='font-bold font-size-title-adjust-base'>{comment.title}</h3>
           <p>{comment.content}</p>
         </CardBody>
       </Card>

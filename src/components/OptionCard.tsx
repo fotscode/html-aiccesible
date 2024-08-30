@@ -1,7 +1,6 @@
 import React from 'react'
 import { roboto } from '@/app/fonts'
 import {
-  Button,
   Card,
   CardBody,
 } from '@nextui-org/react'
@@ -28,24 +27,13 @@ const OptionCard: React.FC<CardProps> = ({
         />
       </div>    
 
-      {/*
-      {icon && (
-
-        <img
-          src={image}
-          alt={alt}
-          className='md:pb-3 min-w-[50px] md:w-1/4'
-        />
-      )}
-      */}
-
       <CardBody className='px-3 md:px-0 flex flex-col justify-center'>
         <h2
-          className={`${roboto.className} text-sm md:text-base font-medium pb-3`}
+          className={`${roboto.className} font-size-title-adjust-sm md:font-size-title-adjust-base font-medium pb-3`}
         >
           {title}
         </h2>
-        <p className='text-sm md:text-base'>{description}</p>
+        <p className='font-size-text-adjust-sm md:font-size-text-adjust-base'>{description}</p>
       </CardBody>
     </Card>
   )

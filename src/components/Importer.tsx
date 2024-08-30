@@ -41,7 +41,7 @@ const Importer = () => {
     <Card className='flex flex-col w-3/4 md:w-1/2 sm:px-4 py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
       <CardHeader className='flex flex-col text-center'>
         <h2
-          className={`${roboto.className} text-xl font-medium pb-3`}
+          className={`${roboto.className} font-size-title-adjust-xl font-medium pb-3`}
         >
           Examinar página web
         </h2>
@@ -60,7 +60,7 @@ const Importer = () => {
           errorMessage="Por favor, ingrese un enlace válido"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-500 text-small">https://</span>
+              <span className="text-default-500 font-size-text-adjust-sm">https://</span>
             </div>
           }
           value={url}
@@ -70,16 +70,14 @@ const Importer = () => {
 
       <CardFooter className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={fetchHTML}
-          size='sm'
         >
           Obtener HTML
         </Button>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1 text-medium'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={() => {router.back()}}
-          size='sm'
         >
           Atrás
         </Button>

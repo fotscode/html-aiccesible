@@ -18,20 +18,19 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Slider
 } from '@nextui-org/react'
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
-import { useTheme } from 'next-themes';
-import { ConfigContext } from '../context/ConfigProvider'
-
+import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
 
-  const { setTheme } = useTheme();
-
-  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['Claro']))
+  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set([defaultConfigKeys.theme]))
 
   const selectedTheme = useMemo(
     () => Array.from(selectedKeysTheme).join(', ').replaceAll('_', ' '),
@@ -39,114 +38,79 @@ export default function Config() {
   )
 
   const [selectedKeysLanguage, setSelectedKeysLanguage] = useState(
-    new Set(['Español']),
+    new Set([defaultConfigKeys.language]),
   )
   const selectedLanguage = useMemo(
     () => Array.from(selectedKeysLanguage).join(', ').replaceAll('_', ' '),
     [selectedKeysLanguage],
   )
 
-  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set(['Sí']))
+  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set([defaultConfigKeys.show_likes]))
   const showLikes = useMemo(
     () => Array.from(selKeysShowLikes).join(', ').replaceAll('_', ' '),
     [selKeysShowLikes],
   )
 
   const [selKeysShowComments, setSelKeysShowComments] = useState(
-    new Set(['Sí']),
+    new Set([defaultConfigKeys.show_comments]),
   )
   const showComments = useMemo(
     () => Array.from(selKeysShowComments).join(', ').replaceAll('_', ' '),
     [selKeysShowComments],
   )
 
-  const [sizeTitles, setSizeTitles] = useState<string>('30');
+  const [sizeTitles, setSizeTitles] = useState<number>(defaultConfigKeys.title_size);
 
-  const [sizeText, setSizeText] = useState<string>('20');
+  const [sizeText, setSizeText] = useState<number>(defaultConfigKeys.text_size);
 
   const [loading, setLoading] = useState<boolean>(true);
-
-  const [error, setError] = useState('');
-
-  const [success, setSuccess] = useState('');
 
   const { changesConfig, setChangesConfig } = useContext(ConfigContext);
 
   const modalReset = useDisclosure();
   const modalApply = useDisclosure();
 
+  const applyConfig = (config: Config) => {
+
+    //THEME
+    setSelectedKeysTheme(new Set([config.theme]));
+
+    //LANGUAGE
+    setSelectedKeysLanguage(new Set([config.language]));
+
+    //LIKES 
+    if (config.show_likes === true)
+      setSelKeysShowLikes(new Set(['likes-yes']));
+    else 
+      setSelKeysShowLikes(new Set(['likes-no']));
+
+    //COMMENTS
+    if (config.show_comments === true)
+      setSelKeysShowComments(new Set(['comments-yes']));
+    else 
+      setSelKeysShowComments(new Set(['comments-no']));
+
+    //TITLES
+    setSizeTitles(config.size_title);
+
+    //TEXT
+    setSizeText(config.size_text);
+
+  }
+
   useEffect(() => {
     if (isLoggedIn()){
       try {
         getConfig(getToken()).then((response) => {
-
-          //THEME
-          if (response.data.theme === 'light')
-            setSelectedKeysTheme(new Set(['claro']));
-          else 
-            setSelectedKeysTheme(new Set(['oscuro']));
-
-          //LANGUAGE
-          if (response.data.language === 'es')
-            setSelectedKeysLanguage(new Set(['español']));
-          else 
-            setSelectedKeysLanguage(new Set(['inglés']));
-
-          //LIKES 
-          if (response.data.show_likes === true)
-            setSelKeysShowLikes(new Set(['Sí']));
-          else 
-            setSelKeysShowLikes(new Set(['No']));
-
-          //COMMENTS
-          if (response.data.show_comments === true)
-            setSelKeysShowComments(new Set(['Sí']));
-          else 
-            setSelKeysShowComments(new Set(['No']));
-
-          //TITLES
-          setSizeTitles(`${response.data.size_title}`);
-
-          //TEXT
-          setSizeText(`${response.data.size_text}`);
+          applyConfig(response.data as Config);
         });
       } catch (error: any) {
-        setError(`Error: ${error.message}`);
+        console.error(error.message);
       } 
     } else {
       if (!!localStorage.getItem('config')){ 
-        //@ts-ignore
-        const config = JSON.parse(localStorage.getItem('config'));
-
-        //THEME
-        if (config.theme === 'light')
-          setSelectedKeysTheme(new Set(['claro']));
-        else 
-          setSelectedKeysTheme(new Set(['oscuro']));
-
-        //LANGUAGE
-        if (config.language === 'es')
-          setSelectedKeysLanguage(new Set(['español']));
-        else 
-          setSelectedKeysLanguage(new Set(['inglés']));
-
-        //LIKES 
-        if (config.show_likes === true)
-          setSelKeysShowLikes(new Set(['Sí']));
-        else 
-          setSelKeysShowLikes(new Set(['No']));
-
-        //COMMENTS
-        if (config.show_comments === true)
-          setSelKeysShowComments(new Set(['Sí']));
-        else 
-          setSelKeysShowComments(new Set(['No']));
-
-        //TITLES
-        setSizeTitles(`${config.size_title}`);
-
-        //TEXT
-        setSizeText(`${config.size_text}`);
+        const config: Config = JSON.parse(localStorage.getItem('config')!!);
+        applyConfig(config);
       }
     }
     setLoading(false);
@@ -154,22 +118,19 @@ export default function Config() {
   
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
 
     const show_likes = selKeysShowLikes.values().next().value;
     const show_comments = selKeysShowComments.values().next().value;
     const theme = selectedKeysTheme.values().next().value;
     const language = selectedKeysLanguage.values().next().value;
-    const size_title = +sizeTitles ;
-    const size_text = +sizeText;
+    const size_title = sizeTitles ;
+    const size_text = sizeText;
 
-    const newConfig = {
-      show_likes: show_likes == 'Sí',
-      show_comments: show_comments == 'Sí',
-      theme: theme == 'Claro' ? 'light' : 'dark',
-      language: language == 'Español' ? 'es' : 'eng',
+    const newConfig: Config = {
+      show_likes: show_likes == 'likes-yes',
+      show_comments: show_comments == 'comments-yes',
+      theme: theme,
+      language: language,
       size_title: size_title,
       size_text: size_text,
     };
@@ -180,57 +141,43 @@ export default function Config() {
       } else {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
-      setSuccess('Los cambios se han guardado con éxito');
-
-      // setTheme(newConfig.theme); 
-      //Call update after changes
       setChangesConfig(changesConfig + 1);
+      toast.success('Los cambios se han guardado con éxito');
 
-      //setTitleSize(newConfig.size_title); 
-      //setTextSize(newConfig.size_text); 
     } catch (error: any) {
-      setError(`Error: ${error.message}`);
+      console.error(error.message);
+      toast.error('No se han podido guardar los cambios debido a un error');
     }
   };
 
   const resetConfig = () => {
 
     //THEME
-    setSelectedKeysTheme(new Set(['claro']));
+    setSelectedKeysTheme(new Set([defaultConfigKeys.theme]));
     //LANGUAGE
-    setSelectedKeysLanguage(new Set(['español']));
+    setSelectedKeysLanguage(new Set([defaultConfigKeys.language]));
     //LIKES 
-    setSelKeysShowLikes(new Set(['No']));
+    setSelKeysShowLikes(new Set([defaultConfigKeys.show_likes]));
     //COMMENTS
-    setSelKeysShowComments(new Set(['No']));
+    setSelKeysShowComments(new Set([defaultConfigKeys.show_comments]));
     //TITLES
-    const default_titles = 30;
-    setSizeTitles(`${default_titles}`);
+    setSizeTitles(defaultConfigKeys.title_size);
     //TEXT
-    const default_text = 20;
-    setSizeText(`${default_text}`);
+    setSizeText(defaultConfigKeys.text_size);
 
     if (isLoggedIn()) {
       try{
-        const newConfig = {
-          show_likes: false,
-          show_comments: false,
-          theme: 'light',
-          language: 'es',
-          size_title: default_titles,
-          size_text: default_text,
-        };
-
-        updateConfig(getToken(), newConfig);
-        setSuccess('La configuración ha sido restaurada con éxito');
+        updateConfig(getToken(), defaultConfig);
+        toast.success('La configuración ha sido restaurada con éxito')
       } catch (error: any) {
-        setError(`Error: ${error.message}`);
+        console.error(error.message);
+        toast.error('No se ha podido restaurar la configuración debido a un error');
       }
     } else {
       localStorage.removeItem('config');
-      setSuccess('La configuración ha sido restaurada con éxito');
+      toast.success('La configuración ha sido restaurada con éxito')
     }
-    setTheme("light"); 
+    setChangesConfig(changesConfig + 1);
 
   }
 
@@ -238,13 +185,13 @@ export default function Config() {
   return (
     <>
       <Header />
-      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-adjust'>
+      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-text-adjust'>
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} font-size-adjust text-2xl sm:text-3xl`}>
+            <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
               Configuración
             </h1>
-            <p className='text-center text-lg sm:text-xl'>
+            <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
               Toda la configuración del sistema en un mismo lugar.
             </p>
           </CardHeader>
@@ -256,13 +203,13 @@ export default function Config() {
             <CardBody className='px-20'>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Tema del sitio:
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {selectedTheme}
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {selectedTheme == 'light' ? 'Claro' : 'Oscuro'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -274,20 +221,20 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysTheme}
                   >
-                    <DropdownItem key='Claro'>Claro</DropdownItem>
-                    <DropdownItem key='Oscuro'>Oscuro</DropdownItem>
+                    <DropdownItem key='light'><p className='font-size-text-adjust-base'>Claro</p></DropdownItem>
+                    <DropdownItem key='dark'><p className='font-size-text-adjust-base'>Oscuro</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Idioma:
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {selectedLanguage}
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {selectedLanguage == 'es' ? 'Español' : 'Inglés'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -299,20 +246,20 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysLanguage}
                   >
-                    <DropdownItem key='Español'>Español</DropdownItem>
-                    <DropdownItem key='English'>Inglés</DropdownItem>
+                    <DropdownItem key='es'><p className='font-size-text-adjust-base'>Español</p></DropdownItem>
+                    <DropdownItem key='eng'><p className='font-size-text-adjust-base'>Inglés</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Mostrar likes:
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {showLikes}
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {showLikes == 'likes-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -324,20 +271,20 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowLikes}
                   >
-                    <DropdownItem key='Si'>Si</DropdownItem>
-                    <DropdownItem key='No'>No</DropdownItem>
+                    <DropdownItem key='likes-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
+                    <DropdownItem key='likes-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} text-lg font-medium`}>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   Mostrar comentarios:
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
-                      {showComments}
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {showComments == 'comments-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -349,12 +296,86 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowComments}
                   >
-                    <DropdownItem key='Si'>Si</DropdownItem>
-                    <DropdownItem key='No'>No</DropdownItem>
+                    <DropdownItem key='comments-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
+                    <DropdownItem key='comments-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <Slider 
+                  label="Tamaño de títulos" 
+                  aria-labelledby='slider-titles'
+                  hideValue 
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeTitles}
+                  //@ts-ignore
+                  onChange={(value) => setSizeTitles(value)}
+                  className="w-full"
+                  renderLabel={() => <p id='slider-titles' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de títulos:</p>}
+                />
+              </div>
+              <Divider/>
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <Slider 
+                  label="Tamaño de textos" 
+                  aria-labelledby='slider-texts'
+                  hideValue
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeText}
+                  //@ts-ignore
+                  onChange={(value) => setSizeText(value)}
+                  className="w-full"
+                  renderLabel={() => <p id='slider-texts' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de textos:</p>}
+                />
+              </div>
+              {/*
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p
                   id='titleSize'
@@ -378,7 +399,6 @@ export default function Config() {
                   }
                 />
               </div>
-              <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p
                   id='textSize'
@@ -402,13 +422,12 @@ export default function Config() {
                   }
                 />
               </div>
+              */}
               <Divider />
-              {error && <p className="text-danger text-sm text-center mt-2">{error}</p>}
-              {success && <p className="text-success text-sm text-center mt-2">{success}</p>}
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
-            <Button className='button w-full' onPress={modalApply.onOpen}>Aplicar cambios</Button>
+            <Button className='button w-full font-size-text-adjust-sm' onPress={modalApply.onOpen}>Aplicar cambios</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalApply.isOpen} 
@@ -428,6 +447,7 @@ export default function Config() {
                     </ModalBody>
                     <ModalFooter>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="danger" 
                         variant="light" 
                         onPress={onClose}
@@ -435,6 +455,7 @@ export default function Config() {
                         Cancelar 
                       </Button>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="primary" 
                         onPress={() => {
                           console.log('Config updated');
@@ -450,7 +471,7 @@ export default function Config() {
                 )}
               </ModalContent>
             </Modal>
-            <Button className='w-full' onPress={modalReset.onOpen}>Restaurar</Button>
+            <Button className='w-full font-size-text-adjust-sm' onPress={modalReset.onOpen}>Restaurar</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalReset.isOpen} 
@@ -470,6 +491,7 @@ export default function Config() {
                     </ModalBody>
                     <ModalFooter>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="danger" 
                         variant="light" 
                         onPress={onClose}
@@ -477,6 +499,7 @@ export default function Config() {
                         Cancelar 
                       </Button>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="primary" 
                         onPress={() => {
                           console.log('Config resetted.');
@@ -484,7 +507,7 @@ export default function Config() {
                           modalReset.onClose();
                         }}
                       >
-                        Restaurar 
+                        Continuar 
                       </Button>
                     </ModalFooter>
                   </>

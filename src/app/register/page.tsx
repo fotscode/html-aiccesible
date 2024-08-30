@@ -60,18 +60,18 @@ export default function Register() {
     <>
       <main className='h-screen flex flex-col justify-center items-center py-8 px-4 sm:p-24 lg:p-32 gap-5 sm:gap-4 lg:gap-8'>
         <h1
-          className={`${poppins.className} text-center text-3xl md:text-6xl font-medium`}
+          className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
           Registro de cuenta 
         </h1>
-        <p className='mx-3 mt-3 text-center md:text-xl xl:mb-12'>
+        <p className='mx-3 mt-3 text-center md:font-size-text-adjust-xl xl:mb-12'>
           Se solicitarán datos mínimos para poder publicar artículos a tu nombre.
         </p>
         <Card className='w-full md:w-3/4 2xl:w-1/2 p-5'>
           <CardBody className='px-1 sm:px-4'>
             <form id='register-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-                <p id='username' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                <p id='username' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
                   Nombre de usuario:
                 </p>
                 <Input
@@ -88,7 +88,7 @@ export default function Register() {
               </div>
 
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-                <p id='password' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                <p id='password' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
                   Contraseña:
                 </p>
                 <Input
@@ -108,7 +108,7 @@ export default function Register() {
               </div>
 
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
-                <p id='repeatedPassword' className={`${roboto.className} text-sm md:text-lg font-medium`}>
+                <p id='repeatedPassword' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
                   Repetir contraseña:
                 </p>
                 <Input
@@ -126,14 +126,14 @@ export default function Register() {
                   onChange={(e) => setRepeatedPassword(e.target.value)}
                 />
               </div>
-              {error && <p className="text-danger text-sm text-center mt-2">{error}</p>}
+              {error && <p className="text-danger font-size-text-adjust-sm text-center mt-2">{error}</p>}
             </form>
           </CardBody>
         </Card>
         <div className='flex flex-col items-center'>
           <Button
             form='register-form'
-            className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+            className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
             type="submit"
           >
             Registrar

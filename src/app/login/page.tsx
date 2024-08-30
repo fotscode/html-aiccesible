@@ -47,9 +47,9 @@ export default function LogIn() {
           <Card className='w-full md:w-3/4 p-5'>
             <CardHeader className='flex justify-center'>
               <h1
-                className={`${poppins.className} text-center text-3xl md:text-4xl lg:text-5xl font-bold`}
+                className={`${poppins.className} logo text-center font-size-title-adjust-3xl md:font-size-title-adjust-4xl lg:font-size-title-adjust-5xl font-bold`}
               >
-                HTML <span className='logo'>AI</span>ccesible
+                HTML <span className='text-primary'>AI</span>ccesible
               </h1>
             </CardHeader>
             <CardBody className='px-1 sm:px-4'>
@@ -77,13 +77,13 @@ export default function LogIn() {
                 />
               </form>
 
-              {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+              {error && <p className="text-red-500 font-size-text-adjust-sm text-center mt-2">{error}</p>}
             </CardBody>
 
             <CardFooter className='flex flex-col items-center'>
               <Button
                 form='login-form'
-                className='button w-full md:w-1/2 sm:text-xl my-1 md:my-0 md:mx-1'
+                className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
                 type="submit"
               >
                 Iniciar sesión 
