@@ -210,7 +210,7 @@ export const Header = () => {
           <NavbarMenuItem
             key={'logout-menu'}
           >
-            <Link className='my-1 hover:cursor-pointer font-size-text-adjust-base' color='danger' aria-label='Cerrar sesión' onPress={onOpen} size='lg'>
+            <Link className='my-1 hover:cursor-pointer font-size-text-adjust-lg' color='danger' aria-label='Cerrar sesión' onPress={onOpen}>
               Cerrar sesión
             </Link>
           </NavbarMenuItem>
