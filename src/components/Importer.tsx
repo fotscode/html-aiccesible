@@ -70,16 +70,14 @@ const Importer = () => {
 
       <CardFooter className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={fetchHTML}
-          size='sm'
         >
           Obtener HTML
         </Button>
         <Button
-          className='button w-full md:w-auto sm:px-5 sm:mx-1'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={() => {router.back()}}
-          size='sm'
         >
           Atrás
         </Button>

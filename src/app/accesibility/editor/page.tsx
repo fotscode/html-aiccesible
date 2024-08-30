@@ -181,7 +181,7 @@ export default function CodeEditor() {
             <DropdownTrigger>
               <Button 
                 variant="bordered" 
-                className="capitalize"
+                className="capitalize font-size-title-adjust-base"
               >
                 {selectedModel}
               </Button>
@@ -200,7 +200,7 @@ export default function CodeEditor() {
                 <DropdownItem
                   key={item.key}
                 >
-                  {item.label}
+                  <p className='font-size-text-adjust-base'>{item.label}</p>
                 </DropdownItem>
               )}
             </DropdownMenu>
@@ -221,11 +221,11 @@ export default function CodeEditor() {
 
               <div className='flex flex-row gap-1'>
                 {!isAccesibilizePressed && (
-                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label='Copiar código no accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label='Copiar código no accesible' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -264,7 +264,7 @@ export default function CodeEditor() {
               </h2>
 
               <div className='flex flex-row gap-1'>
-                <Button isIconOnly aria-label='Copiar código accesible' variant='light' color='primary' size='sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label='Copiar código accesible' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -297,11 +297,11 @@ export default function CodeEditor() {
               )}
               <div className='flex flex-row gap-1'>
                 {currentPage == 0 && (
-                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' size='sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label={`Copiar código ${currentPage == 0 ? 'no accesible' : 'accesible'}`} variant='light' color='primary' size='sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={`Copiar código ${currentPage == 0 ? 'no accesible' : 'accesible'}`} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -320,11 +320,10 @@ export default function CodeEditor() {
           <div className='xl:hidden mt-5'>
             {currentPage == 0 && (
               <Button
-                className={`button button-animated sm:px-5 mx-1 sm:font-size-text-adjust-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
+                className={`button button-animated sm:px-5 mx-1 font-size-text-adjust-base sm:font-size-text-adjust-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
                 //@ts-ignore
                 color={accesibilizeColor}
                 aria-label="Accesibilizar" 
-                size='sm'
                 onPress={accesibilize}
                 endContent={<FaWandMagicSparkles className='text-primary-foreground'/>}
                 isDisabled={code === ''} 

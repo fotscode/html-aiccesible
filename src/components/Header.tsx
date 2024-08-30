@@ -93,6 +93,7 @@ export const Header = () => {
               </ModalBody>
               <ModalFooter>
                 <Button 
+                  className='font-size-text-adjust-sm'
                   color="danger" 
                   variant="light" 
                   onPress={onClose}
@@ -100,6 +101,7 @@ export const Header = () => {
                   No
                 </Button>
                 <Button 
+                  className='font-size-text-adjust-sm'
                   color="primary" 
                   onPress={handleLogout}
                 >
@@ -126,7 +128,7 @@ export const Header = () => {
             key={`${key}-${index}-nav`}
             isActive={activeSection === value}
           >
-          <Link color='foreground' href={value}>
+          <Link className='font-size-text-adjust-base' color='foreground' href={value}>
             {key}
           </Link>
           </NavbarItem>
@@ -144,25 +146,28 @@ export const Header = () => {
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
-                  name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"
+                  name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado",
                 }}
                 className="transition-transform"
-                name={ loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"}
+                name=
+                  <span className="font-size-text-adjust-base">
+                    {loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"}
+                  </span>
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'}>
-                <p className="font-bold">{loggedIn ? "Iniciaste sesión como" : "No iniciaste sesión"}</p>
-                <p className="font-bold text-primary">{loggedIn ? `@${username}` : "Iniciar sesión"}</p>
+                <p className="font-bold font-size-text-adjust-sm">{loggedIn ? "Iniciaste sesión como" : "No iniciaste sesión"}</p>
+                <p className="font-bold text-primary font-size-text-adjust-sm">{loggedIn ? `@${username}` : "Iniciar sesión"}</p>
               </DropdownItem>
               <DropdownItem key="settings">
-                <Link className='text-foreground' href='/config' size='sm'>
+                <Link className='text-foreground font-size-text-adjust-sm' href='/config' size='sm'>
                   Configuración
                 </Link>
               </DropdownItem>
               { loggedIn && (
                 <DropdownItem key="logout" color="danger" onPress={onOpen}>
-                  Cerrar sesión
+                  <p className='font-size-text-adjust-sm'>Cerrar sesión</p>
                 </DropdownItem>
               )}
             </DropdownMenu>
@@ -205,7 +210,7 @@ export const Header = () => {
           <NavbarMenuItem
             key={'logout-menu'}
           >
-            <Link className='my-1 hover:cursor-pointer' color='danger' aria-label='Cerrar sesión' onPress={onOpen} size='lg'>
+            <Link className='my-1 hover:cursor-pointer font-size-text-adjust-base' color='danger' aria-label='Cerrar sesión' onPress={onOpen} size='lg'>
               Cerrar sesión
             </Link>
           </NavbarMenuItem>

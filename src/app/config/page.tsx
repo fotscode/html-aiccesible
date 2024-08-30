@@ -208,7 +208,7 @@ export default function Config() {
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
                       {selectedTheme == 'light' ? 'Claro' : 'Oscuro'}
                     </Button>
                   </DropdownTrigger>
@@ -221,8 +221,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysTheme}
                   >
-                    <DropdownItem key='light'>Claro</DropdownItem>
-                    <DropdownItem key='dark'>Oscuro</DropdownItem>
+                    <DropdownItem key='light'><p className='font-size-text-adjust-base'>Claro</p></DropdownItem>
+                    <DropdownItem key='dark'><p className='font-size-text-adjust-base'>Oscuro</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -233,7 +233,7 @@ export default function Config() {
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
                       {selectedLanguage == 'es' ? 'Español' : 'Inglés'}
                     </Button>
                   </DropdownTrigger>
@@ -246,8 +246,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysLanguage}
                   >
-                    <DropdownItem key='es'>Español</DropdownItem>
-                    <DropdownItem key='eng'>Inglés</DropdownItem>
+                    <DropdownItem key='es'><p className='font-size-text-adjust-base'>Español</p></DropdownItem>
+                    <DropdownItem key='eng'><p className='font-size-text-adjust-base'>Inglés</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -258,7 +258,7 @@ export default function Config() {
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
                       {showLikes == 'likes-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
@@ -271,8 +271,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowLikes}
                   >
-                    <DropdownItem key='likes-yes'>Si</DropdownItem>
-                    <DropdownItem key='likes-no'>No</DropdownItem>
+                    <DropdownItem key='likes-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
+                    <DropdownItem key='likes-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -283,7 +283,7 @@ export default function Config() {
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] capitalize'>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
                       {showComments == 'comments-yes' ? 'Si' : 'No'}
                     </Button>
                   </DropdownTrigger>
@@ -296,8 +296,8 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowComments}
                   >
-                    <DropdownItem key='comments-yes'>Si</DropdownItem>
-                    <DropdownItem key='comments-no'>No</DropdownItem>
+                    <DropdownItem key='comments-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
+                    <DropdownItem key='comments-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -427,7 +427,7 @@ export default function Config() {
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
-            <Button className='button w-full' onPress={modalApply.onOpen}>Aplicar cambios</Button>
+            <Button className='button w-full font-size-text-adjust-sm' onPress={modalApply.onOpen}>Aplicar cambios</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalApply.isOpen} 
@@ -447,6 +447,7 @@ export default function Config() {
                     </ModalBody>
                     <ModalFooter>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="danger" 
                         variant="light" 
                         onPress={onClose}
@@ -454,6 +455,7 @@ export default function Config() {
                         Cancelar 
                       </Button>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="primary" 
                         onPress={() => {
                           console.log('Config updated');
@@ -469,7 +471,7 @@ export default function Config() {
                 )}
               </ModalContent>
             </Modal>
-            <Button className='w-full' onPress={modalReset.onOpen}>Restaurar</Button>
+            <Button className='w-full font-size-text-adjust-sm' onPress={modalReset.onOpen}>Restaurar</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalReset.isOpen} 
@@ -489,6 +491,7 @@ export default function Config() {
                     </ModalBody>
                     <ModalFooter>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="danger" 
                         variant="light" 
                         onPress={onClose}
@@ -496,6 +499,7 @@ export default function Config() {
                         Cancelar 
                       </Button>
                       <Button 
+                        className='font-size-text-adjust-sm'
                         color="primary" 
                         onPress={() => {
                           console.log('Config resetted.');
