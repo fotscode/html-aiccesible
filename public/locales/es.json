@@ -162,5 +162,20 @@
         "home": "Home",
         "community": "Comunidad",
         "settings": "Configuración"
+    },
+    "Importer": {
+        "error": "Error al leer la URL",
+        "unexpected_error": "Ha ocurrido un error desconocido al intentar leer la URL.",
+        "title": "Examinar página web",
+        "aria-label": "url del sitio web",
+        "label": "Sitio web",
+        "error_input": "Por favor, ingrese un enlace válido",
+        "get": "Obtener HTML",
+        "back": "Atrás",
+        "browse_error": "Ha ocurrido un error al intentar examinar la URL especificada."
+    },
+    "NonAccesibilizedEditor": {
+        "default": "Copia tu código aquí",
+        "loading": "Cargando..."
     }
 }

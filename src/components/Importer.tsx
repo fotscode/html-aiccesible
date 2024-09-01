@@ -5,11 +5,13 @@ import { roboto } from '@/app/fonts'
 import { useState } from 'react'
 import DOMPurify from 'dompurify';
 import { fetchHtml } from '@/utils/htmlFetcher'
+import { useTranslations } from 'next-intl'
 
 const Importer = () => {
   const router = useRouter()
   const [url, setUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const t = useTranslations('Importer');
 
   const validateUrl = (url: string) => ('https://' + url).match(/^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})([\/\w .-]*)*\/?$/);
 
@@ -29,9 +31,9 @@ const Importer = () => {
         router.push('/accesibility/editor');
       } catch (error) {
           if (error instanceof Error) {
-              setError('Error al leer la URL: ' + error.message);
+              setError(t('error') + error.message);
           } else {
-              setError('Ha ocurrido un error desconocido al intentar leer la URL.');
+              setError(t('unexpected_error'));
           }
       }
   };
@@ -43,21 +45,21 @@ const Importer = () => {
         <h2
           className={`${roboto.className} font-size-title-adjust-xl font-medium pb-3`}
         >
-          Examinar página web
+          {t('title')}
         </h2>
       </CardHeader>
 
       <CardBody className='flex flex-row justify-center py-5'>
         <Input
           type="url"
-          aria-label='url del sitio web'
-          label="Sitio web"
+          aria-label={t('aria-label')}
+          label={t('label')}
           placeholder="www.google.com"
           labelPlacement="outside"
           variant="bordered"
           isInvalid={isInvalidUrl}
           color={isInvalidUrl ? "danger" : "success"}
-          errorMessage="Por favor, ingrese un enlace válido"
+          errorMessage={t('error_input')}
           startContent={
             <div className="pointer-events-none flex items-center">
               <span className="text-default-500 font-size-text-adjust-sm">https://</span>
@@ -73,18 +75,18 @@ const Importer = () => {
           className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={fetchHTML}
         >
-          Obtener HTML
+          {t('get')}
         </Button>
         <Button
           className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
           onClick={() => {router.back()}}
         >
-          Atrás
+          {t('back')}
         </Button>
       </CardFooter>
       <section className='py-2 justify-center'>
         { error && (
-          <p className='text-danger'>Ha ocurrido un error al intentar examinar la URL especificada</p>
+          <p className='text-danger'>{t('browse_error')}</p>
         )}
       </section>
     </Card>
