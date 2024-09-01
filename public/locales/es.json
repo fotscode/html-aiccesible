@@ -1,4 +1,32 @@
 {
+    "RegisterPage": {
+        "title": "Registro de cuenta",
+        "subtitle": "Se solicitarán datos mínimos para poder publicar artículos a tu nombre",
+        "username": "Nombre de usuario:",
+        "password": "Contraseña",
+        "password_constraint": "La contraseña debe tener al menos ocho (8) caracteres",
+        "repeat_password": "Repetir contraseña",
+        "repeat_password_constraint": "La contraseña repetida no coincide con la primera",
+        "submit": "Registrar",
+        "link": {
+            "first": "¿Ya tenés una cuenta o no querés tener una?",
+            "second": "Iniciá sesión",
+            "third": "o",
+            "fourth": "ingresá como invitado"
+        },
+        "error": "Error:",
+        "password_error": "Las contraseñas no coinciden",
+        "server_error": "Error inesperado"
+    },
+    "RegisterSuccessPage": {
+        "title": "Registro de cuenta exitoso",
+        "subtitle": {
+            "first": "Ahora podés",
+            "second": "iniciar sesión",
+            "third": "utilizando tu nombre de usuario y contraseña."
+        },
+        "back": "Volver a la página principal"
+    },
     "LoginPage": {
         "username": "Nombre de usuario",
         "password": "Contraseña",
