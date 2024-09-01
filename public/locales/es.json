@@ -1,4 +1,65 @@
 {
+    "LoginPage": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "login": "Iniciar sesión",
+        "link": {
+            "first": "¿Todavía no tenés una cuenta o no querés tener una?",
+            "second": "Registrate",
+            "third": "o",
+            "fourth": "ingresá como invitado"
+        }
+    },
+    "AccesibilityPage": {
+        "title": "Accesibilizá tu código",
+        "subtitle": "Podés cargar el código HTML de múltiples maneras.",
+        "paste": {
+            "title": "Pegar código",
+            "description": "Ingrese el código HTML en una casilla de texto.",
+            "alt": "Botón para accesibilizar código ingresado manualmente"
+        },
+        "load_file": {
+            "title": "Cargar desde el equipo",
+            "description": "Seleccione el archivo desde su computadora.",
+            "alt": "Botón para accesibilizar código a partir de un archivo HTML"
+        },
+        "load_url": {
+            "title": "Examinar página web",
+            "description": "Seleccione la URL de la página web a analizar.",
+            "alt": "Botón para accesibilizar código a partir de una URL"
+        }
+    },
+    "EditorPage": {
+       "title": "Accesibilizador",
+       "subtitle": {
+           "first": "Verificá que el código cargado es el deseado y presioná el botón naranja para accesibilizarlo. Podés ",
+           "second": "elegir otra opción de carga",
+           "third": " del código HTML"
+       },
+       "selector": "Elegí el modelo de IA",
+       "selector-aria": "Selección del modelo",
+       "nonaccesibilized": {
+          "title": "Código a accesibilizar",
+          "button_clear": "Limpiar código",
+          "button_copy": "Copiar código no accesible"
+       },
+       "accesibilize": "AIccesibilizar",
+       "accesibilized": {
+          "title": "Resultado",
+          "button_copy": "Copiar código accesible"
+       },
+       "toast_success": "Código accesibilizado con éxito!",
+       "toast_error": "No se pudo accesibilizar tu código",
+       "toast_copy": "Copiado!"
+    },
+    "ImporterPage": {
+        "title": "Importar código HTML vía URL",
+        "subtitle": {
+            "first": "¿Querés usar otro método? Podés ",
+            "second": "elegir otra opción de carga",
+            "third": " del código HTML"
+        }
+    },
     "ConfigPage": {
         "title": "Configuración",
         "subtitle": "Toda la configuración del sistema en un mismo lugar.",

@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import PaginationDots from '@/components/PaginationDots'
 import '@/styles/buttonAnimated.css';
 import '@/styles/editorAnimated.css';
+import { useTranslations } from 'next-intl'
 
 export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
@@ -38,6 +39,8 @@ export default function CodeEditor() {
   const [models, setModels] = useState<{ key: string; label: string }[]>([]);
 
   const [selectedModel, setSelectedModel] = useState(new Set(['']));
+
+  const t = useTranslations('EditorPage');
 
 
   const beautifyHTML = (code: string): string => {
@@ -119,12 +122,12 @@ export default function CodeEditor() {
       }
 
       setAccesibilizeColor('success');
-      toast.success("Código accesibilizado con éxito!");
+      toast.success(t('toast_success'));
     } catch (error) {
       setIsAccesibilizePressed(true)
       setAccesibilizeColor('danger');
       console.error('Error sending code:', error)
-      toast.error("No se pudo accesibilizar tu código")
+      toast.error(t('toast_error'))
     }
 
     setIsAccesibilizing(false);
@@ -142,7 +145,7 @@ export default function CodeEditor() {
 
       await navigator.clipboard.writeText(textToCopy);
       console.log('Texto copiado en el portapapeles');
-      toast.info("Copiado!", {
+      toast.info(t('toast_copy'), {
         autoClose: 3000,
       });
     } catch (err) {
@@ -162,20 +165,19 @@ export default function CodeEditor() {
         <h1
           className={`${poppins.className} text-center font-size-title-adjust-4xl md:font-size-title-adjust-6xl font-medium`}
         >
-          Accesibilizador
+          {t('title')}
         </h1>
         <p className='text-center mx-3 mt-1 md:font-size-text-adjust-xl'>
-          Verificá que el código cargado es el deseado y presioná el botón
-          naranja para accesibilizarlo. Podés &nbsp;
+          {t('subtitle.first')} &nbsp; 
           <a href='/accesibility' className='link'>
-            elegir otra opción de carga
+            {t('subtitle.second')}
           </a>
-          &nbsp; del código HTML.
+          &nbsp; {t('subtitle.third')}
         </p>
 
         <div className='flex flex-col items-center justify-center w-full'>
           <h2 className={`${roboto.className} text-center font-size-title-adjust-base font-medium`}>
-            Elegí el modelo de IA
+            {t('selector')}
           </h2>
           <Dropdown>
             <DropdownTrigger>
@@ -187,7 +189,7 @@ export default function CodeEditor() {
               </Button>
             </DropdownTrigger>
             <DropdownMenu 
-              aria-label="Selección del modelo" 
+              aria-label={t('selector-aria')}
               variant="flat" 
               disallowEmptySelection 
               selectionMode="single" 
@@ -216,16 +218,16 @@ export default function CodeEditor() {
                   poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                 }
               >
-                Código a accesibilizar
+                {t('nonaccesibilized.title')}
               </h2>
 
               <div className='flex flex-row gap-1'>
                 {!isAccesibilizePressed && (
-                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label='Copiar código no accesible' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={t('nonaccesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -241,7 +243,7 @@ export default function CodeEditor() {
               spinner={<Spinner size='lg' color='default'/>} 
               //@ts-ignore
               color={accesibilizeColor}
-              aria-label="Accesibilizar" 
+              aria-label={t('accesibilize')}
               radius="full" 
               isLoading={isAccesibilizing}
               isDisabled={code == ''} 
@@ -249,7 +251,7 @@ export default function CodeEditor() {
             >
               <FaWandMagicSparkles className='text-primary-foreground w-1/2 h-1/2'/> 
             </Button>    
-            <p className='mt-1'>AIccesibilizar</p>
+            <p className='mt-1'>{t('accesibilize')}</p>
           </div> 
 
           <Card className='h-full w-full hidden xl:flex xl:flex-col'>
@@ -260,11 +262,11 @@ export default function CodeEditor() {
                   poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                 }
               >
-                Resultado
+                {t('accesibilized.title')}
               </h2>
 
               <div className='flex flex-row gap-1'>
-                <Button isIconOnly aria-label='Copiar código accesible' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -282,7 +284,7 @@ export default function CodeEditor() {
                       poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                     }
                   >
-                    Código a accesibilizar
+                    {t('nonaccesibilized.title')}
                   </h2>
                 ) : (
                   <h2
@@ -291,17 +293,17 @@ export default function CodeEditor() {
                       poppins.className + 'font-size-title-adjust-xl md:font-size-title-adjust-2xl font-semibold'
                     }
                   >
-                    Resultado
+                    {t('accesibilized.title')}
                   </h2>
                 )
               )}
               <div className='flex flex-row gap-1'>
                 {currentPage == 0 && (
-                  <Button isIconOnly aria-label='Limpiar código' variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label={`Copiar código ${currentPage == 0 ? 'no accesible' : 'accesible'}`} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={currentPage == 0 ? t('nonaccesibilized.button_copy') : t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -323,12 +325,12 @@ export default function CodeEditor() {
                 className={`button button-animated sm:px-5 mx-1 font-size-text-adjust-base sm:font-size-text-adjust-xl font-medium ${currentPage === 0 ? 'animate' : ''}`}                
                 //@ts-ignore
                 color={accesibilizeColor}
-                aria-label="Accesibilizar" 
+                aria-label={t('accesibilize')}
                 onPress={accesibilize}
                 endContent={<FaWandMagicSparkles className='text-primary-foreground'/>}
                 isDisabled={code === ''} 
               >
-                AIccesibilizar
+                {t('accesibilize')}
               </Button>
             )}
             {isAccesibilizePressed && ! isAccesibilizing && (
