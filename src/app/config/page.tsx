@@ -12,7 +12,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
@@ -26,6 +25,7 @@ import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
@@ -69,6 +69,8 @@ export default function Config() {
 
   const modalReset = useDisclosure();
   const modalApply = useDisclosure();
+
+  const t = useTranslations('ConfigPage');
 
   const applyConfig = (config: Config) => {
 
@@ -186,6 +188,7 @@ export default function Config() {
     <>
       <Header />
       <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-text-adjust'>
+        <h1>{ t('test') }</h1>
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
             <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
@@ -247,7 +250,7 @@ export default function Config() {
                     onSelectionChange={setSelectedKeysLanguage}
                   >
                     <DropdownItem key='es'><p className='font-size-text-adjust-base'>Español</p></DropdownItem>
-                    <DropdownItem key='eng'><p className='font-size-text-adjust-base'>Inglés</p></DropdownItem>
+                    <DropdownItem key='en'><p className='font-size-text-adjust-base'>Inglés</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>

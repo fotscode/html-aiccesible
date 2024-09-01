@@ -13,6 +13,7 @@ import {
 } from '@nextui-org/react'
 import { loginUser } from '@/utils/ApiUser';
 import { ConfigContext } from '../context/ConfigProvider'
+import { setUserLocale } from '@/services/locale'
 
 export default function LogIn() {
   const router = useRouter()
@@ -30,7 +31,8 @@ export default function LogIn() {
       const savedUsername = username;
       const response = await loginUser(username, password);
       sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('username', savedUsername)
+      sessionStorage.setItem('username', savedUsername);
+      setUserLocale(null); // clear cookies
       const returnUrl = searchParams.get('returnUrl') || '/accesibility';
       router.push(returnUrl);
       setChangesConfig(changesConfig + 1);

@@ -3,6 +3,8 @@ import { useTheme } from 'next-themes';
 import React, { createContext, useEffect, useState } from 'react';
 import { getConfig } from "@/utils/ApiConfig";
 import { isLoggedIn, getToken } from "@/utils/auth";
+import { defaultLocale } from '@/i18n/config';
+import { setUserLocale } from '@/services/locale';
 
 const defaultConfigContext: ConfigContext = {
     changesConfig: 0, 
@@ -13,7 +15,7 @@ export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
 
 export const defaultConfigKeys = {
     theme: 'light',
-    language: 'es',
+    language: defaultLocale as string,
     show_likes: 'likes-yes',
     show_comments: 'comments-yes',
     text_size: 1.0, 
@@ -60,8 +62,9 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
         setTheme(data.theme);
         document.documentElement.style.setProperty('--text-scaler', `${data.size_text}`);
         document.documentElement.style.setProperty('--title-scaler', `${data.size_title}`);
+        setUserLocale(data.language);
 
-        //TODO apply changes for lang, likes and comments
+        //TODO apply changes for likes and comments
     }
 
 

@@ -24,10 +24,10 @@ import {
 
 import { useState, useEffect, useContext } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { MdLogout } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { isLoggedIn } from '@/utils/auth';
 import { ConfigContext } from '@/app/context/ConfigProvider';
+import { setUserLocale } from '@/services/locale';
 
 
 export const Header = () => {
@@ -67,6 +67,7 @@ export const Header = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
+    setUserLocale(null); // clear cookies
     console.log('User logged out');
     router.replace('/');
     setChangesConfig(changesConfig + 1);
