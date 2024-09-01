@@ -1,4 +1,13 @@
 {
+    "HomePage": {
+        "subtitle": "Es una herramienta de inteligencia artificial que convierte automáticamente contenido HTML en formatos accesibles, siguiendo las pautas de accesibilidad web (WCAG).",
+        "login": "Iniciar sesión",
+        "guest": "Entrar como invitado",
+        "link": {
+            "first": "¿No tenés una cuenta?",
+            "second": "Registrate"
+        }
+    },
     "RegisterPage": {
         "title": "Registro de cuenta",
         "subtitle": "Se solicitarán datos mínimos para poder publicar artículos a tu nombre",
@@ -131,5 +140,27 @@
             "cancel": "Cancelar",
             "continue": "continuar"
         }
+    },
+    "AccesibilizedEditor": {
+        "default": "Código accesibilizado",
+        "loading": "Cargando..."
+    },
+    "Header": {
+        "logout": {
+            "title": "Cerrar sesión",
+            "header": "Confirmar cierre de sesión",
+            "body": "¿Está segurx de que desea cerrar sesión?",
+            "no": "No",
+            "yes": "Si"
+        },
+        "user": {
+            "guest": "Invitado",
+            "logged_as": "Iniciaste sesión como",
+            "not_logged_as": "No iniciaste sesión",
+            "login": "Iniciar sesión"
+        },
+        "home": "Home",
+        "community": "Comunidad",
+        "settings": "Configuración"
     }
 }
