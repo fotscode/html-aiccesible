@@ -1,5 +1,46 @@
 {
     "ConfigPage": {
-        "test": "HOLA"
+        "title": "Configuración",
+        "subtitle": "Toda la configuración del sistema en un mismo lugar.",
+        "theme": {
+            "label": "Tema del sitio:",
+            "light": "Claro",
+            "dark": "Oscuro"
+        },
+        "language": {
+            "label": "Idioma:",
+            "es": "Español",
+            "en": "Inglés"
+        },
+        "likes": {
+            "label": "Mostrar likes:",
+            "yes": "Si",
+            "no": "No"
+        },
+        "comments": {
+            "label": "Mostrar comentarios:",
+            "yes": "Si",
+            "no": "No"
+        },
+        "titles": {
+            "label": "Tamaño de títulos"
+        },
+        "texts": {
+            "label": "Tamaño de textos"
+        },
+        "apply": {
+            "button": "Aplicar cambios",
+            "header": "Confirmar cambios",
+            "body": "¿Desea aplicar los cambios en la configuración?",
+            "cancel": "Cancelar",
+            "apply": "Aplicar"
+        },
+        "restore": {
+            "button": "Restaurar",
+            "header": "Restaurar configuración",
+            "body": "¿Desea volver a la configuración por defecto?",
+            "cancel": "Cancelar",
+            "continue": "continuar"
+        }
     }
 }
