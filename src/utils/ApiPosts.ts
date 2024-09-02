@@ -36,25 +36,32 @@ export async function addPost(token: string, post: Post) {
     return response.json(); 
 }
 
-export async function accesibilizeCode(model: string, code: string) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/models/accesibilize`, {
-        method: 'POST',
+export async function likePost(token: string, id: number) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/post/like/${id}`, {
+        method: 'PATCH',
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
-            model: model, 
-            prompt: code
-        }),
     });
 
     if (!response.ok) {
-        throw new Error('Error fetching data from server');
+        throw new Error('Error occured during post like');
     }
 
     if (!response.body) {
         throw new Error('Response body is null');
     }
 
-    return response.body; 
+    return response.json(); 
+}
+
+export async function getPost(id: number) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/post/get/${id}`);
+
+    if (!response.ok) {
+        throw new Error(`Failed to get Post. Status code ${response.status}`);
+    }
+
+    return response.json();
 }

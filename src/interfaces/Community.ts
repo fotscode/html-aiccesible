@@ -1,8 +1,9 @@
 export interface Post {
+  ID: number
   title: string
   before: string
   after: string
-  likes: number
+  likes: User[]
   description: string
   comments: Comment[]
 }
@@ -14,4 +15,9 @@ export interface Comment {
   content: string
   avatar: string
   comments: Comment[]
+}
+
+export interface User {
+  ID: number
+  username: string
 }
