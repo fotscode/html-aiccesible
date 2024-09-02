@@ -1,4 +1,185 @@
 {
+    "HomePage": {
+        "subtitle": "It is an artificial intelligence tool that automatically converts HTML content into accessible formats, following web accessibility guidelines (WCAG).",
+        "login": "Log in",
+        "guest": "Enter as a guest",
+        "link": {
+            "first": "Don't have an account?",
+            "second": "Sign up"
+        }
+    },
+    "RegisterPage": {
+        "title": "Account Registration",
+        "subtitle": "Minimum data will be requested to publish articles in your name",
+        "username": "Username:",
+        "password": "Password",
+        "password_constraint": "The password must be at least eight (8) characters long",
+        "repeat_password": "Repeat password",
+        "repeat_password_constraint": "The repeated password does not match the first",
+        "submit": "Register",
+        "link": {
+            "first": "Already have an account or don't want one?",
+            "second": "Log in",
+            "third": "or",
+            "fourth": "enter as a guest"
+        },
+        "error": "Error:",
+        "password_error": "Passwords do not match",
+        "server_error": "Unexpected error"
+    },
+    "RegisterSuccessPage": {
+        "title": "Account Registration Successful",
+        "subtitle": {
+            "first": "You can now",
+            "second": "log in",
+            "third": "using your username and password."
+        },
+        "back": "Return to the main page"
+    },
+    "LoginPage": {
+        "username": "Username",
+        "password": "Password",
+        "login": "Log in",
+        "link": {
+            "first": "Still don't have an account or don't want one?",
+            "second": "Sign up",
+            "third": "or",
+            "fourth": "enter as a guest"
+        }
+    },
+    "AccesibilityPage": {
+        "title": "Make your code accessible",
+        "subtitle": "You can upload HTML code in multiple ways.",
+        "paste": {
+            "title": "Paste code",
+            "description": "Enter the HTML code in a text box.",
+            "alt": "Button to make manually entered code accessible"
+        },
+        "load_file": {
+            "title": "Upload from computer",
+            "description": "Select the file from your computer.",
+            "alt": "Button to make code accessible from an HTML file"
+        },
+        "load_url": {
+            "title": "Browse webpage",
+            "description": "Select the URL of the webpage to analyze.",
+            "alt": "Button to make code accessible from a URL"
+        }
+    },
+    "EditorPage": {
+       "title": "Accessibility Tool",
+       "subtitle": {
+           "first": "Verify that the loaded code is as desired and press the orange button to make it accessible. You can ",
+           "second": "choose another loading option",
+           "third": " for the HTML code"
+       },
+       "selector": "Choose the AI model",
+       "selector-aria": "Model selection",
+       "nonaccesibilized": {
+          "title": "Code to be made accessible",
+          "button_clear": "Clear code",
+          "button_copy": "Copy non-accessible code"
+       },
+       "accesibilize": "Make accessible",
+       "accesibilized": {
+          "title": "Result",
+          "button_copy": "Copy accessible code"
+       },
+       "toast_success": "Code made accessible successfully!",
+       "toast_error": "Could not make your code accessible",
+       "toast_copy": "Copied!"
+    },
+    "ImporterPage": {
+        "title": "Import HTML code via URL",
+        "subtitle": {
+            "first": "Want to use another method? You can ",
+            "second": "choose another loading option",
+            "third": " for the HTML code"
+        }
+    },
     "ConfigPage": {
+        "title": "Settings",
+        "subtitle": "All system settings in one place.",
+        "theme": {
+            "label": "Site theme:",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "language": {
+            "label": "Language:",
+            "es": "Spanish",
+            "en": "English"
+        },
+        "likes": {
+            "label": "Show likes:",
+            "yes": "Yes",
+            "no": "No"
+        },
+        "comments": {
+            "label": "Show comments:",
+            "yes": "Yes",
+            "no": "No"
+        },
+        "titles": {
+            "label": "Title size"
+        },
+        "texts": {
+            "label": "Text size"
+        },
+        "apply": {
+            "button": "Apply changes",
+            "header": "Confirm changes",
+            "body": "Do you want to apply the changes in the settings?",
+            "cancel": "Cancel",
+            "apply": "Apply",
+            "toast_success": "Changes have been saved successfully",
+            "toast_error": "Changes could not be saved due to an error"
+        },
+        "restore": {
+            "button": "Restore",
+            "header": "Restore settings",
+            "body": "Do you want to revert to the default settings?",
+            "cancel": "Cancel",
+            "continue": "Continue",
+            "toast_success": "Settings have been restored successfully",
+            "toast_error": "Settings could not be restored due to an error"
+        }
+    },
+    "AccesibilizedEditor": {
+        "default": "Accessible code",
+        "loading": "Loading..."
+    },
+    "Header": {
+        "logout": {
+            "title": "Log out",
+            "header": "Confirm log out",
+            "body": "Are you sure you want to log out?",
+            "no": "No",
+            "yes": "Yes"
+        },
+        "user": {
+            "guest": "Guest",
+            "logged_as": "Logged in as",
+            "not_logged_as": "Not logged in",
+            "login": "Log in"
+        },
+        "home": "Home",
+        "community": "Community",
+        "settings": "Settings"
+    },
+    "Importer": {
+        "error": "Error reading the URL",
+        "unexpected_error": "An unknown error occurred while trying to read the URL.",
+        "title": "Browse webpage",
+        "aria-label": "website URL",
+        "label": "Website",
+        "error_input": "Please enter a valid link",
+        "get": "Get HTML",
+        "back": "Back",
+        "browse_error": "An error occurred while trying to browse the specified URL."
+    },
+    "NonAccesibilizedEditor": {
+        "default": "Paste your code here",
+        "loading": "Loading..."
     }
 }

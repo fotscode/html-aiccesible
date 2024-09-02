@@ -131,14 +131,18 @@
             "header": "Confirmar cambios",
             "body": "¿Desea aplicar los cambios en la configuración?",
             "cancel": "Cancelar",
-            "apply": "Aplicar"
+            "apply": "Aplicar",
+            "toast_success": "Los cambios se han guardado con éxito",
+            "toast_error": "No se han podido guardar los cambios debido a un error"
         },
         "restore": {
             "button": "Restaurar",
             "header": "Restaurar configuración",
             "body": "¿Desea volver a la configuración por defecto?",
             "cancel": "Cancelar",
-            "continue": "continuar"
+            "continue": "Continuar",
+            "toast_success": "La configuración ha sido restaurada con éxito",
+            "toast_error": "No se ha podido restaurar la configuración debido a un error"
         }
     },
     "AccesibilizedEditor": {

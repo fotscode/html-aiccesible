@@ -144,11 +144,11 @@ export default function Config() {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
       setChangesConfig(changesConfig + 1);
-      toast.success('Los cambios se han guardado con éxito');
+      toast.success(t('apply.toast_success'));
 
     } catch (error: any) {
       console.error(error.message);
-      toast.error('No se han podido guardar los cambios debido a un error');
+      toast.error(t('apply.toast_error'));
     }
   };
 
@@ -170,14 +170,14 @@ export default function Config() {
     if (isLoggedIn()) {
       try{
         updateConfig(getToken(), defaultConfig);
-        toast.success('La configuración ha sido restaurada con éxito')
+        toast.success(t('restore.toast_success'))
       } catch (error: any) {
         console.error(error.message);
-        toast.error('No se ha podido restaurar la configuración debido a un error');
+        toast.error(t('restore.toast_error'));
       }
     } else {
       localStorage.removeItem('config');
-      toast.success('La configuración ha sido restaurada con éxito')
+      toast.success(t('restore.toast_success'))
     }
     setChangesConfig(changesConfig + 1);
 
