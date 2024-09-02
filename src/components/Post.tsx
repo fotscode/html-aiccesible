@@ -37,7 +37,8 @@ function format(html) {
   return result.substring(1, result.length - 3)
 }
 
-export default function PostCard(props: PostProps) {
+
+export default function OpenPostCard(props: PostProps) {
   const { post, incrementLikes, position } = props
   return (
     <article
