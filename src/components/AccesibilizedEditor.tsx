@@ -1,6 +1,7 @@
 import React from 'react'
 import Editor from '@monaco-editor/react'
 import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl';
 
 interface EditorProps {
     code: string,
@@ -13,6 +14,7 @@ const AccesibilizedEditor: React.FC<EditorProps> = ({
 }) => {
 
   const {theme} = useTheme()
+  const t = useTranslations('AccesibilizedEditor')
 
 
   return (
@@ -20,11 +22,11 @@ const AccesibilizedEditor: React.FC<EditorProps> = ({
       className='border border-default py-0.5 rounded-b'
       theme={theme == 'light' ? 'light' : 'vs-dark'} 
       defaultLanguage='html'
-      defaultValue='<!-- Código accesibilizado -->'
+      defaultValue={`<!-- ${t('default')} -->`}
       value={code}
       options={{ readOnly: true }}
       aria-describedBy={label}
-      loading='Cargando...'
+      loading={t('loading')}
     />
   )
 };

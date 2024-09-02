@@ -6,10 +6,13 @@ import {
   Button,
 } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 export default function RegisterSuccess() {
 
   const router = useRouter();
+
+  const t = useTranslations('RegisterSuccessPage');
 
   return (
     <>
@@ -17,21 +20,21 @@ export default function RegisterSuccess() {
         <h1
           className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
-          Registro de cuenta exitoso
+          {t('title')}
         </h1>
         <p className='mx-3 mt-3 text-center md:font-size-text-adjust-xl xl:mb-12'>
-          Ahora podés 
+          {t('subtitle.first')}
           &nbsp;
           <a href='/' className='link'>
-            iniciar sesión 
+            {t('subtitle.second')}
           </a>
-          &nbsp; utilizando tu nombre de usuario y contraseña.
+          &nbsp; {t('subtitle.third')}
         </p>
         <Button
           className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
           onClick={() => {router.push('/')}}
         >
-          Volver a la página principal
+          {t('back')}
         </Button>
       </main>
     </>

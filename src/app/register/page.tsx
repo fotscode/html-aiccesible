@@ -10,6 +10,7 @@ import {
   Input,
 } from '@nextui-org/react'
 import { addUser } from '@/utils/ApiUser';
+import { useTranslations } from 'next-intl'
 
 export default function Register() {
   const router = useRouter()
@@ -17,6 +18,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [error, setError] = useState('');
+  const t = useTranslations('RegisterPage');
 
 
   const isInvalidPassword = React.useMemo(() => {
@@ -38,7 +40,7 @@ export default function Register() {
     setError('');
 
     if (password !== repeatedPassword) {
-      setError('Las contraseñas no coinciden.');
+      setError(t('password_error'));
     } else {
       addUser(username, password)
         .then(response => {
@@ -46,13 +48,13 @@ export default function Register() {
             router.push('/register/success');
           } else if (response.code === 400) {
               return response.json().then((errorResponse: any) => {
-                  setError(`Fallo: ${errorResponse.message}`);
+                  setError(`${t('error')}: ${errorResponse.message}`);
               });
           } else {
-              setError('Error inesperado');
+              setError(t('server_error'));
           }
       })
-      .catch(err => setError(`Error: ${err.message}`));
+      .catch(err => setError(`${t('error')}: ${err.message}`));
     }
   };
 
@@ -62,22 +64,22 @@ export default function Register() {
         <h1
           className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
-          Registro de cuenta 
+          {t('title')}
         </h1>
         <p className='mx-3 mt-3 text-center md:font-size-text-adjust-xl xl:mb-12'>
-          Se solicitarán datos mínimos para poder publicar artículos a tu nombre.
+          {t('subtitle')}
         </p>
         <Card className='w-full md:w-3/4 2xl:w-1/2 p-5'>
           <CardBody className='px-1 sm:px-4'>
             <form id='register-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
                 <p id='username' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
-                  Nombre de usuario:
+                  {t('username')}
                 </p>
                 <Input
                   type='text'
                   placeholder='Accesibilizador01'
-                  aria-label='Nombre de usuario'
+                  aria-label={t('username')}
                   className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
                   labelPlacement='outside'
                   variant="bordered"
@@ -89,18 +91,18 @@ export default function Register() {
 
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
                 <p id='password' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
-                  Contraseña:
+                  {t('password')}
                 </p>
                 <Input
                   type='password'
                   placeholder='Bananas1'
-                  aria-label='Contraseña'
+                  aria-label={t('password')}
                   className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
                   labelPlacement='outside'
                   variant="bordered"
                   isInvalid={isInvalidPassword}
                   color={isInvalidPassword ? "danger" : "success"}
-                  errorMessage="La contraseña debe tener al menos 8 caracteres"
+                  errorMessage={t('password_constraint')}
                   aria-describedby='password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -109,18 +111,18 @@ export default function Register() {
 
               <div className='flex flex-col md:flex-row items-center justify-between gap-2 py-2'>
                 <p id='repeatedPassword' className={`${roboto.className} font-size-text-adjust-sm md:font-size-text-adjust-lg font-medium`}>
-                  Repetir contraseña:
+                  {t('repeat_password')}
                 </p>
                 <Input
                   type='password'
                   placeholder='Bananas1'
-                  aria-label='Repetir contraseña'
+                  aria-label={t('repeat_password')}
                   className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
                   labelPlacement='outside'
                   variant="bordered"
                   isInvalid={isInvalidRepeatedPassword}
                   color={isInvalidRepeatedPassword ? "danger" : "success"}
-                  errorMessage="La contraseña repetida no coincide con la primera"
+                  errorMessage={t('repeat_password_constraint')}
                   aria-describedby='repeatedPassword'
                   value={repeatedPassword}
                   onChange={(e) => setRepeatedPassword(e.target.value)}
@@ -136,17 +138,17 @@ export default function Register() {
             className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
             type="submit"
           >
-            Registrar
+            {t('submit')}
           </Button>
           <p className='text-center mx-3 mt-2'>
-            ¿Ya tenés una cuenta o no querés tener una? 
+            {t('link.first')}
             &nbsp;
             <a href='/login' className='link'>
-              Iniciá sesión 
+              {t('link.second')}
             </a>
-            &nbsp; o &nbsp;
+            &nbsp; {t('link.third')} &nbsp;
             <a href='/accesibility' className='link'>
-              ingresá como invitado
+              {t('link.fourth')}
             </a>
             .
           </p>

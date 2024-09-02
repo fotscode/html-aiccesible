@@ -4,8 +4,11 @@ import { Header } from '@/components/Header'
 import Importer from '@/components/Importer'
 import { poppins } from '../../fonts'
 import React from 'react'
+import { useTranslations } from 'next-intl'
 
 export default function ImporterPage() {
+
+  const t = useTranslations('ImporterPage')
 
   return (
     <>
@@ -14,15 +17,15 @@ export default function ImporterPage() {
         <h1
           className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
-          Importar código HTML vía URL
+          {t('title')}
         </h1>
         <p className='mx-3 mt-1 text-center md:font-size-text-adjust-xl xl:mb-12'>
-          Querés usar otro método?
-          Podés &nbsp;
+          {t('subtitle.first')}
+          &nbsp;
           <a href='/accesibility' className='link'>
-           elegir otra opción de carga 
+            {t('subtitle.second')}
           </a>
-          &nbsp; del código HTML.
+          &nbsp; {t('subtitle.third')}
         </p>
         <Importer/>
       </main>

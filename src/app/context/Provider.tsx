@@ -1,7 +1,7 @@
 "use client"
 
-import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
+import { ThemeProvider } from "next-themes";
 import ConfigProvider from "./ConfigProvider";
 import ToastProvider from "./ToastProvider";
 

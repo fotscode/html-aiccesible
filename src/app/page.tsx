@@ -2,9 +2,12 @@ import { Button } from '@nextui-org/react'
 import { poppins } from './fonts'
 import Link from 'next/link'
 import RouteGuard from '@/components/RouteGuard'
+import { useTranslations } from 'next-intl'
 
 
 export default function Home() {
+
+  const t = useTranslations('HomePage');
 
   return (
     <RouteGuard>
@@ -15,9 +18,7 @@ export default function Home() {
           HTML <span className='text-primary'>AI</span>ccesible
         </h1>
         <p className='text-center md:font-size-text-adjust-xl  xl:my-12'>
-          Es una herramienta de inteligencia artificial que convierte
-          automáticamente contenido HTML en formatos accesibles, siguiendo las
-          pautas de accesibilidad web (WCAG).
+          {t('subtitle')}
         </p>
 
         <section className='flex flex-col'>
@@ -27,7 +28,7 @@ export default function Home() {
               as={Link}
               href='/login'
             >
-              Iniciar sesión 
+              {t('login')}
             </Button>
 
             <Button
@@ -35,14 +36,14 @@ export default function Home() {
               as={Link}
               href='/accesibility'
             >
-              Entrar como invitado
+              {t('guest')}
             </Button>
           </div>
           <p className='text-left mx-3 mt-2 md:text-center md:font-size-text-adjust-xl'>
-            ¿No tenés una cuenta? 
+            {t('link.first')}
             &nbsp;
             <a href='/register' className='link'>
-              Registrate
+              {t('link.second')}
             </a>
             .
           </p>

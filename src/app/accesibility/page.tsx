@@ -9,9 +9,12 @@ import Link from 'next/link'
 import { BiSolidFileHtml } from "react-icons/bi";
 import { MdOpenInBrowser } from "react-icons/md";
 import { FiLink } from "react-icons/fi";
+import { useTranslations } from 'next-intl'
 
 export default function Accesibility() {
   const router = useRouter()
+
+  const t = useTranslations('AccesibilityPage');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -34,18 +37,18 @@ export default function Accesibility() {
         <h1
           className={`${poppins.className} text-center font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium`}
         >
-          Accesibilizá tu código
+          { t('title') }
         </h1>
         <p className='text-left mx-3 mt-1 md:text-center md:font-size-text-adjust-xl xl:mb-12'>
-          Podés cargar el código HTML de múltiples maneras.
+          { t('subtitle') }
         </p>
         <section className='flex flex-col md:flex-row'>
           <Link href='/accesibility/editor' passHref>
             <OptionCard
-              title='Pegar código'
-              description='Ingrese el código HTML en una casilla de texto.'
+              title={t('paste.title')}
+              description={t('paste.description')}
               Icon={BiSolidFileHtml}
-              alt='Botón para accesibilizar código ingresado manualmente'
+              alt={t('paste.alt')}
             />
           </Link>
 
@@ -58,19 +61,19 @@ export default function Accesibility() {
           />
           <label tabIndex={0} htmlFor="fileInput"> 
             <OptionCard
-              title='Cargar desde el equipo'
-              description='Seleccione el archivo desde su computadora.'
+              title={t('load_file.title')}
+              description={t('load_file.description')}
               Icon={MdOpenInBrowser}
-              alt='Botón para accesibilizar código a partir de un archivo HTML'
+              alt={t('load_file.alt')}
             />
           </label>
 
           <Link href='/accesibility/importer' passHref>
             <OptionCard
-              title='Examinar página web'
-              description='Seleccione la URL de la página web a analizar.'
+              title={t('load_url.title')}
+              description={t('load_url.description')}
               Icon={FiLink}
-              alt='Botón para accesibilizar código a partir de una URL'
+              alt={t('load_url.alt')}
             />
           </Link>
         </section>

@@ -12,7 +12,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
@@ -26,6 +25,7 @@ import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
@@ -69,6 +69,8 @@ export default function Config() {
 
   const modalReset = useDisclosure();
   const modalApply = useDisclosure();
+
+  const t = useTranslations('ConfigPage');
 
   const applyConfig = (config: Config) => {
 
@@ -142,11 +144,11 @@ export default function Config() {
         localStorage.setItem('config', JSON.stringify(newConfig));
       }
       setChangesConfig(changesConfig + 1);
-      toast.success('Los cambios se han guardado con éxito');
+      toast.success(t('apply.toast_success'));
 
     } catch (error: any) {
       console.error(error.message);
-      toast.error('No se han podido guardar los cambios debido a un error');
+      toast.error(t('apply.toast_error'));
     }
   };
 
@@ -168,14 +170,14 @@ export default function Config() {
     if (isLoggedIn()) {
       try{
         updateConfig(getToken(), defaultConfig);
-        toast.success('La configuración ha sido restaurada con éxito')
+        toast.success(t('restore.toast_success'))
       } catch (error: any) {
         console.error(error.message);
-        toast.error('No se ha podido restaurar la configuración debido a un error');
+        toast.error(t('restore.toast_error'));
       }
     } else {
       localStorage.removeItem('config');
-      toast.success('La configuración ha sido restaurada con éxito')
+      toast.success(t('restore.toast_success'))
     }
     setChangesConfig(changesConfig + 1);
 
@@ -189,10 +191,10 @@ export default function Config() {
         <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
             <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
-              Configuración
+              { t('title') }
             </h1>
             <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
-              Toda la configuración del sistema en un mismo lugar.
+              { t('subtitle') }
             </p>
           </CardHeader>
           {loading ? (
@@ -204,12 +206,12 @@ export default function Config() {
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
-                  Tema del sitio:
+                  { t('theme.label') }
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {selectedTheme == 'light' ? 'Claro' : 'Oscuro'}
+                      {selectedTheme == 'light' ? t('theme.light') : t('theme.dark')}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -221,20 +223,20 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysTheme}
                   >
-                    <DropdownItem key='light'><p className='font-size-text-adjust-base'>Claro</p></DropdownItem>
-                    <DropdownItem key='dark'><p className='font-size-text-adjust-base'>Oscuro</p></DropdownItem>
+                    <DropdownItem key='light'><p className='font-size-text-adjust-base'>{t('theme.light')}</p></DropdownItem>
+                    <DropdownItem key='dark'><p className='font-size-text-adjust-base'>{t('theme.dark')}</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
-                  Idioma:
+                  { t('language.label') }
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {selectedLanguage == 'es' ? 'Español' : 'Inglés'}
+                      {selectedLanguage == 'es' ? t('language.es') : t('language.en')}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -246,24 +248,24 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelectedKeysLanguage}
                   >
-                    <DropdownItem key='es'><p className='font-size-text-adjust-base'>Español</p></DropdownItem>
-                    <DropdownItem key='eng'><p className='font-size-text-adjust-base'>Inglés</p></DropdownItem>
+                    <DropdownItem key='es'><p className='font-size-text-adjust-base'>{t('language.es')}</p></DropdownItem>
+                    <DropdownItem key='en'><p className='font-size-text-adjust-base'>{t('language.en')}</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
-                  Mostrar likes:
+                  { t('likes.label') }
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {showLikes == 'likes-yes' ? 'Si' : 'No'}
+                      {showLikes == 'likes-yes' ? t('likes.yes') : t('likes.no')}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label='Mostrar likes'
+                    aria-label={t('likes.label')}
                     variant='flat'
                     disallowEmptySelection
                     selectionMode='single'
@@ -271,24 +273,24 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowLikes}
                   >
-                    <DropdownItem key='likes-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
-                    <DropdownItem key='likes-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
+                    <DropdownItem key='likes-yes'><p className='font-size-text-adjust-base'>{t('likes.yes')}</p></DropdownItem>
+                    <DropdownItem key='likes-no'><p className='font-size-text-adjust-base'>{t('likes.no')}</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
-                  Mostrar comentarios:
+                  { t('comments.label') }
                 </p>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {showComments == 'comments-yes' ? 'Si' : 'No'}
+                      {showComments == 'comments-yes' ? t('comments.yes') : t('comments.no')}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label='Mostrar comentarios'
+                    aria-label={t('comments.label')}
                     variant='flat'
                     disallowEmptySelection
                     selectionMode='single'
@@ -296,15 +298,15 @@ export default function Config() {
                     //@ts-ignore
                     onSelectionChange={setSelKeysShowComments}
                   >
-                    <DropdownItem key='comments-yes'><p className='font-size-text-adjust-base'>Si</p></DropdownItem>
-                    <DropdownItem key='comments-no'><p className='font-size-text-adjust-base'>No</p></DropdownItem>
+                    <DropdownItem key='comments-yes'><p className='font-size-text-adjust-base'>{t('comments.yes')}</p></DropdownItem>
+                    <DropdownItem key='comments-no'><p className='font-size-text-adjust-base'>{t('comments.no')}</p></DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <Slider 
-                  label="Tamaño de títulos" 
+                  label={t('titles.label')}
                   aria-labelledby='slider-titles'
                   hideValue 
                   showTooltip={true}
@@ -335,13 +337,13 @@ export default function Config() {
                   //@ts-ignore
                   onChange={(value) => setSizeTitles(value)}
                   className="w-full"
-                  renderLabel={() => <p id='slider-titles' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de títulos:</p>}
+                  renderLabel={() => <p id='slider-titles' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>{t('titles.label')}</p>}
                 />
               </div>
               <Divider/>
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <Slider 
-                  label="Tamaño de textos" 
+                  label={t('texts.label')}
                   aria-labelledby='slider-texts'
                   hideValue
                   showTooltip={true}
@@ -372,62 +374,14 @@ export default function Config() {
                   //@ts-ignore
                   onChange={(value) => setSizeText(value)}
                   className="w-full"
-                  renderLabel={() => <p id='slider-texts' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>Tamaño de textos:</p>}
+                  renderLabel={() => <p id='slider-texts' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>{t('texts.label')}</p>}
                 />
               </div>
-              {/*
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p
-                  id='titleSize'
-                  className={`${roboto.className} text-lg font-medium`}
-                >
-                  Tamaño de títulos (en píxeles):
-                </p>
-                <Input
-                  type='number'
-                  placeholder='30'
-                  value={sizeTitles}
-                  onChange={(e) => setSizeTitles(e.target.value)}
-                  aria-label='Tamaño de títulos (en píxeles)'
-                  className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
-                  labelPlacement='outside'
-                  aria-describedby='titleSize'
-                  endContent={
-                    <div className='pointer-events-none flex items-center'>
-                      <span className='text-small'>px</span>
-                    </div>
-                  }
-                />
-              </div>
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p
-                  id='textSize'
-                  className={`${roboto.className} text-lg font-medium`}
-                >
-                  Tamaño de textos (en píxeles):
-                </p>
-                <Input
-                  aria-label={'Tamaño de textos (en píxeles)'}
-                  type='number'
-                  value={sizeText}
-                  onChange={(e) => setSizeText(e.target.value)}
-                  placeholder='20'
-                  className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px]'
-                  aria-describedby='textSize'
-                  labelPlacement='outside'
-                  endContent={
-                    <div className='pointer-events-none flex items-center'>
-                      <span className='text-small'>px</span>
-                    </div>
-                  }
-                />
-              </div>
-              */}
               <Divider />
             </CardBody>
           )}
           <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
-            <Button className='button w-full font-size-text-adjust-sm' onPress={modalApply.onOpen}>Aplicar cambios</Button>
+            <Button className='button w-full font-size-text-adjust-sm' onPress={modalApply.onOpen}>{t('apply.button')}</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalApply.isOpen} 
@@ -439,10 +393,10 @@ export default function Config() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Confirmar cambios</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">{t('apply.header')}</ModalHeader>
                     <ModalBody>
                       <p> 
-                        ¿Desea aplicar los cambios en la configuración?
+                        {t('apply.body')}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -452,7 +406,7 @@ export default function Config() {
                         variant="light" 
                         onPress={onClose}
                       >
-                        Cancelar 
+                        {t('apply.cancel')}
                       </Button>
                       <Button 
                         className='font-size-text-adjust-sm'
@@ -464,14 +418,14 @@ export default function Config() {
                           modalApply.onClose();
                         }}
                       >
-                        Aplicar
+                        {t('apply.apply')}
                       </Button>
                     </ModalFooter>
                   </>
                 )}
               </ModalContent>
             </Modal>
-            <Button className='w-full font-size-text-adjust-sm' onPress={modalReset.onOpen}>Restaurar</Button>
+            <Button className='w-full font-size-text-adjust-sm' onPress={modalReset.onOpen}>{t('restore.button')}</Button>
             <Modal 
               backdrop="opaque" 
               isOpen={modalReset.isOpen} 
@@ -483,10 +437,10 @@ export default function Config() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Restaurar configuración</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">{t('restore.header')}</ModalHeader>
                     <ModalBody>
                       <p> 
-                        ¿Desea volver a la configuración por defecto?
+                        {t('restore.body')}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -496,7 +450,7 @@ export default function Config() {
                         variant="light" 
                         onPress={onClose}
                       >
-                        Cancelar 
+                        {t('restore.cancel')}
                       </Button>
                       <Button 
                         className='font-size-text-adjust-sm'
@@ -507,7 +461,7 @@ export default function Config() {
                           modalReset.onClose();
                         }}
                       >
-                        Continuar 
+                        {t('restore.continue')}
                       </Button>
                     </ModalFooter>
                   </>

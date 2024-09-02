@@ -24,10 +24,11 @@ import {
 
 import { useState, useEffect, useContext } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { MdLogout } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { isLoggedIn } from '@/utils/auth';
 import { ConfigContext } from '@/app/context/ConfigProvider';
+import { setUserLocale } from '@/services/locale';
+import { useTranslations } from 'next-intl';
 
 
 export const Header = () => {
@@ -38,17 +39,17 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState<string>(pathname);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const { changesConfig, setChangesConfig } = useContext(ConfigContext);
-
+  const t = useTranslations('Header');
 
   const desktopMenuItems = {
-    Home: '/accesibility',
-    Comunidad: '/community',
+    home: '/accesibility',
+    community: '/community',
   }
 
   const mobileMenuItems = {
-    Home: '/accesibility',
-    Comunidad: '/community',
-    Configuración: '/config',
+    home: '/accesibility',
+    community: '/community',
+    settings: '/config',
   }
 
 
@@ -67,6 +68,7 @@ export const Header = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
+    setUserLocale(null); // clear cookies
     console.log('User logged out');
     router.replace('/');
     setChangesConfig(changesConfig + 1);
@@ -85,10 +87,10 @@ export const Header = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Confirmar cierre de sesión</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('logout.header')}</ModalHeader>
               <ModalBody>
                 <p> 
-                  ¿Está segurx de que desea cerrar sesión?
+                  {t('logout.body')}
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -98,14 +100,14 @@ export const Header = () => {
                   variant="light" 
                   onPress={onClose}
                 >
-                  No
+                  {t('logout.no')}
                 </Button>
                 <Button 
                   className='font-size-text-adjust-sm'
                   color="primary" 
                   onPress={handleLogout}
                 >
-                  Sí
+                  {t('logout.yes')}
                 </Button>
               </ModalFooter>
             </>
@@ -129,7 +131,7 @@ export const Header = () => {
             isActive={activeSection === value}
           >
           <Link className='font-size-text-adjust-base' color='foreground' href={value}>
-            {key}
+            {t(`${key}`)}
           </Link>
           </NavbarItem>
         ))}
@@ -146,28 +148,28 @@ export const Header = () => {
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
-                  name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado",
+                  name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : t('user.guest'),
                 }}
                 className="transition-transform"
                 name=
                   <span className="font-size-text-adjust-base">
-                    {loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : "Invitado"}
+                    {loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : t('user.guest')}
                   </span>
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'}>
-                <p className="font-bold font-size-text-adjust-sm">{loggedIn ? "Iniciaste sesión como" : "No iniciaste sesión"}</p>
-                <p className="font-bold text-primary font-size-text-adjust-sm">{loggedIn ? `@${username}` : "Iniciar sesión"}</p>
+                <p className="font-bold font-size-text-adjust-sm">{loggedIn ? t('user.logged_as') : t('user.not_logged_as')}</p>
+                <p className="font-bold text-primary font-size-text-adjust-sm">{loggedIn ? `@${username}` : t('user.login')}</p>
               </DropdownItem>
               <DropdownItem key="settings">
                 <Link className='text-foreground font-size-text-adjust-sm' href='/config' size='sm'>
-                  Configuración
+                  {t('settings')}
                 </Link>
               </DropdownItem>
               { loggedIn && (
                 <DropdownItem key="logout" color="danger" onPress={onOpen}>
-                  <p className='font-size-text-adjust-sm'>Cerrar sesión</p>
+                  <p className='font-size-text-adjust-sm'>{t('logout.title')}</p>
                 </DropdownItem>
               )}
             </DropdownMenu>
@@ -183,35 +185,16 @@ export const Header = () => {
             isActive={activeSection === value}
           >
             <Link className='w-full font-size-text-adjust-lg text-foreground my-1' href={value} size='lg'>
-              {key}
+              {t(`${key}`)}
             </Link>
           </NavbarMenuItem>
         ))}
-        {
-        /*
-        loggedIn && 
-          <NavbarItem
-            key={'logout'}
-            className='mt-auto mb-3'
-          >
-            <Button 
-              className='w-full bg-primary text-primary-foreground text-lg' 
-              aria-label='Cerrar sesión' 
-              onPress={onOpen} 
-              endContent={<MdLogout className='text-primary-foreground' 
-              size={32}/>}
-            >
-              Cerrar sesión
-            </Button>
-          </NavbarItem>
-        */
-        }
         {loggedIn && 
           <NavbarMenuItem
             key={'logout-menu'}
           >
             <Link className='my-1 hover:cursor-pointer font-size-text-adjust-lg' color='danger' aria-label='Cerrar sesión' onPress={onOpen}>
-              Cerrar sesión
+              {t('logout.title')}
             </Link>
           </NavbarMenuItem>
         }

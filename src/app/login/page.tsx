@@ -13,6 +13,8 @@ import {
 } from '@nextui-org/react'
 import { loginUser } from '@/utils/ApiUser';
 import { ConfigContext } from '../context/ConfigProvider'
+import { setUserLocale } from '@/services/locale'
+import { useTranslations } from 'next-intl'
 
 export default function LogIn() {
   const router = useRouter()
@@ -21,6 +23,7 @@ export default function LogIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { changesConfig, setChangesConfig } = useContext(ConfigContext);
+  const t = useTranslations('LoginPage');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -30,7 +33,8 @@ export default function LogIn() {
       const savedUsername = username;
       const response = await loginUser(username, password);
       sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('username', savedUsername)
+      sessionStorage.setItem('username', savedUsername);
+      setUserLocale(null); // clear cookies
       const returnUrl = searchParams.get('returnUrl') || '/accesibility';
       router.push(returnUrl);
       setChangesConfig(changesConfig + 1);
@@ -56,8 +60,8 @@ export default function LogIn() {
               <form id='login-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
                 <Input
                   type='text'
-                  placeholder='Nombre de usuario'
-                  aria-label='Nombre de usuario'
+                  placeholder={t('username')}
+                  aria-label={t('username')}
                   className='w-full'
                   variant='bordered'
                   labelPlacement='outside'
@@ -67,8 +71,8 @@ export default function LogIn() {
 
                 <Input
                   type='password'
-                  placeholder='Contraseña'
-                  aria-label='Contraseña'
+                  placeholder={t('password')}
+                  aria-label={t('password')}
                   className='w-full'
                   variant='bordered'
                   labelPlacement='outside'
@@ -86,17 +90,17 @@ export default function LogIn() {
                 className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
                 type="submit"
               >
-                Iniciar sesión 
+                {t('login')}
               </Button>
               <p className='mx-3 mt-2 text-center'>
-                ¿Todavía no tenés una cuenta o no querés tener una?
+                {t('link.first')}
                 &nbsp;
                 <a href='/register' className='link'>
-                  Registrate
+                  {t('link.second')}
                 </a>
-                &nbsp; o &nbsp;
+                &nbsp; {t('link.third')} &nbsp;
                 <a href='/accesibility' className='link'>
-                  ingresá como invitado
+                  {t('link.fourth')}
                 </a>
                 .
               </p>

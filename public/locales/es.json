@@ -1,0 +1,185 @@
+{
+    "HomePage": {
+        "subtitle": "Es una herramienta de inteligencia artificial que convierte automáticamente contenido HTML en formatos accesibles, siguiendo las pautas de accesibilidad web (WCAG).",
+        "login": "Iniciar sesión",
+        "guest": "Entrar como invitado",
+        "link": {
+            "first": "¿No tenés una cuenta?",
+            "second": "Registrate"
+        }
+    },
+    "RegisterPage": {
+        "title": "Registro de cuenta",
+        "subtitle": "Se solicitarán datos mínimos para poder publicar artículos a tu nombre",
+        "username": "Nombre de usuario:",
+        "password": "Contraseña",
+        "password_constraint": "La contraseña debe tener al menos ocho (8) caracteres",
+        "repeat_password": "Repetir contraseña",
+        "repeat_password_constraint": "La contraseña repetida no coincide con la primera",
+        "submit": "Registrar",
+        "link": {
+            "first": "¿Ya tenés una cuenta o no querés tener una?",
+            "second": "Iniciá sesión",
+            "third": "o",
+            "fourth": "ingresá como invitado"
+        },
+        "error": "Error:",
+        "password_error": "Las contraseñas no coinciden",
+        "server_error": "Error inesperado"
+    },
+    "RegisterSuccessPage": {
+        "title": "Registro de cuenta exitoso",
+        "subtitle": {
+            "first": "Ahora podés",
+            "second": "iniciar sesión",
+            "third": "utilizando tu nombre de usuario y contraseña."
+        },
+        "back": "Volver a la página principal"
+    },
+    "LoginPage": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "login": "Iniciar sesión",
+        "link": {
+            "first": "¿Todavía no tenés una cuenta o no querés tener una?",
+            "second": "Registrate",
+            "third": "o",
+            "fourth": "ingresá como invitado"
+        }
+    },
+    "AccesibilityPage": {
+        "title": "Accesibilizá tu código",
+        "subtitle": "Podés cargar el código HTML de múltiples maneras.",
+        "paste": {
+            "title": "Pegar código",
+            "description": "Ingrese el código HTML en una casilla de texto.",
+            "alt": "Botón para accesibilizar código ingresado manualmente"
+        },
+        "load_file": {
+            "title": "Cargar desde el equipo",
+            "description": "Seleccione el archivo desde su computadora.",
+            "alt": "Botón para accesibilizar código a partir de un archivo HTML"
+        },
+        "load_url": {
+            "title": "Examinar página web",
+            "description": "Seleccione la URL de la página web a analizar.",
+            "alt": "Botón para accesibilizar código a partir de una URL"
+        }
+    },
+    "EditorPage": {
+       "title": "Accesibilizador",
+       "subtitle": {
+           "first": "Verificá que el código cargado es el deseado y presioná el botón naranja para accesibilizarlo. Podés ",
+           "second": "elegir otra opción de carga",
+           "third": " del código HTML"
+       },
+       "selector": "Elegí el modelo de IA",
+       "selector-aria": "Selección del modelo",
+       "nonaccesibilized": {
+          "title": "Código a accesibilizar",
+          "button_clear": "Limpiar código",
+          "button_copy": "Copiar código no accesible"
+       },
+       "accesibilize": "AIccesibilizar",
+       "accesibilized": {
+          "title": "Resultado",
+          "button_copy": "Copiar código accesible"
+       },
+       "toast_success": "Código accesibilizado con éxito!",
+       "toast_error": "No se pudo accesibilizar tu código",
+       "toast_copy": "Copiado!"
+    },
+    "ImporterPage": {
+        "title": "Importar código HTML vía URL",
+        "subtitle": {
+            "first": "¿Querés usar otro método? Podés ",
+            "second": "elegir otra opción de carga",
+            "third": " del código HTML"
+        }
+    },
+    "ConfigPage": {
+        "title": "Configuración",
+        "subtitle": "Toda la configuración del sistema en un mismo lugar.",
+        "theme": {
+            "label": "Tema del sitio:",
+            "light": "Claro",
+            "dark": "Oscuro"
+        },
+        "language": {
+            "label": "Idioma:",
+            "es": "Español",
+            "en": "Inglés"
+        },
+        "likes": {
+            "label": "Mostrar likes:",
+            "yes": "Si",
+            "no": "No"
+        },
+        "comments": {
+            "label": "Mostrar comentarios:",
+            "yes": "Si",
+            "no": "No"
+        },
+        "titles": {
+            "label": "Tamaño de títulos"
+        },
+        "texts": {
+            "label": "Tamaño de textos"
+        },
+        "apply": {
+            "button": "Aplicar cambios",
+            "header": "Confirmar cambios",
+            "body": "¿Desea aplicar los cambios en la configuración?",
+            "cancel": "Cancelar",
+            "apply": "Aplicar",
+            "toast_success": "Los cambios se han guardado con éxito",
+            "toast_error": "No se han podido guardar los cambios debido a un error"
+        },
+        "restore": {
+            "button": "Restaurar",
+            "header": "Restaurar configuración",
+            "body": "¿Desea volver a la configuración por defecto?",
+            "cancel": "Cancelar",
+            "continue": "Continuar",
+            "toast_success": "La configuración ha sido restaurada con éxito",
+            "toast_error": "No se ha podido restaurar la configuración debido a un error"
+        }
+    },
+    "AccesibilizedEditor": {
+        "default": "Código accesibilizado",
+        "loading": "Cargando..."
+    },
+    "Header": {
+        "logout": {
+            "title": "Cerrar sesión",
+            "header": "Confirmar cierre de sesión",
+            "body": "¿Está segurx de que desea cerrar sesión?",
+            "no": "No",
+            "yes": "Si"
+        },
+        "user": {
+            "guest": "Invitado",
+            "logged_as": "Iniciaste sesión como",
+            "not_logged_as": "No iniciaste sesión",
+            "login": "Iniciar sesión"
+        },
+        "home": "Home",
+        "community": "Comunidad",
+        "settings": "Configuración"
+    },
+    "Importer": {
+        "error": "Error al leer la URL",
+        "unexpected_error": "Ha ocurrido un error desconocido al intentar leer la URL.",
+        "title": "Examinar página web",
+        "aria-label": "url del sitio web",
+        "label": "Sitio web",
+        "error_input": "Por favor, ingrese un enlace válido",
+        "get": "Obtener HTML",
+        "back": "Atrás",
+        "browse_error": "Ha ocurrido un error al intentar examinar la URL especificada."
+    },
+    "NonAccesibilizedEditor": {
+        "default": "Copia tu código aquí",
+        "loading": "Cargando..."
+    }
+}
