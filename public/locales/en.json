@@ -12,9 +12,9 @@
         "title": "Account Registration",
         "subtitle": "Minimum data will be requested to publish articles in your name",
         "username": "Username:",
-        "password": "Password",
+        "password": "Password:",
         "password_constraint": "The password must be at least eight (8) characters long",
-        "repeat_password": "Repeat password",
+        "repeat_password": "Repeat password:",
         "repeat_password_constraint": "The repeated password does not match the first",
         "submit": "Register",
         "link": {
