@@ -7,30 +7,34 @@ import {
   CardHeader,
   Divider,
 } from '@nextui-org/react'
-import CommentCard from './Comment'
-import { HeartIcon } from './HeartIcon'
 import { BiCommentDetail } from "react-icons/bi";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { poppins } from '@/app/fonts'
+import { useRouter } from 'next/navigation';
 
 type ClosedPostProps = {
   post: Post
+  likes: boolean[]
   comments: number
   incrementLikes: () => void
 }
 
-const loggedUser = {
-  ID: 3,
-  username: "fots"
-}
 
 export default function ClosedPostCard(props: ClosedPostProps) {
-  const { post, comments, incrementLikes } = props
+  const { post, likes, comments, incrementLikes } = props
+  const router = useRouter()
 
   return (
     <>
       <Divider />
-      <Card isBlurred shadow='none' className='border-none bg-transparent transition-all duration-300 hover:bg-primary-100 hover:shadow-lg hover:cursor-pointer dark:hover:bg-default-900 my-2 w-full p-4'>
+      <Card 
+        isBlurred 
+        isHoverable 
+        isPressable 
+        onPressStart={() => { router.push(`/community/post/${post.ID}`) }}
+        shadow='none' 
+        className='border-none bg-transparent transition-all duration-300 hover:bg-primary-100 hover:shadow-lg hover:cursor-pointer dark:hover:bg-default-900 my-2 w-full p-4'
+      >
         <CardHeader className='pt-2 flex-col items-start'>
             <h2 className={`${poppins.className} font-size-title-adjust-xl md:font-size-title-adjust-2xl font-bold`}>
                 {post.title}
@@ -49,10 +53,10 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 aria-label='Like'
                 onPress={incrementLikes}
                 variant="light"
-                startContent={post.likes.includes(loggedUser) ? (
-                    <GoHeartFill className="h-6 w-6" />
+                startContent={likes[post.ID - 1] ? (
+                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
                 ) : (
-                    <GoHeart className="h-6 w-6" />
+                    <GoHeart className="h-6 w-6 transition-all ease-out" />
                 )}
             >
                 {post.likes.length}
@@ -62,7 +66,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 color='danger'
                 radius='md'
                 aria-label='Comment'
-                onPress={() => { } }
+                onPress={() => {  } }
                 variant="light"
                 startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
             >

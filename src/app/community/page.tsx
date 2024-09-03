@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { poppins } from '../fonts'
 import { getToken } from '@/utils/auth'
 import { getPost, likePost, listPosts } from '@/utils/ApiPosts'
-import { getUser } from '@/utils/ApiUser'
+import { formatPost } from '@/utils/post'
 import ClosedPostCard from '@/components/ClosedPost'
 
 const PAGE_SIZE=10
@@ -14,41 +14,10 @@ const PAGE_SIZE=10
 export default function Community() {
   const [loading, setLoading] = useState<boolean>(false)
   const [posts, setPosts] = useState<Post[]>([]);
+  const [myLikes, setMyLikes] = useState<boolean[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
-
-  const formatPost = async (post: Post) => {
-
-    const commentsWithUser = await Promise.all(post.comments.map(async (comment: any) => {
-      const userReponse = await getUser(comment.user_id)
-      return {
-        author: userReponse.username,
-        date: comment.CreatedAt,
-        title: comment.title,
-        content: comment.content,
-        avatar: "",
-        comments: []
-      }
-    }))
-
-    const likesWithUser = await Promise.all(post.likes.map(async (like: any) => {
-      return {
-        ID: like.ID,
-        username: like.username
-      } 
-    }))
-
-    return {
-      ID: post.ID,
-      title: post.title,
-      before: post.before,
-      after: post.after, 
-      likes: likesWithUser, 
-      description: post.description,
-      comments: commentsWithUser
-    }
-  }
 
   const fetchData = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -72,6 +41,10 @@ export default function Community() {
 
         setHasMore(newPosts.length > 0); // Check if there's more data to load
         setPage(prevPage => prevPage + 1);
+        const myUsername = "fots" //TODO load username on login
+        setMyLikes(posts.map((post: Post) => 
+            post.likes.some(like => like.username === myUsername)
+        ));
       });
     } catch (error: any) {
       console.error(error.message);
@@ -106,8 +79,10 @@ export default function Community() {
       const likedPost: Post = response.data
       const updatedPosts = [...posts]
       updatedPosts[id - 1] = await formatPost(likedPost)
+      myLikes[id - 1] = !myLikes[id - 1]
 
       /* from client 
+      const loggedUser = sessionStorage.getItem('username')!!
       const updatedPosts = [...posts]
       if (!updatedPosts[index].likes.includes(loggedUser))
         updatedPosts[index].likes.push(loggedUser)
@@ -138,6 +113,7 @@ export default function Community() {
             <ClosedPostCard
               key={post.ID}
               post={post}
+              likes={myLikes}
               comments={post.comments.length}
               incrementLikes={() => like(post.ID)}
             />

@@ -18,6 +18,5 @@ export interface Comment {
 }
 
 export interface User {
-  ID: number
   username: string
 }

@@ -1,4 +1,4 @@
-import { Post } from '@/interfaces/Community'
+import { Post, User } from '@/interfaces/Community'
 import {
   Button,
   Card,
@@ -10,11 +10,14 @@ import CommentCard from './Comment'
 import { HeartIcon } from './HeartIcon'
 import { poppins } from '@/app/fonts'
 import { CopyBlock, dracula } from 'react-code-blocks'
+import { GoHeart, GoHeartFill } from 'react-icons/go'
+import { BiCommentDetail } from 'react-icons/bi'
 
 type PostProps = {
   post: Post
   position: number
   incrementLikes: () => void
+  liked: boolean
 }
 
 function format(html) {
@@ -38,21 +41,26 @@ function format(html) {
 }
 
 
-export default function OpenPostCard(props: PostProps) {
-  const { post, incrementLikes, position } = props
+export default function OpenedPostCard(props: PostProps) {
+  const { post, incrementLikes, position, liked} = props
+
+  const myUser: User = {
+    username: sessionStorage.getItem('username')!!
+  }
+
   return (
     <article
-      className='w-full sm:w-2/3 xl:w-[1024px]'
+      className='w-full'
     >
-      <Card className='p-4'>
+      <Card shadow='none' className='p-4 bg-transparent border-none'>
         <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
           <h2 className={`${poppins.className} font-size-title-adjust-xl md:font-size-title-adjust-3xl`}>
             {post.title}
           </h2>
-          <p>{post.description}</p>
         </CardHeader>
         <CardBody className='overflow-visible py-2 flex justify-end items-end'>
           <section className='w-full flex flex-col justify-center items-start'>
+            <p>{post.description}</p>
             <h3 className='font-size-title-adjust-base'>Antes:</h3>
             <CopyBlock
               text={format(post.before)}
@@ -69,16 +77,35 @@ export default function OpenPostCard(props: PostProps) {
               theme={dracula}
               wrapLongLines
             />
+            <div className='flex flex-row'>
+              <Button
+                  className='font-size-text-adjust-xs'
+                  color='danger'
+                  radius='md'
+                  aria-label='Like'
+                  onPress={incrementLikes}
+                  variant="light"
+                  startContent={ liked ? (
+                      <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                  ) : (
+                      <GoHeart className="h-6 w-6 transition-all ease-out" />
+                  )}
+              >
+                  {post.likes.length}
+              </Button>
+              <Button
+                  className='font-size-text-adjust-xs'
+                  color='danger'
+                  radius='md'
+                  aria-label='Comment'
+                  onPress={() => {  } }
+                  variant="light"
+                  startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
+              >
+                  {post.comments.length}
+              </Button>
+            </div>
           </section>
-          <Button
-            isIconOnly
-            color='danger'
-            aria-label='Like'
-            onPress={incrementLikes}
-          >
-            <HeartIcon />
-          </Button>
-          {post.likes} Likes
         </CardBody>
         <CardFooter className='flex justify-between items-center sm:px-4 py-2'>
           {post.comments.map((comment, index) => (
