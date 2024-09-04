@@ -113,7 +113,7 @@ export default function OpenedPostCard(props: PostProps) {
             </Button>
         </CardFooter>
         <Divider className='my-2'/>
-        <section ref={targetRef}>
+        <section className='mx-2' ref={targetRef}>
           <CommentBar postID={post.ID}/>
           {post.comments.map((comment) => (
             <CommentCard comment={comment} key={comment.ID} />

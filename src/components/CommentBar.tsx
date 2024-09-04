@@ -46,6 +46,8 @@ export default function CommentBar(props: {postID: number}) {
                 <Input 
                   placeholder='Título del comentario'
                   className='w-full'
+                  variant='faded'
+                  radius='md'
                   isInvalid={invalidLength(title)}
                   errorMessage="El título del comentario debe tener al menos 5 caracteres."
                   onChange={(e: any) => { setTitle(e.target.value)} }
@@ -55,7 +57,8 @@ export default function CommentBar(props: {postID: number}) {
             <Textarea
               placeholder='Añadir un comentario'
               className='w-full'
-              radius={textAreaOpened ? "md" : "none"}
+              variant='faded'
+              radius='md'
               isInvalid={invalidLength(content)}
               errorMessage={textAreaOpened ? "El contenido del comentario debe tener al menos 5 caracteres." : ""}
               onChange={(e) => { setContent(e.target.value)} }
@@ -65,7 +68,7 @@ export default function CommentBar(props: {postID: number}) {
               }}
             />
             {textAreaOpened && (
-              <CardFooter className='flex flex-row justify-end py-1 gap-2'>
+              <CardFooter className='flex flex-row justify-end py-1 mb-2 gap-2'>
                 <Button 
                   onPress={() => {setTextAreaOpened(false)}}
                   size="sm"
