@@ -1,6 +1,6 @@
 import { Button, Card, CardFooter, CardHeader, Input, Textarea } from "@nextui-org/react";
 import { getToken, getUsername, isLoggedIn } from "@/utils/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addComment } from "@/utils/ApiComments";
 
 
@@ -28,18 +28,26 @@ export default function CommentBar(props: {postID: number}) {
      
   }
 
+  const invalidLength = (value: string) => {
+    if (value) {
+        return value.length < 5;
+    }
+    return false;
+  }
+
 
   return (
     <>
       {isLoggedIn() ? (
-        <Card className='bg-transparent mb-10'>
+        <Card className={`bg-transparent mb-10 ${textAreaOpened ? "px-2" : ""}`}>
           <form id='comment-form' className='flex flex-col gap-2' onSubmit={submitComment}>
             {textAreaOpened && (
-              <CardHeader className='flex flex-row justify-end py-2 px-0 mt-2 mb-3'>
+              <CardHeader className='flex flex-row justify-end py-2 px-0 mt-2'>
                 <Input 
                   placeholder='Título del comentario'
                   className='w-full'
-                  radius='none'
+                  isInvalid={invalidLength(title)}
+                  errorMessage="El título del comentario debe tener al menos 5 caracteres."
                   onChange={(e: any) => { setTitle(e.target.value)} }
                 />
               </CardHeader>
@@ -47,9 +55,14 @@ export default function CommentBar(props: {postID: number}) {
             <Textarea
               placeholder='Añadir un comentario'
               className='w-full'
-              radius='none'
+              radius={textAreaOpened ? "md" : "none"}
+              isInvalid={invalidLength(content)}
+              errorMessage={textAreaOpened ? "El contenido del comentario debe tener al menos 5 caracteres." : ""}
               onChange={(e) => { setContent(e.target.value)} }
-              onClick={() => { if (!textAreaOpened) setTextAreaOpened(true) }}
+              onClick={() => { 
+                if (!textAreaOpened) 
+                  setTextAreaOpened(true)
+              }}
             />
             {textAreaOpened && (
               <CardFooter className='flex flex-row justify-end py-1 gap-2'>

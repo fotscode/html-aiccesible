@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { poppins, roboto } from '../../fonts'
 import { Header } from '@/components/Header'
 import { Button, Card, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner } from '@nextui-org/react'
-import { html } from 'js-beautify'
 import { listModels, accesibilizeCode } from '@/utils/ApiModels'
 import NonAccesibilizedEditor from '@/components/NonAccesibilizedEditor'
 import AccesibilizedEditor from '@/components/AccesibilizedEditor'
@@ -18,6 +17,7 @@ import PaginationDots from '@/components/PaginationDots'
 import '@/styles/buttonAnimated.css';
 import '@/styles/editorAnimated.css';
 import { useTranslations } from 'next-intl'
+import { beautifyHTML } from '@/utils/beautifier'
 
 export default function CodeEditor() {
   const [isAccesibilizePressed, setIsAccesibilizePressed] = useState(false);
@@ -42,20 +42,6 @@ export default function CodeEditor() {
 
   const t = useTranslations('EditorPage');
 
-
-  const beautifyHTML = (code: string): string => {
-    return html(code, {
-      indent_size: 2,
-      indent_char: ' ',
-      max_preserve_newlines: 0,
-      preserve_newlines: false,
-      indent_scripts: 'normal',
-      end_with_newline: false,
-      wrap_line_length: 0,
-      indent_inner_html: false,
-      indent_empty_lines: false,
-    })
-  }
 
   useEffect(() => {
     if (typeof localStorage.getItem('htmlCode') === 'string') {

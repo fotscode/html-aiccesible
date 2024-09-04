@@ -9,13 +9,13 @@ export default function CommentCard(props: CommentProps) {
   const { comment } = props
 
   return (
-    <Card shadow='none' className='bg-transparent border-none'>
+    <Card shadow='md' className='bg-transparent border-none my-2 py-2'>
       <CardHeader>
         <User
           name={comment.author}
           description={(<span className='text-typography'>{comment.date}</span>)}
           avatarProps={{ 
-            src: comment.avatar ,
+            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
             size: 'sm',
           }}
         />

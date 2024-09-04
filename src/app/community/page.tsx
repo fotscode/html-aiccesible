@@ -83,7 +83,7 @@ export default function Community() {
       <main className='flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
         <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium'}>Comunidad</h1>
         <section
-          className='flex flex-col w-full md:w-1/2 justify-center gap-x-10'
+          className='flex flex-col w-full md:w-1/2 justify-center px-2 gap-x-10'
           aria-busy={loading}
           role='feed'
         >

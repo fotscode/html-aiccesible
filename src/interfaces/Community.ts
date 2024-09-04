@@ -1,5 +1,7 @@
 export interface Post {
   ID: number
+  date: string
+  author: string
   title: string
   before: string
   after: string

@@ -16,7 +16,7 @@ function formatDate(dateString: string): string {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-export async function formatPost(post: Post) {
+export async function formatPost(post: any) {
 
   const commentsWithUser = await Promise.all(post.comments.map(async (comment: any) => {
     const userResponse = await getUser(comment.user_id)
@@ -37,8 +37,12 @@ export async function formatPost(post: Post) {
     } 
   }))
 
+  const author = await getUser(post.user_id)
+
   return {
     ID: post.ID,
+    author: author.username,
+    date: formatDate(post.CreatedAt),
     title: post.title,
     before: post.before,
     after: post.after, 
