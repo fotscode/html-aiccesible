@@ -1,18 +1,15 @@
 'use client'
 
 import { Header } from '@/components/Header'
-import { Post, User } from '@/interfaces/Community'
+import { Post } from '@/interfaces/Community'
 import { Spinner } from '@nextui-org/react'
-import { useCallback, useEffect, useState } from 'react'
-import { getToken } from '@/utils/auth'
+import { useEffect, useState } from 'react'
+import { getToken, getUsername } from '@/utils/auth'
 import { getPost, likePost } from '@/utils/ApiPosts'
 import { formatPost } from '@/utils/post'
 import OpenedPost from '@/components/OpenedPost'
 import { useParams } from 'next/navigation'
 
-const myUser: User = {
-  username: sessionStorage.getItem('username')!!
-}
 
 export default function PostPage() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -27,7 +24,7 @@ export default function PostPage() {
         const formattedPost = await formatPost(postResponse.data);
         setPost(formattedPost);
 
-        if (formattedPost.likes.some(like => like.username === myUser.username)) {
+        if (formattedPost.likes.some(like => like.username === getUsername())) {
           setLiked(true)
         } else {
           setLiked(false)
@@ -60,9 +57,9 @@ export default function PostPage() {
     try {
       await likePost(getToken(), id)
       if (liked) 
-        post.likes = post.likes.filter(like => like.username !== myUser.username);
+        post.likes = post.likes.filter(like => like.username !== getUsername());
       else 
-        post.likes.push(myUser)
+        post.likes.push({username: getUsername()})
       setLiked(!liked)
     } catch (error: any) {
       console.error(error.message);
@@ -74,15 +71,15 @@ export default function PostPage() {
   return (
     <>
       <Header />
-      <main className='flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
-        {loading && <Spinner aria-label='Loading...' color='warning' />}
+      <main className='h-full flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
         <section
           className='flex flex-col w-full md:w-1/2 justify-center'
           aria-busy={loading}
           role='feed'
         >
-          <OpenedPost post={post} incrementLikes={() => like(post.ID)} liked={liked}/>
+          <OpenedPost post={post} toggleLikes={() => like(post.ID)} liked={liked}/>
         </section>
+        {loading && <Spinner className='flex justify-center items-center' aria-label='Loading...' color='primary' />}
       </main>
     </>
   )

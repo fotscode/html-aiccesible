@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Divider,
 } from '@nextui-org/react'
 import CommentCard from './Comment'
 import { HeartIcon } from './HeartIcon'
@@ -12,10 +13,11 @@ import { poppins } from '@/app/fonts'
 import { CopyBlock, dracula } from 'react-code-blocks'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { BiCommentDetail } from 'react-icons/bi'
+import CommentBar from './CommentBar'
 
 type PostProps = {
   post: Post
-  incrementLikes: () => void
+  toggleLikes: () => void
   liked: boolean
 }
 
@@ -41,7 +43,7 @@ function format(html) {
 
 
 export default function OpenedPostCard(props: PostProps) {
-  const { post, incrementLikes, liked} = props
+  const { post, toggleLikes, liked} = props
 
 
   return (
@@ -49,7 +51,7 @@ export default function OpenedPostCard(props: PostProps) {
       className='w-full'
     >
       <Card shadow='none' className='p-4 bg-transparent border-none'>
-        <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
+        <CardHeader className='pb-0 pt-2 flex-col items-start'>
           <h2 className={`${poppins.className} font-size-title-adjust-xl md:font-size-title-adjust-3xl`}>
             {post.title}
           </h2>
@@ -75,41 +77,43 @@ export default function OpenedPostCard(props: PostProps) {
               wrapLongLines
             />
             */}
-            <div className='flex flex-row'>
-              <Button
-                  className='font-size-text-adjust-xs'
-                  color='danger'
-                  radius='md'
-                  aria-label='Like'
-                  onPress={incrementLikes}
-                  variant="light"
-                  startContent={ liked ? (
-                      <GoHeartFill className="h-6 w-6 transition-all ease-in" />
-                  ) : (
-                      <GoHeart className="h-6 w-6 transition-all ease-out" />
-                  )}
-              >
-                  {post.likes.length}
-              </Button>
-              <Button
-                  className='font-size-text-adjust-xs'
-                  color='danger'
-                  radius='md'
-                  aria-label='Comment'
-                  onPress={() => {  } }
-                  variant="light"
-                  startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
-              >
-                  {post.comments.length}
-              </Button>
-            </div>
           </section>
         </CardBody>
-        <CardFooter className='flex justify-between items-center sm:px-4 py-2'>
-          {post.comments.map((comment, index) => (
-            <CommentCard comment={comment} position={index} key={index} />
-          ))}
+        <CardFooter className='flex flex-row justify-start items-center sm:px-4 py-2'>
+            <Button
+                className='font-size-text-adjust-xs'
+                color='danger'
+                radius='md'
+                aria-label='Like'
+                onPress={toggleLikes}
+                variant="light"
+                startContent={ liked ? (
+                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                ) : (
+                    <GoHeart className="h-6 w-6 transition-all ease-out" />
+                )}
+            >
+                {post.likes.length}
+            </Button>
+            <Button
+                className='font-size-text-adjust-xs'
+                color='danger'
+                radius='md'
+                aria-label='Comment'
+                onPress={() => {  } }
+                variant="light"
+                startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
+            >
+                {post.comments.length}
+            </Button>
         </CardFooter>
+        <Divider className='my-2'/>
+        <CommentBar postID={post.ID}/>
+        {post.comments.map((comment) => (
+          <div className='gap-2'>
+            <CommentCard comment={comment} key={comment.ID} />
+          </div>
+        ))}
       </Card>
     </article>
   )

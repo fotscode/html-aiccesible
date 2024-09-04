@@ -51,5 +51,7 @@ export async function getUser(userId: number) {
         throw new Error(`Failed to get User data. Status code ${response.status}`);
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return data.data;
 }

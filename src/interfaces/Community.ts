@@ -9,6 +9,7 @@ export interface Post {
 }
 
 export interface Comment {
+  ID: number
   author: string
   date: string
   title: string

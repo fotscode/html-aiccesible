@@ -1,27 +1,29 @@
 import { Comment } from '@/interfaces/Community'
 import { Card, CardBody, CardHeader, User } from '@nextui-org/react'
+
 type CommentProps = {
   comment: Comment
-  position: number
 }
+
 export default function CommentCard(props: CommentProps) {
-  const { comment, position } = props
+  const { comment } = props
+
   return (
-    <article className='flex gap-2 flex-col w-full mx-0'>
-      <Card className='sm:p-2'>
-        <CardHeader>
-          <User
-            name={comment.author}
-            description={(<span className='text-typography'>{comment.date}</span>)}
-            // change color of description to black
-            avatarProps={{ src: comment.avatar }}
-          />
-        </CardHeader>
-        <CardBody>
-          <h3 className='font-bold font-size-title-adjust-base'>{comment.title}</h3>
-          <p>{comment.content}</p>
-        </CardBody>
-      </Card>
-    </article>
+    <Card shadow='none' className='bg-transparent border-none'>
+      <CardHeader>
+        <User
+          name={comment.author}
+          description={(<span className='text-typography'>{comment.date}</span>)}
+          avatarProps={{ 
+            src: comment.avatar ,
+            size: 'sm',
+          }}
+        />
+      </CardHeader>
+      <CardBody>
+        <h3 className='font-bold font-size-title-adjust-base'>{comment.title}</h3>
+        <p>{comment.content}</p>
+      </CardBody>
+    </Card>
   )
 }

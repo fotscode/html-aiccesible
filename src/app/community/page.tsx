@@ -3,7 +3,7 @@
 import { Post } from '@/interfaces/Community'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { getPost, getPosts, likePost } from '@/utils/ApiPosts'
+import { getPosts, likePost } from '@/utils/ApiPosts'
 import { formatPost } from '@/utils/post'
 import { poppins } from '@/app/fonts'
 import { Header } from '@/components/Header'
@@ -97,7 +97,7 @@ export default function Community() {
             />
           ))}
           <div ref={ref} />
-          {loading && <Spinner aria-label='Loading...' color='warning' />}
+          {loading && <Spinner aria-label='Loading...' color='primary' />}
         </section>
       </main>
     </>
