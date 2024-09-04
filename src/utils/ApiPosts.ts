@@ -10,6 +10,19 @@ export async function listPosts(page: number, size: number) {
     return response.json();
 }
 
+export const getPosts = async (page: number, size: number) => {
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/post/list?page=${page}&size=${size}`);
+
+    if (!response.ok) {
+        throw new Error(`Failed to list posts. Status code ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data.data;
+}
+
 export async function addPost(token: string, post: Post) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/post/add`, {
         method: 'POST',

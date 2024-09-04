@@ -1,14 +1,12 @@
 'use client'
+
 import { Header } from '@/components/Header'
 import { Post, User } from '@/interfaces/Community'
 import { Spinner } from '@nextui-org/react'
 import { useCallback, useEffect, useState } from 'react'
-import { poppins } from '../../../fonts'
 import { getToken } from '@/utils/auth'
-import { getPost, likePost, listPosts } from '@/utils/ApiPosts'
-import { getUser } from '@/utils/ApiUser'
+import { getPost, likePost } from '@/utils/ApiPosts'
 import { formatPost } from '@/utils/post'
-import { GetServerSideProps } from 'next'
 import OpenedPost from '@/components/OpenedPost'
 import { useParams } from 'next/navigation'
 
@@ -83,7 +81,7 @@ export default function PostPage() {
           aria-busy={loading}
           role='feed'
         >
-          <OpenedPost post={post} position={post.ID} incrementLikes={() => like(post.ID)} liked={liked}/>
+          <OpenedPost post={post} incrementLikes={() => like(post.ID)} liked={liked}/>
         </section>
       </main>
     </>

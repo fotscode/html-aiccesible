@@ -15,7 +15,6 @@ import { BiCommentDetail } from 'react-icons/bi'
 
 type PostProps = {
   post: Post
-  position: number
   incrementLikes: () => void
   liked: boolean
 }
@@ -42,11 +41,8 @@ function format(html) {
 
 
 export default function OpenedPostCard(props: PostProps) {
-  const { post, incrementLikes, position, liked} = props
+  const { post, incrementLikes, liked} = props
 
-  const myUser: User = {
-    username: sessionStorage.getItem('username')!!
-  }
 
   return (
     <article
@@ -62,6 +58,7 @@ export default function OpenedPostCard(props: PostProps) {
           <section className='w-full flex flex-col justify-center items-start'>
             <p>{post.description}</p>
             <h3 className='font-size-title-adjust-base'>Antes:</h3>
+            {/*
             <CopyBlock
               text={format(post.before)}
               language='html'
@@ -77,6 +74,7 @@ export default function OpenedPostCard(props: PostProps) {
               theme={dracula}
               wrapLongLines
             />
+            */}
             <div className='flex flex-row'>
               <Button
                   className='font-size-text-adjust-xs'

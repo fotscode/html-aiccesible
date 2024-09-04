@@ -16,12 +16,12 @@ type ClosedPostProps = {
   post: Post
   likes: boolean[]
   comments: number
-  incrementLikes: () => void
+  toggleLike: () => void
 }
 
 
 export default function ClosedPostCard(props: ClosedPostProps) {
-  const { post, likes, comments, incrementLikes } = props
+  const { post, likes, comments, toggleLike} = props
   const router = useRouter()
 
   return (
@@ -51,7 +51,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 color='danger'
                 radius='md'
                 aria-label='Like'
-                onPress={incrementLikes}
+                onPress={toggleLike}
                 variant="light"
                 startContent={likes[post.ID - 1] ? (
                     <GoHeartFill className="h-6 w-6 transition-all ease-in" />
