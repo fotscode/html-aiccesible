@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { poppins } from '@/app/fonts'
 import { Header } from '@/components/Header'
 import { getToken } from '@/utils/auth'
-import { Button, Card, CardFooter, CardHeader, Input, Textarea } from '@nextui-org/react'
+import { Button, Card, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea, useDisclosure } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { Post } from '@/interfaces/Community'
 import { addPost } from '@/utils/ApiPosts'
@@ -16,6 +16,7 @@ export default function Community() {
   const [description, setDescription] = useState<string>('')
   const [before, setBefore] = useState<string>('')
   const [after, setAfter] = useState<string>('')
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const router = useRouter()
 
   const errorMessage = "El código debe contener al menos 4 caracteres."
@@ -55,6 +56,45 @@ export default function Community() {
     <>
       <Header />
       <main className='flex flex-col justify-center items-center py-8 font-size-text-adjust'>
+
+        <Modal //Modal for going back 
+          backdrop="opaque" 
+          isOpen={isOpen} 
+          onOpenChange={onOpenChange}
+          classNames={{
+            backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+          }}
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">Volver atrás</ModalHeader>
+                <ModalBody>
+                  <p> 
+                    ¿Estás segurx de que deseas salir? El artículo generado no se guardará.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button 
+                    className='font-size-text-adjust-sm'
+                    color="danger" 
+                    variant="light" 
+                    onPress={onClose}
+                  >
+                    No
+                  </Button>
+                  <Button 
+                    className='font-size-text-adjust-sm'
+                    color="primary" 
+                    onPress={() => {router.back()}}
+                  >
+                    Sí
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
         <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-3xl font-medium'}>Publicar</h1>
         <Card className='bg-transparent my-10 p-5 w-full md:w-3/4 lg:w-1/2'>
           <form id='post-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
@@ -108,7 +148,7 @@ export default function Community() {
 
             <CardFooter className='flex flex-row justify-end py-1 mb-2 gap-2'>
               <Button 
-                onPress={() => {router.back()}}
+                onPress={onOpen}
                 size="sm"
               > 
                 Atrás
