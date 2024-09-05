@@ -4,7 +4,7 @@ import { Header } from '@/components/Header'
 import { Post } from '@/interfaces/Community'
 import { Spinner } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
-import { getToken, getUsername } from '@/utils/auth'
+import { getToken, getUsername, isLoggedIn } from '@/utils/auth'
 import { getPost, likePost } from '@/utils/ApiPosts'
 import { formatPost } from '@/utils/post'
 import OpenedPost from '@/components/OpenedPost'
@@ -16,7 +16,9 @@ export default function PostPage() {
   const [error, setError] = useState<string | null>(null);
   const [post, setPost] = useState<Post>();
   const [liked, setLiked] = useState<boolean>(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const { id } = useParams() as { id: string }; 
+
 
   const fetchPost = async () => {
     try {
@@ -40,6 +42,12 @@ export default function PostPage() {
   useEffect(() => {
     fetchPost()
   }, [id])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsUserLoggedIn(isLoggedIn());
+    }
+  }, []); 
 
   if (loading) {
     return <Spinner aria-label='Loading...' color='primary' />;
@@ -77,7 +85,7 @@ export default function PostPage() {
           aria-busy={loading}
           role='feed'
         >
-          <OpenedPost post={post} toggleLikes={() => like(post.ID)} liked={liked}/>
+          <OpenedPost post={post} toggleLikes={() => like(post.ID)} liked={liked} isLoggedIn={isUserLoggedIn}/>
         </section>
         {loading && <Spinner className='flex justify-center items-center' aria-label='Loading...' color='primary' />}
       </main>

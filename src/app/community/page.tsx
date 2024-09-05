@@ -98,7 +98,7 @@ export default function Community() {
         <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium'}>Comunidad</h1>
         <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
           Podés ver artículos sobre buenas prácticas de accesibilidad redactados por la comunidad.
-          { isUserLoggedIn && (
+          { !isUserLoggedIn && (
             <span>
               <br/> Para redactar tus propios artículos, dar me gusta y comentar, debes &nbsp;
               <a className='link' href='/login'>iniciar sesión</a>.
@@ -129,6 +129,7 @@ export default function Community() {
               likes={myLikes}
               comments={post.comments.length}
               toggleLike={() => {toggleLike(post.ID)}}
+              isLoggedIn={isUserLoggedIn}
             />
           ))}
           <div ref={ref} />

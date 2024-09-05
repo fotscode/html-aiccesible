@@ -1,13 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { formatPost } from '@/utils/post'
+import { useState } from 'react'
 import { poppins } from '@/app/fonts'
 import { Header } from '@/components/Header'
-import { getToken, getUsername, isLoggedIn } from '@/utils/auth'
-import { Button, Card, CardFooter, CardHeader, Input, Spinner, Textarea } from '@nextui-org/react'
+import { getToken } from '@/utils/auth'
+import { Button, Card, CardFooter, CardHeader, Input, Textarea } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import { FaFeatherPointed } from "react-icons/fa6";
 import { Post } from '@/interfaces/Community'
 import { addPost } from '@/utils/ApiPosts'
 import CodeBlock from '@/components/CodeBlock'
@@ -18,7 +16,6 @@ export default function Community() {
   const [description, setDescription] = useState<string>('')
   const [before, setBefore] = useState<string>('')
   const [after, setAfter] = useState<string>('')
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const router = useRouter()
 
   const errorMessage = "El código debe contener al menos 4 caracteres."

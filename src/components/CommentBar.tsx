@@ -1,4 +1,4 @@
-import { Button, Card, CardFooter, CardHeader, Input, Textarea } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Input, Textarea } from "@nextui-org/react";
 import { isLoggedIn } from "@/utils/auth";
 
 type CommentBarProps = {
@@ -79,9 +79,11 @@ export default function CommentBar(props: CommentBarProps) {
         </Card>
       ) : (
         <Card className='bg-transparent mb-10'>
-          <p>Debes &nbsp;</p>
-          <a href='/login' className='link'>iniciar sesión</a>
-          <p>&nbsp; para comentar</p>
+          <CardBody className='flex flex-row'>
+            <p>Debes &nbsp;</p>
+            <a href='/login' className='link'>iniciar sesión</a>
+            <p>&nbsp; para comentar</p>
+          </CardBody>
         </Card>
       )}
     </>

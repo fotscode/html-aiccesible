@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   Divider,
   User,
 } from '@nextui-org/react'
@@ -26,10 +27,11 @@ type PostProps = {
   post: Post
   toggleLikes: () => void
   liked: boolean
+  isLoggedIn: boolean
 }
 
 export default function OpenedPostCard(props: PostProps) {
-  const { post, toggleLikes, liked} = props
+  const { post, toggleLikes, liked, isLoggedIn} = props
 
   const targetRef = useRef<HTMLDivElement>(null);
 
@@ -126,35 +128,44 @@ export default function OpenedPostCard(props: PostProps) {
           </section>
         </CardBody>
         <CardFooter className='flex flex-row justify-start items-center sm:px-4 py-2'>
+          { isLoggedIn ? (
             <Button
-                className='font-size-text-adjust-xs'
-                color='danger'
-                radius='md'
-                aria-label='Like'
-                onPress={toggleLikes}
-                variant="light"
-                startContent={ liked ? (
-                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
-                ) : (
-                    <GoHeart className="h-6 w-6 transition-all ease-out" />
-                )}
+              className='font-size-text-adjust-xs'
+              color='danger'
+              radius='md'
+              aria-label='Like'
+              onPress={toggleLikes}
+              variant="light"
+              startContent={ liked ? (
+                  <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+              ) : (
+                  <GoHeart className="h-6 w-6 transition-all ease-out" />
+              )}
             >
-                {post.likes.length}
+              {post.likes.length}
             </Button>
-            <Button
-                className='font-size-text-adjust-xs'
-                color='danger'
-                radius='md'
-                aria-label='Comment'
-                onPress={() => { 
-                  if (targetRef.current)
-                    targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-                }}
-                variant="light"
-                startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
+          ) : (
+            <Chip 
+              variant='light'
+              color='danger'
             >
-                {post.comments.length}
-            </Button>
+              {post.likes.length} likes
+            </Chip>
+          )}
+          <Button
+            className='font-size-text-adjust-xs'
+            color='danger'
+            radius='md'
+            aria-label='Comment'
+            onPress={() => { 
+              if (targetRef.current)
+                targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+            }}
+            variant="light"
+            startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
+          >
+            {post.comments.length}
+          </Button>
         </CardFooter>
         <Divider className='my-2'/>
         <section className='mx-2' ref={targetRef}>

@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   Divider,
 } from '@nextui-org/react'
 import { BiCommentDetail } from "react-icons/bi";
@@ -17,11 +18,12 @@ type ClosedPostProps = {
   likes: boolean[]
   comments: number
   toggleLike: () => void
+  isLoggedIn: boolean
 }
 
 
 export default function ClosedPostCard(props: ClosedPostProps) {
-  const { post, likes, comments, toggleLike} = props
+  const { post, likes, comments, toggleLike, isLoggedIn} = props
   const router = useRouter()
 
   return (
@@ -49,7 +51,8 @@ export default function ClosedPostCard(props: ClosedPostProps) {
             </section>
           </CardBody>
           <CardFooter className='flex flex-row justify-start gap-0 py-2'>
-            <Button
+            { isLoggedIn ? (
+              <Button
                 className='font-size-text-adjust-xs'
                 color='danger'
                 radius='md'
@@ -57,23 +60,31 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 onPress={toggleLike}
                 variant="light"
                 startContent={likes[post.ID - 1] ? (
-                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                  <GoHeartFill className="h-6 w-6 transition-all ease-in" />
                 ) : (
-                    <GoHeart className="h-6 w-6 transition-all ease-out" />
+                  <GoHeart className="h-6 w-6 transition-all ease-out" />
                 )}
-            >
-                {post.likes.length}
-            </Button>
-            <Button
-                className='font-size-text-adjust-xs'
+              >
+                  {post.likes.length}
+              </Button>
+            ) : (
+              <Chip 
+                variant='light'
                 color='danger'
-                radius='md'
-                aria-label='Comment'
-                onPress={() => {  } }
-                variant="light"
-                startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
+              >
+                {post.likes.length} likes
+              </Chip>
+            )}
+            <Button
+              className='font-size-text-adjust-xs'
+              color='danger'
+              radius='md'
+              aria-label='Comment'
+              onPress={() => {  } }
+              variant="light"
+              startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
             >
-                {comments}
+              {comments}
             </Button>
           </CardFooter>
         </div>
