@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Post } from '@/interfaces/Community'
 import { addPost } from '@/utils/ApiPosts'
 import CodeBlock from '@/components/CodeBlock'
+import { toast } from 'react-toastify'
 
 
 export default function Community() {
@@ -39,6 +40,7 @@ export default function Community() {
       }
       console.log(newPost)
       await addPost(getToken(), newPost);
+      toast.success('Tu nuevo artículo fue publicado con éxito!')
       router.back();
     } catch (error: any) {
       console.error(`Error: ${error.message}`);
@@ -56,8 +58,7 @@ export default function Community() {
     <>
       <Header />
       <main className='flex flex-col justify-center items-center py-8 font-size-text-adjust'>
-
-        <Modal //Modal for going back 
+        <Modal 
           backdrop="opaque" 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
@@ -71,7 +72,7 @@ export default function Community() {
                 <ModalHeader className="flex flex-col gap-1">Volver atrás</ModalHeader>
                 <ModalBody>
                   <p> 
-                    ¿Estás segurx de que deseas salir? El artículo generado no se guardará.
+                    ¿Estás segurx de que deseas salir? Los cambios en el artículo no se guardarán.
                   </p>
                 </ModalBody>
                 <ModalFooter>

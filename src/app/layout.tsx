@@ -6,6 +6,7 @@ import Providers from './context/Provider'
 import { Suspense } from 'react';
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
+import RouteGuard from '@/components/RouteGuard'
 
 
 export const metadata: Metadata = {
@@ -29,7 +30,9 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <NextUIProvider>
               <Providers>
-                {children}
+                <RouteGuard>
+                  {children}
+                </RouteGuard>
               </Providers>
             </NextUIProvider>
           </NextIntlClientProvider>
