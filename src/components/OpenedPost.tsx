@@ -14,11 +14,11 @@ import { poppins } from '@/app/fonts'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { BiCommentDetail } from 'react-icons/bi'
 import CommentBar from './CommentBar'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { beautifyHTML } from '@/utils/beautifier'
 import CodeBlock from './CodeBlock'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { getToken, getUsername } from '@/utils/auth'
 import { addComment } from '@/utils/ApiComments'
 import { formatDate } from '@/utils/post'
@@ -34,6 +34,7 @@ export default function OpenedPostCard(props: PostProps) {
   const { post, toggleLikes, liked, isLoggedIn} = props
 
   const targetRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
 
   const router = useRouter()
 
@@ -73,6 +74,13 @@ export default function OpenedPostCard(props: PostProps) {
       console.error(error.message);
     }
   }
+
+
+    useEffect(() => {
+        if (searchParams.get('scrollTo') === 'comments') {
+            targetRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [searchParams]);
 
 
   return (

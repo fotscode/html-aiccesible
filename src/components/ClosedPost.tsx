@@ -80,7 +80,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
               color='danger'
               radius='md'
               aria-label='Comment'
-              onPress={() => {  } }
+              onPress={() => { router.push(`/community/post/${post.ID}?scrollTo=comments`) }}
               variant="light"
               startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
             >
