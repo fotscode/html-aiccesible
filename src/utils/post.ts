@@ -1,7 +1,6 @@
-import { Post } from "@/interfaces/Community"
 import { getUser } from "./ApiUser"
 
-function formatDate(dateString: string): string {
+export function formatDate(dateString: string): string {
     // Parse the input date string into a Date object
     const date = new Date(dateString);
     
@@ -16,6 +15,7 @@ function formatDate(dateString: string): string {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
+
 export async function formatPost(post: any) {
 
   const commentsWithUser = await Promise.all(post.comments.map(async (comment: any) => {
@@ -27,7 +27,6 @@ export async function formatPost(post: any) {
       title: comment.title,
       content: comment.content,
       avatar: "",
-      comments: []
     }
   }))
 

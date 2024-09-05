@@ -1,4 +1,5 @@
 export async function addComment(token: string, comment: { author: string, title: string, content: string, post_id: number}) {
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comment/add`, {
         method: 'POST',
         headers: {

@@ -1,4 +1,4 @@
-import { Post } from '@/interfaces/Community'
+import { Post, Comment } from '@/interfaces/Community'
 import {
   Button,
   Card,
@@ -13,11 +13,14 @@ import { poppins } from '@/app/fonts'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { BiCommentDetail } from 'react-icons/bi'
 import CommentBar from './CommentBar'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { beautifyHTML } from '@/utils/beautifier'
 import CodeBlock from './CodeBlock'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { useRouter } from 'next/navigation'
+import { getToken, getUsername } from '@/utils/auth'
+import { addComment } from '@/utils/ApiComments'
+import { formatDate } from '@/utils/post'
 
 type PostProps = {
   post: Post
@@ -31,6 +34,43 @@ export default function OpenedPostCard(props: PostProps) {
   const targetRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter()
+
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [comments, setComments] = useState<Comment[]>(post.comments);
+  const [textAreaOpened, setTextAreaOpened] = useState<boolean>(false);
+
+
+  const submitComment = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const comment = {
+        post_id: post.ID,
+        author: getUsername(),
+        title: title,
+        content: content,
+      }
+
+      const unformattedComment = await addComment(getToken(), comment);
+      const formattedComment: Comment = {
+        ID: unformattedComment.ID,
+        author: getUsername(),
+        date: formatDate(unformattedComment.CreatedAt),
+        title: comment.title,
+        content: comment.content,
+        avatar: "",
+      }
+
+      setComments((prevComments) => [...prevComments, formattedComment]);
+      
+      setTitle('');
+      setContent('');
+      setTextAreaOpened(false);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  }
 
 
   return (
@@ -114,8 +154,8 @@ export default function OpenedPostCard(props: PostProps) {
         </CardFooter>
         <Divider className='my-2'/>
         <section className='mx-2' ref={targetRef}>
-          <CommentBar postID={post.ID}/>
-          {post.comments.map((comment) => (
+          <CommentBar submitComment={submitComment} title={title} setTitle={setTitle} content={content} setContent={setContent} textAreaOpened={textAreaOpened} setTextAreaOpened={setTextAreaOpened}/>
+          {comments.map((comment) => (
             <CommentCard comment={comment} key={comment.ID} />
           ))}
         </section>

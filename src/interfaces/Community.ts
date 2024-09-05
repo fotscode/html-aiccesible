@@ -17,7 +17,6 @@ export interface Comment {
   title: string
   content: string
   avatar: string
-  comments: Comment[]
 }
 
 export interface User {

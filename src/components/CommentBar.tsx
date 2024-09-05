@@ -1,32 +1,19 @@
 import { Button, Card, CardFooter, CardHeader, Input, Textarea } from "@nextui-org/react";
-import { getToken, getUsername, isLoggedIn } from "@/utils/auth";
-import { useState } from "react";
-import { addComment } from "@/utils/ApiComments";
+import { isLoggedIn } from "@/utils/auth";
 
+type CommentBarProps = {
+  submitComment: (e: any) => Promise<void>
+  title: string
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  content: string
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+  textAreaOpened: boolean
+  setTextAreaOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function CommentBar(props: {postID: number}) {
+export default function CommentBar(props: CommentBarProps) {
 
-  const { postID } = props;
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const [textAreaOpened, setTextAreaOpened] = useState<boolean>(false);
-
-  const submitComment = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      const comment = {
-        author: getUsername(),
-        title: title,
-        content: content,
-        post_id: postID,
-      }
-      await addComment(getToken(), comment)
-    } catch (error: any) {
-      console.error(error.message);
-    }
-     
-  }
+  const {submitComment, title, setTitle, content, setContent, textAreaOpened, setTextAreaOpened} = props
 
   const invalidLength = (value: string) => {
     if (value) {
@@ -51,6 +38,7 @@ export default function CommentBar(props: {postID: number}) {
                   isInvalid={invalidLength(title)}
                   errorMessage="El título del comentario debe tener al menos 5 caracteres."
                   onChange={(e: any) => { setTitle(e.target.value)} }
+                  value={title}
                 />
               </CardHeader>
             )}
@@ -62,6 +50,7 @@ export default function CommentBar(props: {postID: number}) {
               isInvalid={invalidLength(content)}
               errorMessage={textAreaOpened ? "El contenido del comentario debe tener al menos 5 caracteres." : ""}
               onChange={(e) => { setContent(e.target.value)} }
+              value={content}
               onClick={() => { 
                 if (!textAreaOpened) 
                   setTextAreaOpened(true)
@@ -77,6 +66,7 @@ export default function CommentBar(props: {postID: number}) {
                 </Button>
                 <Button 
                   id='comment-form'
+                  disabled={invalidLength(title) || invalidLength(content)}
                   size="sm"
                   color='primary'
                   type='submit'
