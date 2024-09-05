@@ -13,7 +13,7 @@ import { poppins } from '@/app/fonts'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { BiCommentDetail } from 'react-icons/bi'
 import CommentBar from './CommentBar'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { beautifyHTML } from '@/utils/beautifier'
 import CodeBlock from './CodeBlock'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
@@ -62,7 +62,7 @@ export default function OpenedPostCard(props: PostProps) {
         avatar: "",
       }
 
-      setComments((prevComments) => [...prevComments, formattedComment]);
+      setComments((prevComments) => [formattedComment, ...prevComments]);
       
       setTitle('');
       setContent('');
@@ -109,14 +109,18 @@ export default function OpenedPostCard(props: PostProps) {
               <h3 className='font-size-title-adjust-base'>Antes:</h3>
               <CodeBlock
                 code={beautifyHTML(post.before)}
+                setCode={null}
                 label="Código antes de ser accesible"
+                readonly={true}
               />
             </div>
             <div className='h-[40vh] w-full py-5'>
               <h3 className='font-size-title-adjust-base'>Después:</h3>
               <CodeBlock
                 code={beautifyHTML(post.after)}
+                setCode={null}
                 label="Código accesible"
+                readonly={true}
               />
             </div>
           </section>

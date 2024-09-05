@@ -46,7 +46,9 @@ export async function addPost(token: string, post: Post) {
         throw new Error('No se obtuvo una respuesta del servidor.');
     }
 
-    return response.json(); 
+    const data = await response.json()
+
+    return data.data;
 }
 
 export async function likePost(token: string, id: number) {

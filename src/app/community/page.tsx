@@ -8,8 +8,10 @@ import { formatPost } from '@/utils/post'
 import { poppins } from '@/app/fonts'
 import { Header } from '@/components/Header'
 import ClosedPostCard from '@/components/ClosedPost'
-import { getToken, getUsername } from '@/utils/auth'
-import { Spinner } from '@nextui-org/react'
+import { getToken, getUsername, isLoggedIn } from '@/utils/auth'
+import { Button, Spinner } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { FaFeatherPointed } from "react-icons/fa6";
 
 const NUMBER_OF_POSTS_TO_FETCH = 10
 
@@ -19,6 +21,9 @@ export default function Community() {
   const { ref, inView } = useInView()
   const [posts, setPosts] = useState<Post[]>([])
   const [myLikes, setMyLikes] = useState<boolean[]>([]);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const router = useRouter()
+
 
   const loadMorePosts = async () => {
     setLoading(true)
@@ -44,9 +49,18 @@ export default function Community() {
   }, [inView])
 
   useEffect(() => {
-    setMyLikes(posts.map((post: Post) => 
-        post.likes.some(like => like.username === getUsername())
-    ));
+    if (typeof window !== 'undefined') {
+      setIsUserLoggedIn(isLoggedIn());
+    }
+  }, []); 
+
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      setMyLikes(posts.map((post: Post) => 
+          post.likes.some(like => like.username === getUsername())
+      ));
+    }
   }, [posts])
 
   const toggleLike = async (id: number) => {
@@ -82,6 +96,27 @@ export default function Community() {
       <Header />
       <main className='flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
         <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium'}>Comunidad</h1>
+        <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
+          Podés ver artículos sobre buenas prácticas de accesibilidad redactados por la comunidad.
+          { isUserLoggedIn && (
+            <span>
+              <br/> Para redactar tus propios artículos, dar me gusta y comentar, debes &nbsp;
+              <a className='link' href='/login'>iniciar sesión</a>.
+            </span>
+          )}
+        </p>
+        { isUserLoggedIn && (
+          <div className='md:w-1/2 px-2 mt-3 justify-start'>
+            <Button 
+              className=''
+              color='primary'
+              onPress={() => {router.push('/community/publish')}}
+              endContent={<FaFeatherPointed/>}
+            >
+              Publicar artículo
+            </Button>
+          </div>
+        )}
         <section
           className='flex flex-col w-full md:w-1/2 justify-center px-2 gap-x-10'
           aria-busy={loading}

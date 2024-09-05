@@ -6,11 +6,15 @@ import { useTranslations } from 'next-intl';
 interface EditorProps {
     code: string,
     label: string,
+    setCode: ((value: string) => void) | null,
+    readonly: boolean,
 }
 
 const CodeBlock: React.FC<EditorProps> = ({
     code,
     label,
+    setCode,
+    readonly
 }) => {
 
   const {theme} = useTheme()
@@ -23,7 +27,11 @@ const CodeBlock: React.FC<EditorProps> = ({
       theme={theme == 'light' ? 'light' : 'vs-dark'} 
       defaultLanguage='html'
       value={code}
-      options={{ readOnly: true }}
+      options={{ readOnly: readonly }}
+      onChange={(value) => { 
+        if (setCode)
+          setCode(value || '')
+      }}
       aria-describedBy={label}
       loading={t('loading')}
     />

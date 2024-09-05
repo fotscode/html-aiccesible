@@ -73,7 +73,7 @@ export default function PostPage() {
       <Header />
       <main className='h-full flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
         <section
-          className='flex flex-col w-full px-2 md:w-3/4 justify-center'
+          className='flex flex-col w-full px-2 md:w-3/4 lg:w-1/2 justify-center'
           aria-busy={loading}
           role='feed'
         >
