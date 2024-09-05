@@ -23,6 +23,8 @@ import { getToken, getUsername } from '@/utils/auth'
 import { addComment } from '@/utils/ApiComments'
 import { formatDate } from '@/utils/post'
 import { ConfigContext } from '@/app/context/ConfigProvider'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type PostProps = {
   post: Post
@@ -59,6 +61,9 @@ export default function OpenedPostCard(props: PostProps) {
       }
 
       const unformattedComment = await addComment(getToken(), comment);
+      toast.success("Tu comentario fue publicado con éxito!", {
+        autoClose: 3000,
+      });
       const formattedComment: Comment = {
         ID: unformattedComment.ID,
         author: getUsername(),
@@ -75,6 +80,9 @@ export default function OpenedPostCard(props: PostProps) {
       setTextAreaOpened(false);
     } catch (error: any) {
       console.error(error.message);
+      toast.success("No pudo publicarse tu comentario debido a un error en el servidor.", {
+        autoClose: 3000,
+      });
     }
   }
 

@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Input, Textarea } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea, useDisclosure } from "@nextui-org/react";
 import { isLoggedIn } from "@/utils/auth";
 
 type CommentBarProps = {
@@ -15,6 +15,8 @@ export default function CommentBar(props: CommentBarProps) {
 
   const {submitComment, title, setTitle, content, setContent, textAreaOpened, setTextAreaOpened} = props
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
   const invalidLength = (value: string) => {
     if (value) {
         return value.length < 5;
@@ -25,6 +27,49 @@ export default function CommentBar(props: CommentBarProps) {
 
   return (
     <>
+      <Modal 
+        backdrop="opaque" 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        classNames={{
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">¿Descartar comentario?</ModalHeader>
+              <ModalBody>
+                <p> 
+                  Tenés un comentario en curso. ¿Seguro que querés descartarlo? 
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button 
+                  className='font-size-text-adjust-sm'
+                  variant="light"
+                  onPress={onClose}
+                >
+                  Cancelar
+                </Button>
+                <Button 
+                  className='font-size-text-adjust-sm'
+                  color="danger" 
+                  variant="light"
+                  onPress={() => {
+                    setTitle('')
+                    setContent('')
+                    setTextAreaOpened(false)
+                    onClose()
+                  }}
+                >
+                  Descartar
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       {isLoggedIn() ? (
         <Card className={`bg-transparent mb-10 ${textAreaOpened ? "px-2" : ""}`}>
           <form id='comment-form' className='flex flex-col gap-2' onSubmit={submitComment}>
@@ -59,14 +104,14 @@ export default function CommentBar(props: CommentBarProps) {
             {textAreaOpened && (
               <CardFooter className='flex flex-row justify-end py-1 mb-2 gap-2'>
                 <Button 
-                  onPress={() => {setTextAreaOpened(false)}}
+                  onPress={ title.length > 0 || content.length > 0 ? onOpen : () => {setTextAreaOpened(false)}}
                   size="sm"
                 > 
                   Cancelar 
                 </Button>
                 <Button 
                   id='comment-form'
-                  disabled={invalidLength(title) || invalidLength(content)}
+                  isDisabled={invalidLength(title) || invalidLength(content)}
                   size="sm"
                   color='primary'
                   type='submit'

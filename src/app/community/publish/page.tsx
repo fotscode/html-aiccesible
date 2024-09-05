@@ -10,6 +10,8 @@ import { Post } from '@/interfaces/Community'
 import { addPost } from '@/utils/ApiPosts'
 import CodeBlock from '@/components/CodeBlock'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css';
+import { IoArrowBackCircleSharp } from 'react-icons/io5'
 
 
 export default function Community() {
@@ -38,12 +40,14 @@ export default function Community() {
         description: description,
         comments: []
       }
-      console.log(newPost)
       await addPost(getToken(), newPost);
-      toast.success('Tu nuevo artículo fue publicado con éxito!')
-      router.back();
+      toast.success("Tu nuevo artículo fue publicado con éxito!", {
+        onClose: () => router.back(),
+        autoClose: 3000,
+      });
     } catch (error: any) {
       console.error(`Error: ${error.message}`);
+      toast.error("No pudo publicarse tu artículo debido a un error en el servidor.");
     }
   };
 
@@ -78,25 +82,39 @@ export default function Community() {
                 <ModalFooter>
                   <Button 
                     className='font-size-text-adjust-sm'
-                    color="danger" 
                     variant="light" 
                     onPress={onClose}
                   >
-                    No
+                    Cancelar
                   </Button>
                   <Button 
                     className='font-size-text-adjust-sm'
-                    color="primary" 
+                    color="danger" 
+                    variant="light" 
                     onPress={() => {router.back()}}
                   >
-                    Sí
+                    Salir
                   </Button>
                 </ModalFooter>
               </>
             )}
           </ModalContent>
         </Modal>
-        <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-3xl font-medium'}>Publicar</h1>
+        <header className='flex flex-col w-full md:w-3/4 lg:w-1/2 justify-start'>
+          <Button 
+            isIconOnly 
+            variant='light'
+            className='h-10 w-10'
+            radius='full'
+            color='primary'
+            onPress={onOpen}
+          >
+            <IoArrowBackCircleSharp className='h-full w-full' />
+          </Button>
+          <h1 className={`${poppins.className} font-size-title-adjust-3xl md:font-size-title-adjust-3xl font-medium my-2`}>
+            Publicar
+          </h1>
+        </header>
         <Card className='bg-transparent my-10 p-5 w-full md:w-3/4 lg:w-1/2'>
           <form id='post-form' className='flex flex-col gap-2' onSubmit={handleSubmit}>
             <CardHeader className='flex flex-row justify-end py-2 px-0 mt-2'>
