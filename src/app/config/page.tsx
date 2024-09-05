@@ -18,7 +18,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Slider
+  Slider,
+  Switch
 } from '@nextui-org/react'
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
@@ -40,28 +41,19 @@ export default function Config() {
   const [selectedKeysLanguage, setSelectedKeysLanguage] = useState(
     new Set([defaultConfigKeys.language]),
   )
+
   const selectedLanguage = useMemo(
     () => Array.from(selectedKeysLanguage).join(', ').replaceAll('_', ' '),
     [selectedKeysLanguage],
   )
 
-  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set([defaultConfigKeys.show_likes]))
-  const showLikes = useMemo(
-    () => Array.from(selKeysShowLikes).join(', ').replaceAll('_', ' '),
-    [selKeysShowLikes],
-  )
-
-  const [selKeysShowComments, setSelKeysShowComments] = useState(
-    new Set([defaultConfigKeys.show_comments]),
-  )
-  const showComments = useMemo(
-    () => Array.from(selKeysShowComments).join(', ').replaceAll('_', ' '),
-    [selKeysShowComments],
-  )
-
   const [sizeTitles, setSizeTitles] = useState<number>(defaultConfigKeys.title_size);
 
   const [sizeText, setSizeText] = useState<number>(defaultConfigKeys.text_size);
+
+  const [likes, setLikes] = useState<boolean>(defaultConfigKeys.show_likes);
+
+  const [comments, setComments] = useState<boolean>(defaultConfigKeys.show_comments);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -81,16 +73,10 @@ export default function Config() {
     setSelectedKeysLanguage(new Set([config.language]));
 
     //LIKES 
-    if (config.show_likes === true)
-      setSelKeysShowLikes(new Set(['likes-yes']));
-    else 
-      setSelKeysShowLikes(new Set(['likes-no']));
+    setLikes(config.show_likes)
 
     //COMMENTS
-    if (config.show_comments === true)
-      setSelKeysShowComments(new Set(['comments-yes']));
-    else 
-      setSelKeysShowComments(new Set(['comments-no']));
+    setComments(config.show_comments)
 
     //TITLES
     setSizeTitles(config.size_title);
@@ -121,16 +107,16 @@ export default function Config() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const show_likes = selKeysShowLikes.values().next().value;
-    const show_comments = selKeysShowComments.values().next().value;
     const theme = selectedKeysTheme.values().next().value;
     const language = selectedKeysLanguage.values().next().value;
     const size_title = sizeTitles ;
     const size_text = sizeText;
+    const show_likes = likes;
+    const show_comments = comments;
 
     const newConfig: Config = {
-      show_likes: show_likes == 'likes-yes',
-      show_comments: show_comments == 'comments-yes',
+      show_likes: show_likes,
+      show_comments: show_comments,
       theme: theme,
       language: language,
       size_title: size_title,
@@ -159,9 +145,9 @@ export default function Config() {
     //LANGUAGE
     setSelectedKeysLanguage(new Set([defaultConfigKeys.language]));
     //LIKES 
-    setSelKeysShowLikes(new Set([defaultConfigKeys.show_likes]));
+    setLikes(defaultConfigKeys.show_likes)
     //COMMENTS
-    setSelKeysShowComments(new Set([defaultConfigKeys.show_comments]));
+    setComments(defaultConfigKeys.show_comments)
     //TITLES
     setSizeTitles(defaultConfigKeys.title_size);
     //TEXT
@@ -254,54 +240,18 @@ export default function Config() {
                 </Dropdown>
               </div>
               <Divider />
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+              <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('likes.label') }
                 </p>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {showLikes == 'likes-yes' ? t('likes.yes') : t('likes.no')}
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label={t('likes.label')}
-                    variant='flat'
-                    disallowEmptySelection
-                    selectionMode='single'
-                    selectedKeysTheme={selKeysShowLikes}
-                    //@ts-ignore
-                    onSelectionChange={setSelKeysShowLikes}
-                  >
-                    <DropdownItem key='likes-yes'><p className='font-size-text-adjust-base'>{t('likes.yes')}</p></DropdownItem>
-                    <DropdownItem key='likes-no'><p className='font-size-text-adjust-base'>{t('likes.no')}</p></DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+                <Switch defaultSelected color="primary" checked={likes} onChange={() => {setLikes(!likes)}} />
               </div>
               <Divider />
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+              <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('comments.label') }
                 </p>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
-                      {showComments == 'comments-yes' ? t('comments.yes') : t('comments.no')}
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label={t('comments.label')}
-                    variant='flat'
-                    disallowEmptySelection
-                    selectionMode='single'
-                    selectedKeysTheme={selKeysShowComments}
-                    //@ts-ignore
-                    onSelectionChange={setSelKeysShowComments}
-                  >
-                    <DropdownItem key='comments-yes'><p className='font-size-text-adjust-base'>{t('comments.yes')}</p></DropdownItem>
-                    <DropdownItem key='comments-no'><p className='font-size-text-adjust-base'>{t('comments.no')}</p></DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+                <Switch defaultSelected color="primary" checked={comments} onChange={() => {setComments(!comments)}} />
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>

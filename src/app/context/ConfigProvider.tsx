@@ -9,6 +9,8 @@ import { setUserLocale } from '@/services/locale';
 const defaultConfigContext: ConfigContext = {
     changesConfig: 0, 
     setChangesConfig: () => {}, 
+    likes: true,
+    comments: true,
 };
 
 export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
@@ -16,15 +18,15 @@ export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
 export const defaultConfigKeys = {
     theme: 'light',
     language: defaultLocale as string,
-    show_likes: 'likes-yes',
-    show_comments: 'comments-yes',
+    show_likes: true, //'likes-yes',
+    show_comments: true, //'comments-yes',
     text_size: 1.0, 
     title_size: 1.0, 
 };
 
 export const defaultConfig: Config = {
-  show_likes: defaultConfigKeys.show_likes === 'likes-yes' ? true : false,
-  show_comments: defaultConfigKeys.show_comments === 'comments-no' ? true : false,
+  show_likes: defaultConfigKeys.show_likes,
+  show_comments: defaultConfigKeys.show_comments,
   theme: defaultConfigKeys.theme,
   language: defaultConfigKeys.language,
   size_title: defaultConfigKeys.title_size,
@@ -38,6 +40,10 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     // Modified after applying changes
     const [ changesConfig, setChangesConfig ] = useState(0);
 
+    const [ likes, setLikes ] = useState<boolean>(defaultConfig.show_likes);
+
+    const [ comments, setComments] = useState<boolean>(defaultConfig.show_comments);
+
 
     const getLocalConfig = () => {
         const strConfig = localStorage.getItem('config');
@@ -46,16 +52,6 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
             applyConfig(config);
         else
             applyConfig(defaultConfig);
-        /*
-          Fields:
-          show_likes: show_likes == 'Sí',
-          show_comments: show_comments == 'Sí',
-          theme: theme == 'Claro' ? 'light' : 'dark',
-          language: language == 'Español' ? 'es' : 'eng',
-          size_title: size_title,
-          size_text: size_text,
-        */
-
     };
 
     const applyConfig = (data: Config) => {
@@ -63,8 +59,8 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
         document.documentElement.style.setProperty('--text-scaler', `${data.size_text}`);
         document.documentElement.style.setProperty('--title-scaler', `${data.size_title}`);
         setUserLocale(data.language);
-
-        //TODO apply changes for likes and comments
+        setLikes(data.show_likes)
+        setComments(data.show_comments)
     }
 
 
@@ -82,7 +78,7 @@ const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     }, [changesConfig]);
 
     return (
-        <ConfigContext.Provider value={{ changesConfig, setChangesConfig }}>
+        <ConfigContext.Provider value={{ changesConfig, setChangesConfig, likes, comments }}>
             {children}
         </ConfigContext.Provider>
     );

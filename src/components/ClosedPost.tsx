@@ -12,6 +12,8 @@ import { BiCommentDetail } from "react-icons/bi";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { poppins } from '@/app/fonts'
 import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
+import { ConfigContext } from '@/app/context/ConfigProvider';
 
 type ClosedPostProps = {
   post: Post
@@ -25,6 +27,8 @@ type ClosedPostProps = {
 export default function ClosedPostCard(props: ClosedPostProps) {
   const { post, likes, comments, toggleLike, isLoggedIn} = props
   const router = useRouter()
+
+  const { likes: showLikes, comments: showComments } = useContext(ConfigContext)
 
   return (
     <>
@@ -51,41 +55,45 @@ export default function ClosedPostCard(props: ClosedPostProps) {
             </section>
           </CardBody>
           <CardFooter className='flex flex-row justify-start gap-0 py-2'>
-            { isLoggedIn ? (
+            { showLikes && (
+              isLoggedIn ? (
+                <Button
+                  className='font-size-text-adjust-xs'
+                  color='danger'
+                  radius='md'
+                  aria-label='Like'
+                  onPress={toggleLike}
+                  variant="light"
+                  startContent={likes[post.ID - 1] ? (
+                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                  ) : (
+                    <GoHeart className="h-6 w-6 transition-all ease-out" />
+                  )}
+                >
+                    {post.likes.length}
+                </Button>
+              ) : (
+                <Chip 
+                  variant='light'
+                  color='danger'
+                >
+                  {post.likes.length} likes
+                </Chip>
+              )
+            )}
+            { showComments && (
               <Button
                 className='font-size-text-adjust-xs'
                 color='danger'
                 radius='md'
-                aria-label='Like'
-                onPress={toggleLike}
+                aria-label='Comment'
+                onPress={() => { router.push(`/community/post/${post.ID}?scrollTo=comments`) }}
                 variant="light"
-                startContent={likes[post.ID - 1] ? (
-                  <GoHeartFill className="h-6 w-6 transition-all ease-in" />
-                ) : (
-                  <GoHeart className="h-6 w-6 transition-all ease-out" />
-                )}
+                startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
               >
-                  {post.likes.length}
+                {comments}
               </Button>
-            ) : (
-              <Chip 
-                variant='light'
-                color='danger'
-              >
-                {post.likes.length} likes
-              </Chip>
             )}
-            <Button
-              className='font-size-text-adjust-xs'
-              color='danger'
-              radius='md'
-              aria-label='Comment'
-              onPress={() => { router.push(`/community/post/${post.ID}?scrollTo=comments`) }}
-              variant="light"
-              startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
-            >
-              {comments}
-            </Button>
           </CardFooter>
         </div>
       </Card>

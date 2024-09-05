@@ -14,7 +14,7 @@ import { poppins } from '@/app/fonts'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { BiCommentDetail } from 'react-icons/bi'
 import CommentBar from './CommentBar'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { beautifyHTML } from '@/utils/beautifier'
 import CodeBlock from './CodeBlock'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
@@ -22,6 +22,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { getToken, getUsername } from '@/utils/auth'
 import { addComment } from '@/utils/ApiComments'
 import { formatDate } from '@/utils/post'
+import { ConfigContext } from '@/app/context/ConfigProvider'
 
 type PostProps = {
   post: Post
@@ -42,6 +43,8 @@ export default function OpenedPostCard(props: PostProps) {
   const [content, setContent] = useState<string>('');
   const [comments, setComments] = useState<Comment[]>(post.comments);
   const [textAreaOpened, setTextAreaOpened] = useState<boolean>(false);
+
+  const { likes, comments: showComments } = useContext(ConfigContext);
 
 
   const submitComment = async (e: any) => {
@@ -136,52 +139,58 @@ export default function OpenedPostCard(props: PostProps) {
           </section>
         </CardBody>
         <CardFooter className='flex flex-row justify-start items-center sm:px-4 py-2'>
-          { isLoggedIn ? (
+          { likes && (
+            isLoggedIn ? (
+              <Button
+                className='font-size-text-adjust-xs'
+                color='danger'
+                radius='md'
+                aria-label='Like'
+                onPress={toggleLikes}
+                variant="light"
+                startContent={ liked ? (
+                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                ) : (
+                    <GoHeart className="h-6 w-6 transition-all ease-out" />
+                )}
+              >
+                {post.likes.length}
+              </Button>
+            ) : (
+              <Chip 
+                variant='light'
+                color='danger'
+              >
+                {post.likes.length} likes
+              </Chip>
+            )
+          )}
+          { showComments && (
             <Button
               className='font-size-text-adjust-xs'
               color='danger'
               radius='md'
-              aria-label='Like'
-              onPress={toggleLikes}
+              aria-label='Comment'
+              onPress={() => { 
+                if (targetRef.current)
+                  targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+              }}
               variant="light"
-              startContent={ liked ? (
-                  <GoHeartFill className="h-6 w-6 transition-all ease-in" />
-              ) : (
-                  <GoHeart className="h-6 w-6 transition-all ease-out" />
-              )}
+              startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
             >
-              {post.likes.length}
+              {post.comments.length}
             </Button>
-          ) : (
-            <Chip 
-              variant='light'
-              color='danger'
-            >
-              {post.likes.length} likes
-            </Chip>
           )}
-          <Button
-            className='font-size-text-adjust-xs'
-            color='danger'
-            radius='md'
-            aria-label='Comment'
-            onPress={() => { 
-              if (targetRef.current)
-                targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-            }}
-            variant="light"
-            startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
-          >
-            {post.comments.length}
-          </Button>
         </CardFooter>
         <Divider className='my-2'/>
-        <section className='mx-2' ref={targetRef}>
-          <CommentBar submitComment={submitComment} title={title} setTitle={setTitle} content={content} setContent={setContent} textAreaOpened={textAreaOpened} setTextAreaOpened={setTextAreaOpened}/>
-          {comments.map((comment) => (
-            <CommentCard comment={comment} key={comment.ID} />
-          ))}
-        </section>
+        { showComments && (
+          <section className='mx-2' ref={targetRef}>
+            <CommentBar submitComment={submitComment} title={title} setTitle={setTitle} content={content} setContent={setContent} textAreaOpened={textAreaOpened} setTextAreaOpened={setTextAreaOpened}/>
+            {comments.map((comment) => (
+              <CommentCard comment={comment} key={comment.ID} />
+            ))}
+          </section>
+        )}
       </Card>
     </article>
   )
