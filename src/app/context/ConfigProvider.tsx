@@ -15,23 +15,15 @@ const defaultConfigContext: ConfigContext = {
 
 export const ConfigContext = createContext<ConfigContext>(defaultConfigContext);
 
-export const defaultConfigKeys = {
+export const defaultConfig: Config = {
     theme: 'light',
     language: defaultLocale as string,
-    show_likes: true, //'likes-yes',
-    show_comments: true, //'comments-yes',
-    text_size: 1.0, 
-    title_size: 1.0, 
+    show_likes: true, 
+    show_comments: true, 
+    size_text: 1.0, 
+    size_title: 1.0, 
 };
 
-export const defaultConfig: Config = {
-  show_likes: defaultConfigKeys.show_likes,
-  show_comments: defaultConfigKeys.show_comments,
-  theme: defaultConfigKeys.theme,
-  language: defaultConfigKeys.language,
-  size_title: defaultConfigKeys.title_size,
-  size_text: defaultConfigKeys.text_size,
-};
 
 const ConfigProvider: React.FC<ProvidersProps> = ({ children }) => {
     // Theme color

@@ -24,14 +24,14 @@ import {
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
 import { getConfig, updateConfig } from '@/utils/ApiConfig'
-import { ConfigContext, defaultConfig, defaultConfigKeys } from '../context/ConfigProvider'
+import { ConfigContext, defaultConfig } from '../context/ConfigProvider'
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
 
-  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set([defaultConfigKeys.theme]))
+  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set([defaultConfig.theme]))
 
   const selectedTheme = useMemo(
     () => Array.from(selectedKeysTheme).join(', ').replaceAll('_', ' '),
@@ -39,7 +39,7 @@ export default function Config() {
   )
 
   const [selectedKeysLanguage, setSelectedKeysLanguage] = useState(
-    new Set([defaultConfigKeys.language]),
+    new Set([defaultConfig.language]),
   )
 
   const selectedLanguage = useMemo(
@@ -47,13 +47,13 @@ export default function Config() {
     [selectedKeysLanguage],
   )
 
-  const [sizeTitles, setSizeTitles] = useState<number>(defaultConfigKeys.title_size);
+  const [sizeTitles, setSizeTitles] = useState<number>(defaultConfig.size_title);
 
-  const [sizeText, setSizeText] = useState<number>(defaultConfigKeys.text_size);
+  const [sizeText, setSizeText] = useState<number>(defaultConfig.size_text);
 
-  const [likes, setLikes] = useState<boolean>(defaultConfigKeys.show_likes);
+  const [likes, setLikes] = useState<boolean>(defaultConfig.show_likes);
 
-  const [comments, setComments] = useState<boolean>(defaultConfigKeys.show_comments);
+  const [comments, setComments] = useState<boolean>(defaultConfig.show_comments);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -107,20 +107,13 @@ export default function Config() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const theme = selectedKeysTheme.values().next().value;
-    const language = selectedKeysLanguage.values().next().value;
-    const size_title = sizeTitles ;
-    const size_text = sizeText;
-    const show_likes = likes;
-    const show_comments = comments;
-
     const newConfig: Config = {
-      show_likes: show_likes,
-      show_comments: show_comments,
-      theme: theme,
-      language: language,
-      size_title: size_title,
-      size_text: size_text,
+      theme: selectedKeysTheme.values().next().value,
+      language: selectedKeysLanguage.values().next().value,
+      show_likes: likes,
+      show_comments: comments,
+      size_title: sizeTitles,
+      size_text: sizeText,
     };
 
     try {
@@ -141,17 +134,17 @@ export default function Config() {
   const resetConfig = () => {
 
     //THEME
-    setSelectedKeysTheme(new Set([defaultConfigKeys.theme]));
+    setSelectedKeysTheme(new Set([defaultConfig.theme]));
     //LANGUAGE
-    setSelectedKeysLanguage(new Set([defaultConfigKeys.language]));
+    setSelectedKeysLanguage(new Set([defaultConfig.language]));
     //LIKES 
-    setLikes(defaultConfigKeys.show_likes)
+    setLikes(defaultConfig.show_likes)
     //COMMENTS
-    setComments(defaultConfigKeys.show_comments)
+    setComments(defaultConfig.show_comments)
     //TITLES
-    setSizeTitles(defaultConfigKeys.title_size);
+    setSizeTitles(defaultConfig.size_title);
     //TEXT
-    setSizeText(defaultConfigKeys.text_size);
+    setSizeText(defaultConfig.size_text);
 
     if (isLoggedIn()) {
       try{
