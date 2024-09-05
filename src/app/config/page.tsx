@@ -237,14 +237,14 @@ export default function Config() {
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('likes.label') }
                 </p>
-                <Switch defaultSelected color="primary" checked={likes} onChange={() => {setLikes(!likes)}} />
+                <Switch color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
               </div>
               <Divider />
               <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('comments.label') }
                 </p>
-                <Switch defaultSelected color="primary" checked={comments} onChange={() => {setComments(!comments)}} />
+                <Switch color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>

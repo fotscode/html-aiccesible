@@ -33,7 +33,7 @@ export default function PostPage() {
         }
     } catch (error) {
         console.error(error);
-        setError('Failed to fetch post');
+        setError(`${error}`);
     } finally {
         setLoading(false);
     }
@@ -50,7 +50,13 @@ export default function PostPage() {
   }, []); 
 
   if (loading) {
-    return <Spinner aria-label='Loading...' color='primary' />;
+    return (
+      <div className='flex min-h-screen justify-center items-center flex-col'>
+        <div className='flex justify-center items-center'>
+          <Spinner aria-label='Loading...' color='primary' role='status'/>
+        </div>
+      </div>
+    )
   }
 
   if (error) {
@@ -58,7 +64,7 @@ export default function PostPage() {
   }
 
   if (!post) {
-    return <div>Post not found.</div>; // Handle case where post is null
+    return <div>Post not found.</div>; 
   }
 
   const like = async (id: number) => {
