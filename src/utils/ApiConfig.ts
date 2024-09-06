@@ -12,7 +12,7 @@ export async function getConfig(token: string) {
     return response.json();
 }
 
-export async function updateConfig(token: string, newConfig: {show_likes: boolean, show_comments: boolean, theme: string, language: string, size_title: number, size_text: number}) {
+export async function updateConfig(token: string, newConfig: Config) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/config/update`, {
         method: 'PUT',
         headers: {

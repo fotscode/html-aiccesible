@@ -43,3 +43,15 @@ export async function loginUser(username: string, password: string) {
 
     return response.json(); 
 }
+
+export async function getUser(userId: number) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/get/${userId}`);
+
+    if (!response.ok) {
+        throw new Error(`Failed to get User data. Status code ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data.data;
+}

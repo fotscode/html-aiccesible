@@ -1,27 +1,35 @@
 import { Comment } from '@/interfaces/Community'
 import { Card, CardBody, CardHeader, User } from '@nextui-org/react'
+import { useTranslations } from 'next-intl'
+
 type CommentProps = {
   comment: Comment
-  position: number
 }
+
 export default function CommentCard(props: CommentProps) {
-  const { comment, position } = props
+  const { comment } = props
+
+  const t = useTranslations('CommentCard')
+
   return (
-    <article className='flex gap-2 flex-col w-full mx-0'>
-      <Card className='sm:p-2'>
-        <CardHeader>
-          <User
-            name={comment.author}
-            description={(<span className='text-typography'>{comment.date}</span>)}
-            // change color of description to black
-            avatarProps={{ src: comment.avatar }}
-          />
-        </CardHeader>
-        <CardBody>
-          <h3 className='font-bold font-size-title-adjust-base'>{comment.title}</h3>
-          <p>{comment.content}</p>
-        </CardBody>
-      </Card>
-    </article>
+    <Card aria-label={t('label')} shadow='md' className='bg-transparent border-none my-2 py-2'>
+      <CardHeader>
+        <User
+          name=
+            <span className="font-size-text-adjust-base">
+              {comment.author}
+            </span>
+          description={(<span className='font-size-text-adjust-base text-typography'>{comment.date}</span>)}
+          avatarProps={{ 
+            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+            size: 'sm',
+          }}
+        />
+      </CardHeader>
+      <CardBody>
+        <h3 className='font-bold font-size-title-adjust-base'>{comment.title}</h3>
+        <p>{comment.content}</p>
+      </CardBody>
+    </Card>
   )
 }
