@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { ConfigContext } from '@/app/context/ConfigProvider';
 import { useTranslations } from 'next-intl';
+import { RiArrowRightSLine } from "react-icons/ri";
 
 type ClosedPostProps = {
   post: Post
@@ -38,16 +39,10 @@ export default function ClosedPostCard(props: ClosedPostProps) {
       <Divider />
       <Card 
         isBlurred 
-        isHoverable 
-        onPressStart={() => { router.push(`/community/post/${post.ID}`) }}
         aria-label={t('label')}
         shadow='none' 
-        className='border-none bg-transparent transition-all duration-300 hover:bg-primary-100 hover:shadow-lg hover:cursor-pointer dark:hover:bg-default-900 my-2 w-full p-4'
+        className='border-none bg-transparent transition-all duration-300 hover:shadow-lg my-2 w-full p-4'
       >
-        <div
-          className='cursor-pointer'
-          onClick={() => router.push(`/community/post/${post.ID}`)}
-        >
           <CardHeader className='pt-2 flex-col items-start'>
             <h2 className={`${poppins.className} font-size-title-adjust-xl md:font-size-title-adjust-2xl font-bold`}>
               {post.title}
@@ -58,49 +53,61 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 <p className='truncate-multiline'>{post.description}</p>
             </section>
           </CardBody>
-          <CardFooter className='flex flex-row justify-start gap-0 py-2'>
-            { showLikes && (
-              isLoggedIn ? (
+          <CardFooter className='flex flex-row justify-between gap-0 py-2'>
+            <div className='flex flex-row items-center'>
+              { showLikes && (
+                isLoggedIn ? (
+                  <Button
+                    className='font-size-text-adjust-xs'
+                    color='danger'
+                    radius='md'
+                    aria-label='Like'
+                    onPress={toggleLike}
+                    variant="light"
+                    startContent={likes[post.ID - 1] ? (
+                      <GoHeartFill className="h-6 w-6 transition-all ease-in" />
+                    ) : (
+                      <GoHeart className="h-6 w-6 transition-all ease-out" />
+                    )}
+                  >
+                      {post.likes.length}
+                  </Button>
+                ) : (
+                  <Chip 
+                    className='font-size-text-adjust-base'
+                    variant='light'
+                    color='danger'
+                  >
+                    {post.likes.length} {t('likes')}
+                  </Chip>
+                )
+              )}
+              { showComments && (
                 <Button
                   className='font-size-text-adjust-xs'
                   color='danger'
                   radius='md'
-                  aria-label='Like'
-                  onPress={toggleLike}
+                  aria-label={t('comments')}
+                  onPress={() => { router.push(`/community/post/${post.ID}?scrollTo=comments`) }}
                   variant="light"
-                  startContent={likes[post.ID - 1] ? (
-                    <GoHeartFill className="h-6 w-6 transition-all ease-in" />
-                  ) : (
-                    <GoHeart className="h-6 w-6 transition-all ease-out" />
-                  )}
+                  startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
                 >
-                    {post.likes.length}
+                  {comments}
                 </Button>
-              ) : (
-                <Chip 
-                  className='font-size-text-adjust-base'
-                  variant='light'
-                  color='danger'
-                >
-                  {post.likes.length} {t('likes')}
-                </Chip>
-              )
-            )}
-            { showComments && (
-              <Button
-                className='font-size-text-adjust-xs'
-                color='danger'
-                radius='md'
-                aria-label='Comment'
-                onPress={() => { router.push(`/community/post/${post.ID}?scrollTo=comments`) }}
-                variant="light"
-                startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
-              >
-                {comments}
-              </Button>
-            )}
+              )}
+            </div>
+            <Button 
+              className='font-size-text-adjust-base'
+              onPress={() => { router.push(`/community/post/${post.ID}`) }}
+              aria-label={t('enter.label')}
+              variant='light'
+              radius='md'
+              color='primary'
+              endContent={<RiArrowRightSLine className='h-1/2 w-1/2'/>}
+            >
+              {t('enter.title')}
+            </Button>
           </CardFooter>
-        </div>
       </Card>
       <Divider/>
     </>

@@ -34,11 +34,11 @@ export async function loginUser(username: string, password: string) {
     });
 
     if (!response.ok) {
-        throw new Error('No se pudo autenticar en el servidor.');
+        throw new Error('auth failed');
     }
 
     if (!response.body) {
-        throw new Error('No se obtuvo una respuesta del servidor.');
+        throw new Error('server failed');
     }
 
     return response.json(); 

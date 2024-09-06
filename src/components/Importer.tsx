@@ -6,11 +6,11 @@ import { useState } from 'react'
 import DOMPurify from 'dompurify';
 import { fetchHtml } from '@/utils/htmlFetcher'
 import { useTranslations } from 'next-intl'
+import { toast } from 'react-toastify'
 
 const Importer = () => {
   const router = useRouter()
   const [url, setUrl] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const t = useTranslations('Importer');
 
   const validateUrl = (url: string) => ('https://' + url).match(/^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})([\/\w .-]*)*\/?$/);
@@ -22,7 +22,6 @@ const Importer = () => {
   }, [url]);
 
   const fetchHTML = async () => {
-      setError(''); 
       try {
         const data = await fetchHtml('https://' + url);
         const sanitizedHtml = DOMPurify.sanitize(data);
@@ -30,11 +29,8 @@ const Importer = () => {
         localStorage.setItem('htmlCode', sanitizedHtml);
         router.push('/accesibility/editor');
       } catch (error) {
-          if (error instanceof Error) {
-              setError(t('error') + error.message);
-          } else {
-              setError(t('unexpected_error'));
-          }
+          toast.error(t('browse_error'));
+          console.error(error)
       }
   };
 
@@ -84,11 +80,6 @@ const Importer = () => {
           {t('back')}
         </Button>
       </CardFooter>
-      <section className='py-2 justify-center'>
-        { error && (
-          <p className='text-danger'>{t('browse_error')}</p>
-        )}
-      </section>
     </Card>
   )
 }

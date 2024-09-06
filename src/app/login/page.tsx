@@ -15,19 +15,18 @@ import { loginUser } from '@/utils/ApiUser';
 import { ConfigContext } from '../context/ConfigProvider'
 import { setUserLocale } from '@/services/locale'
 import { useTranslations } from 'next-intl'
+import { toast } from 'react-toastify'
 
 export default function LogIn() {
   const router = useRouter()
   const searchParams = useSearchParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const { changesConfig, setChangesConfig } = useContext(ConfigContext);
   const t = useTranslations('LoginPage');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setError('');
 
     try{
       const savedUsername = username;
@@ -39,7 +38,11 @@ export default function LogIn() {
       router.push(returnUrl);
       setChangesConfig(changesConfig + 1);
     } catch (error: any) {
-      setError(`Error: ${error.message}`);
+      if(error.message === 'auth failed')
+        toast.error(t('invalid_credentials'))
+      else
+        toast.error(t('error'))
+      console.error(error.message)
     }
   };
 
@@ -80,8 +83,6 @@ export default function LogIn() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </form>
-
-              {error && <p className="text-red-500 font-size-text-adjust-sm text-center mt-2">{error}</p>}
             </CardBody>
 
             <CardFooter className='flex flex-col items-center'>

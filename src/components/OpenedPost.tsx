@@ -24,7 +24,6 @@ import { addComment } from '@/utils/ApiComments'
 import { formatDate } from '@/utils/post'
 import { ConfigContext } from '@/app/context/ConfigProvider'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css';
 import { useTranslations } from 'next-intl'
 
 type PostProps = {
@@ -196,7 +195,7 @@ export default function OpenedPostCard(props: PostProps) {
               variant="light"
               startContent={<BiCommentDetail className='h-1/2 w-1/2' />}
             >
-              {post.comments.length}
+              {comments.length}
             </Button>
           )}
         </CardFooter>
@@ -204,9 +203,15 @@ export default function OpenedPostCard(props: PostProps) {
         { showComments && (
           <section className='mx-2' ref={targetRef}>
             <CommentBar submitComment={submitComment} title={title} setTitle={setTitle} content={content} setContent={setContent} textAreaOpened={textAreaOpened} setTextAreaOpened={setTextAreaOpened}/>
-            {comments.map((comment) => (
-              <CommentCard comment={comment} key={comment.ID} />
-            ))}
+            { comments.length > 0 ? (
+              comments.map((comment) => (
+                <CommentCard comment={comment} key={comment.ID} />
+              ))
+            ) : (
+              <p className='font-size-text-adjust-xl font-bold'>
+                {t('no_comments')}
+              </p>
+            )}
           </section>
         )}
       </Card>
