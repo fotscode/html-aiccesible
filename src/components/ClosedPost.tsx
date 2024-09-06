@@ -14,6 +14,7 @@ import { poppins } from '@/app/fonts'
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { ConfigContext } from '@/app/context/ConfigProvider';
+import { useTranslations } from 'next-intl';
 
 type ClosedPostProps = {
   post: Post
@@ -30,6 +31,8 @@ export default function ClosedPostCard(props: ClosedPostProps) {
 
   const { likes: showLikes, comments: showComments } = useContext(ConfigContext)
 
+  const t = useTranslations('ClosedPostCard')
+
   return (
     <>
       <Divider />
@@ -37,6 +40,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
         isBlurred 
         isHoverable 
         onPressStart={() => { router.push(`/community/post/${post.ID}`) }}
+        aria-label={t('label')}
         shadow='none' 
         className='border-none bg-transparent transition-all duration-300 hover:bg-primary-100 hover:shadow-lg hover:cursor-pointer dark:hover:bg-default-900 my-2 w-full p-4'
       >
@@ -77,7 +81,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                   variant='light'
                   color='danger'
                 >
-                  {post.likes.length} likes
+                  {post.likes.length} {t('likes')}
                 </Chip>
               )
             )}

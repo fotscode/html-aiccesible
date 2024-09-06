@@ -12,6 +12,7 @@ import CodeBlock from '@/components/CodeBlock'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { IoArrowBackCircleSharp } from 'react-icons/io5'
+import { useTranslations } from 'next-intl'
 
 
 export default function Community() {
@@ -22,7 +23,9 @@ export default function Community() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const router = useRouter()
 
-  const errorMessage = "El código debe contener al menos 4 caracteres."
+  const t = useTranslations('PublishPage')
+
+  const errorMessage = t('error_message')
 
 
   const handleSubmit = async (e: any) => {
@@ -41,13 +44,13 @@ export default function Community() {
         comments: []
       }
       await addPost(getToken(), newPost);
-      toast.success("Tu nuevo artículo fue publicado con éxito!", {
+      toast.success(t('toast_success'), {
         onClose: () => router.back(),
         autoClose: 3000,
       });
     } catch (error: any) {
       console.error(`Error: ${error.message}`);
-      toast.error("No pudo publicarse tu artículo debido a un error en el servidor.");
+      toast.error(t('toast_error'))
     }
   };
 
@@ -73,10 +76,10 @@ export default function Community() {
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">Volver atrás</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">{t('modal_header')}</ModalHeader>
                 <ModalBody>
                   <p> 
-                    ¿Estás segurx de que deseas salir? Los cambios en el artículo no se guardarán.
+                    {t('modal_body')}
                   </p>
                 </ModalBody>
                 <ModalFooter>
@@ -85,7 +88,7 @@ export default function Community() {
                     variant="light" 
                     onPress={onClose}
                   >
-                    Cancelar
+                    {t('modal_cancel')}
                   </Button>
                   <Button 
                     className='font-size-text-adjust-sm'
@@ -93,7 +96,7 @@ export default function Community() {
                     variant="light" 
                     onPress={() => {router.back()}}
                   >
-                    Salir
+                    {t('modal_exit')}
                   </Button>
                 </ModalFooter>
               </>
@@ -112,7 +115,7 @@ export default function Community() {
             <IoArrowBackCircleSharp className='h-full w-full' />
           </Button>
           <h1 className={`${poppins.className} font-size-title-adjust-3xl md:font-size-title-adjust-3xl font-medium my-2`}>
-            Publicar
+            {t('modal.title')}
           </h1>
         </header>
         <Card className='bg-transparent my-10 p-5 w-full md:w-3/4 lg:w-1/2'>
@@ -120,35 +123,35 @@ export default function Community() {
             <CardHeader className='flex flex-row justify-end py-2 px-0 mt-2'>
               <Input 
                 isRequired
-                label='Título'
-                placeholder='Ingrese un título...'
+                label={t('input_title.label')}
+                placeholder={t('input_title.placeholder')}
                 className='w-full'
                 variant='faded'
                 radius='md'
                 isInvalid={invalidLength(title)}
-                errorMessage="El título del comentario debe tener al menos 5 caracteres."
+                errorMessage={t('input_title.error')}
                 onChange={(e: any) => { setTitle(e.target.value)} }
                 value={title}
               />
             </CardHeader>
             <Textarea
               isRequired
-              label='Cuerpo'
-              placeholder='Ingrese el contenido del artículo...'
+              label={t('input_content.label')}
+              placeholder={t('input_content.placeholder')}
               className='w-full'
               variant='faded'
               radius='md'
               isInvalid={invalidLength(description)}
-              errorMessage="El contenido del comentario debe tener al menos 5 caracteres."
+              errorMessage={t('input_content.error')}
               onChange={(e) => { setDescription(e.target.value)} }
               value={description}
             />
             <div className='h-[40vh] w-full py-5'>
               <div className='flex flex-row'>
-                <p className='font-size-title-adjust-base'>Antes</p>
+                <p className='font-size-title-adjust-base'>{t('before')}</p>
                 <p className='font-size-title-adjust-base text-danger'>*</p>
               </div>
-              <CodeBlock code={before} setCode={setBefore} label="Código antes de ser accesible" readonly={false}/>
+              <CodeBlock code={before} setCode={setBefore} label={t('codeblock.before.label')} comments={t('codeblock_before.comments')} readonly={false}/>
               { invalidLength(before, 4) && (
                 <p className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
               )}
@@ -156,10 +159,10 @@ export default function Community() {
 
             <div className='h-[40vh] w-full py-5'>
               <div className='flex flex-row'>
-                <p className='font-size-title-adjust-base'>Después</p>
+                <p className='font-size-title-adjust-base'>{t('after')}</p>
                 <p className='font-size-title-adjust-base text-danger'>*</p>
               </div>
-              <CodeBlock code={after} setCode={setAfter} label="Código accesible" readonly={false}/>
+              <CodeBlock code={after} setCode={setAfter} label={t('codeblock_after.label')} comments={t('codeblock_after.comments')} readonly={false}/>
               { invalidLength(after, 4) && (
                 <p className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
               )}
@@ -170,7 +173,7 @@ export default function Community() {
                 onPress={onOpen}
                 size="sm"
               > 
-                Atrás
+                {t('back')}
               </Button>
               <Button 
                 id='post-form'
@@ -179,7 +182,7 @@ export default function Community() {
                 color='primary'
                 type='submit'
               > 
-                Publicar
+                {t('publish')}
               </Button>
             </CardFooter>
           </form>

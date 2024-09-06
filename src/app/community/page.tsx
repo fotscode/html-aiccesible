@@ -12,6 +12,8 @@ import { getToken, getUsername, isLoggedIn } from '@/utils/auth'
 import { Button, Spinner } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FaFeatherPointed } from "react-icons/fa6";
+import { useTranslations } from 'next-intl'
+import { toast } from 'react-toastify'
 
 const NUMBER_OF_POSTS_TO_FETCH = 10
 
@@ -23,6 +25,8 @@ export default function Community() {
   const [myLikes, setMyLikes] = useState<boolean[]>([]);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const router = useRouter()
+
+  const t = useTranslations('CommunityPage')
 
 
   const loadMorePosts = async () => {
@@ -87,6 +91,7 @@ export default function Community() {
       setMyLikes(updatedMyLikes)
       setPosts(updatedPosts)
     } catch (error: any) {
+      toast.error(t('toast_error'))
       console.error(error.message);
     }
   }
@@ -95,13 +100,13 @@ export default function Community() {
     <>
       <Header />
       <main className='flex flex-col justify-center items-center gap-5 py-8 font-size-text-adjust'>
-        <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium'}>Comunidad</h1>
+        <h1 className={poppins.className +' font-size-title-adjust-3xl md:font-size-title-adjust-6xl font-medium'}>{t('title')}</h1>
         <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
-          Podés ver artículos sobre buenas prácticas de accesibilidad redactados por la comunidad.
+          {t('subtitle')}
           { !isUserLoggedIn && (
             <span>
-              <br/> Para redactar tus propios artículos, dar me gusta y comentar, debes &nbsp;
-              <a className='link' href='/login'>iniciar sesión</a>.
+              <br/> {t('subtitle_guest.first')} &nbsp;
+              <a className='link' href='/login'>{t('subtitle_guest.second')}</a>.
             </span>
           )}
         </p>
@@ -113,7 +118,7 @@ export default function Community() {
               onPress={() => {router.push('/community/publish')}}
               endContent={<FaFeatherPointed/>}
             >
-              Publicar artículo
+              {t('publish')}
             </Button>
           </div>
         )}
@@ -133,7 +138,7 @@ export default function Community() {
             />
           ))}
           <div ref={ref} />
-          {loading && <Spinner aria-label='Loading...' color='primary' />}
+          {loading && <Spinner aria-label={t('loading')} color='primary' />}
         </section>
       </main>
     </>

@@ -8,6 +8,54 @@
             "second": "Registrate"
         }
     },
+    "PublishPage": {
+        "title": "Publicar",
+        "input_title": {
+            "label": "Título",
+            "placeholder": "Ingrese un título...",
+            "error": "El título del artículo debe tener al menos 5 caracteres."
+        },
+        "input_content": {
+            "label": "Cuerpo",
+            "placeholder": "Ingrese el contenido del artículo...",
+            "error": "El contenido del artículo debe tener al menos 5 caracteres."
+        },
+        "before": "Antes",
+        "codeblock_before": {
+            "label": "Código antes de ser accesible",
+            "comments": "Ingrese el código antes de ser accesible..."
+        },
+        "after": "Después",
+        "codeblock_after": {
+            "label": "Código accesible",
+            "comments": "Ingrese el código accesible..."
+        },
+        "back": "Atrás",
+        "publish": "Publicar",
+        "error_message": "El código debe contener al menos 4 caracteres.",
+        "toast_success": "Tu nuevo artículo fue publicado con éxito!",
+        "toast_error": "No pudo publicarse tu artículo debido a un error en el servidor.",
+        "modal_header": "Volver atrás",
+        "modal_body": "¿Estás segurx de que deseas salir? Los cambios en el artículo no se guardarán.",
+        "modal_cancel": "Cancelar",
+        "modal_exit": "Salir"
+    },
+    "PostPage": {
+        "loading": "Cargando...",
+        "section": "Artículo de la comunidad",
+        "not_found": "Artículo no encontrado"
+    },
+    "CommunityPage": {
+        "title": "Comunidad",
+        "subtitle": "Podés ver artículos sobre buenas prácticas de accesibilidad redactados por la comunidad.",
+        "subtitle_guest": {
+            "first": "Para redactar tus propios artículos, dar \"Me gusta\" y comentar, debés",
+            "second": "iniciar sesión"
+        },
+        "toast_error": "Ocurrió un error inesperado al intentar dar \"Me gusta \"al artículo.",
+        "publish": "Publicar un artículo",
+        "loading": "Cargando..."
+    },
     "RegisterPage": {
         "title": "Registro de cuenta",
         "subtitle": "Se solicitarán datos mínimos para poder publicar artículos a tu nombre",
@@ -112,13 +160,13 @@
         },
         "likes": {
             "label": "Mostrar likes:",
-            "yes": "Si",
-            "no": "No"
+            "yes": "Seleccionado: Si",
+            "no": "Seleccionado: No"
         },
         "comments": {
             "label": "Mostrar comentarios:",
-            "yes": "Si",
-            "no": "No"
+            "yes": "Seleccionado: Si",
+            "no": "Seleccionado: No"
         },
         "titles": {
             "label": "Tamaño de títulos"
@@ -181,5 +229,45 @@
     "NonAccesibilizedEditor": {
         "default": "Copia tu código aquí",
         "loading": "Cargando..."
+    },
+    "CommentCard": {
+        "label": "Comentario"
+    },
+    "ClosedPostCard": {
+        "label": "Artículo cerrado. Presione para abrirlo",
+        "likes": "me gusta"
+    },
+    "CommentBar": {
+        "modal_header": "¿Descartar comentario?",
+        "modal_body": "Tenés un comentario en curso ¿Seguro que querés descartarlo?",
+        "modal_cancel": "Cancelar",
+        "modal_discard": "Descartar",
+        "input_title": {
+            "placeholder": "Título del comentario",
+            "error": "El título del comentario debe tener al menos 5 caracteres."
+        },
+        "input_comment": {
+            "placeholder": "Añadir un comentario",
+            "error": "El contenido del comentario debe tener al menos 5 caracteres."
+        },
+        "button_cancel": "Cancelar",
+        "button_comment": "Comentar",
+        "nonlogged": {
+            "first": "Debes",
+            "second": "iniciar sesión",
+            "third": "para comentar"
+        }
+    },
+    "OpenedPostCard": {
+        "toast_success": "Tu comentario fue publicado con éxito!",
+        "toast_error": "No pudo publicarse tu comentario debido a un error en el servidor.",
+        "back": "Atrás",
+        "author": "Autor del artículo",
+        "before": "Antes",
+        "code_before_label": "Código antes de ser accesible",
+        "after": "Después",
+        "code_after_label": "Código accesible",
+        "like": "Me gusta",
+        "likes": " me gusta"
     }
 }

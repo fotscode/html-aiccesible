@@ -9,6 +9,7 @@ import { getPost, likePost } from '@/utils/ApiPosts'
 import { formatPost } from '@/utils/post'
 import OpenedPost from '@/components/OpenedPost'
 import { useParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 
 export default function PostPage() {
@@ -18,6 +19,8 @@ export default function PostPage() {
   const [liked, setLiked] = useState<boolean>(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const { id } = useParams() as { id: string }; 
+
+  const t = useTranslations('PostPage')
 
 
   const fetchPost = async () => {
@@ -53,7 +56,7 @@ export default function PostPage() {
     return (
       <div className='flex min-h-screen justify-center items-center flex-col'>
         <div className='flex justify-center items-center'>
-          <Spinner aria-label='Loading...' color='primary' role='status'/>
+          <Spinner aria-label={t('loading')} color='primary' role='status'/>
         </div>
       </div>
     )
@@ -64,7 +67,7 @@ export default function PostPage() {
   }
 
   if (!post) {
-    return <div>Post not found.</div>; 
+    return <div>{t('not_found')}</div>; 
   }
 
   const like = async (id: number) => {
@@ -89,11 +92,11 @@ export default function PostPage() {
         <section
           className='flex flex-col w-full px-2 md:w-3/4 lg:w-1/2 justify-center'
           aria-busy={loading}
-          role='feed'
+          aria-label={t('section')}
         >
           <OpenedPost post={post} toggleLikes={() => like(post.ID)} liked={liked} isLoggedIn={isUserLoggedIn}/>
         </section>
-        {loading && <Spinner className='flex justify-center items-center' aria-label='Loading...' color='primary' />}
+        {loading && <Spinner className='flex justify-center items-center' aria-label={t('loading')} color='primary' role='status'/>}
       </main>
     </>
   )

@@ -25,6 +25,7 @@ import { formatDate } from '@/utils/post'
 import { ConfigContext } from '@/app/context/ConfigProvider'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
+import { useTranslations } from 'next-intl'
 
 type PostProps = {
   post: Post
@@ -48,6 +49,8 @@ export default function OpenedPostCard(props: PostProps) {
 
   const { likes, comments: showComments } = useContext(ConfigContext);
 
+  const t = useTranslations('OpenedPostCard')
+
 
   const submitComment = async (e: any) => {
     e.preventDefault();
@@ -61,7 +64,7 @@ export default function OpenedPostCard(props: PostProps) {
       }
 
       const unformattedComment = await addComment(getToken(), comment);
-      toast.success("Tu comentario fue publicado con éxito!", {
+      toast.success(t('toast_success'), {
         autoClose: 3000,
       });
       const formattedComment: Comment = {
@@ -80,7 +83,7 @@ export default function OpenedPostCard(props: PostProps) {
       setTextAreaOpened(false);
     } catch (error: any) {
       console.error(error.message);
-      toast.success("No pudo publicarse tu comentario debido a un error en el servidor.", {
+      toast.error(t('toast_error'), {
         autoClose: 3000,
       });
     }
@@ -102,6 +105,7 @@ export default function OpenedPostCard(props: PostProps) {
         <CardHeader className='py-2 flex-row justify-between'>
           <Button 
             isIconOnly 
+            aria-label={t('back')}
             variant='light'
             className='h-10 w-10'
             radius='full'
@@ -111,6 +115,7 @@ export default function OpenedPostCard(props: PostProps) {
             <IoArrowBackCircleSharp className='h-full w-full' />
           </Button>
           <User
+            aria-label={t('author')}
             name={post.author}
             description={(<span className='text-typography'>{post.date}</span>)}
             avatarProps={{ 
@@ -127,21 +132,23 @@ export default function OpenedPostCard(props: PostProps) {
             </h2>
             <p>{post.description}</p>
             <div className='h-[40vh] w-full py-5'>
-              <h3 className='font-size-title-adjust-base'>Antes:</h3>
+              <h3 className='font-size-title-adjust-base'>{t('before')}</h3>
               <CodeBlock
                 code={beautifyHTML(post.before)}
                 setCode={null}
-                label="Código antes de ser accesible"
+                label={t('code_before_label')}
                 readonly={true}
+                comments=''
               />
             </div>
             <div className='h-[40vh] w-full py-5'>
-              <h3 className='font-size-title-adjust-base'>Después:</h3>
+              <h3 className='font-size-title-adjust-base'>{t('after')}</h3>
               <CodeBlock
                 code={beautifyHTML(post.after)}
                 setCode={null}
-                label="Código accesible"
+                label={t('code_after_label')}
                 readonly={true}
+                comments=''
               />
             </div>
           </section>
@@ -153,7 +160,7 @@ export default function OpenedPostCard(props: PostProps) {
                 className='font-size-text-adjust-xs'
                 color='danger'
                 radius='md'
-                aria-label='Like'
+                aria-label={t('like')}
                 onPress={toggleLikes}
                 variant="light"
                 startContent={ liked ? (
@@ -169,7 +176,7 @@ export default function OpenedPostCard(props: PostProps) {
                 variant='light'
                 color='danger'
               >
-                {post.likes.length} likes
+                {post.likes.length} {t('likes')}
               </Chip>
             )
           )}

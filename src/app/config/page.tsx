@@ -19,7 +19,8 @@ import {
   ModalFooter,
   useDisclosure,
   Slider,
-  Switch
+  Switch,
+  Tooltip
 } from '@nextui-org/react'
 import { useEffect, useMemo, useState, useContext } from 'react'
 import { isLoggedIn, getToken } from '@/utils/auth'
@@ -237,14 +238,18 @@ export default function Config() {
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('likes.label') }
                 </p>
-                <Switch color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
+                <Tooltip content={likes ? t('likes.yes') : t('likes.no')}>
+                  <Switch color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
+                </Tooltip>
               </div>
               <Divider />
               <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
                 <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('comments.label') }
                 </p>
-                <Switch color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
+                <Tooltip content={comments ? t('comments.yes') : t('comments.no')}>
+                  <Switch color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
+                </Tooltip>
               </div>
               <Divider />
               <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>

@@ -8,13 +8,16 @@ interface EditorProps {
     label: string,
     setCode: ((value: string) => void) | null,
     readonly: boolean,
+    comments: string,
 }
 
 const CodeBlock: React.FC<EditorProps> = ({
     code,
     label,
     setCode,
-    readonly
+    readonly,
+    comments
+
 }) => {
 
   const {theme} = useTheme()
@@ -26,6 +29,7 @@ const CodeBlock: React.FC<EditorProps> = ({
       className='border border-default py-0.5 rounded-lg'
       theme={theme == 'light' ? 'light' : 'vs-dark'} 
       defaultLanguage='html'
+      defaultValue={`<!-- ${comments} -->`}
       value={code}
       options={{ readOnly: readonly }}
       onChange={(value) => { 

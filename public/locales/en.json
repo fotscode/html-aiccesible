@@ -8,6 +8,54 @@
             "second": "Sign up"
         }
     },
+    "PublishPage": {
+        "title": "Publish",
+        "input_title": {
+            "label": "Title",
+            "placeholder": "Enter a title...",
+            "error": "The article title must be at least 5 characters long."
+        },
+        "input_content": {
+            "label": "Body",
+            "placeholder": "Enter the content of the article...",
+            "error": "The content of the article must be at least 5 characters long."
+        },
+        "before": "Before",
+        "codeblock_before": {
+            "label": "Code before being accessible",
+            "comments": "Enter the code before being accessible..."
+        },
+        "after": "After",
+        "codeblock_after": {
+            "label": "Accessible code",
+            "comments": "Enter the accessible code..."
+        },
+        "back": "Back",
+        "publish": "Publish",
+        "error_message": "The code must contain at least 4 characters.",
+        "toast_success": "Your new article was published successfully!",
+        "toast_error": "Your article could not be published due to a server error.",
+        "modal_header": "Go Back",
+        "modal_body": "Are you sure you want to leave? Changes to the article will not be saved.",
+        "modal_cancel": "Cancel",
+        "modal_exit": "Exit"
+    },
+    "PostPage": {
+        "loading": "Loading...",
+        "section": "Community Article",
+        "not_found": "Article not found"
+    },
+    "CommunityPage": {
+        "title": "Community",
+        "subtitle": "You can view articles on best practices for accessibility written by the community.",
+        "subtitle_guest": {
+            "first": "To write your own articles, like, and comment, you must",
+            "second": "log in"
+        },
+        "toast_error": "An unexpected error occurred while trying to like the article.",
+        "publish": "Publish an article",
+        "loading": "Loading..."
+    },
     "RegisterPage": {
         "title": "Account Registration",
         "subtitle": "Minimum data will be requested to publish articles in your name",
@@ -80,7 +128,7 @@
           "button_clear": "Clear code",
           "button_copy": "Copy non-accessible code"
        },
-       "accesibilize": "Make accessible",
+       "accesibilize": "Accessibilize",
        "accesibilized": {
           "title": "Result",
           "button_copy": "Copy accessible code"
@@ -112,13 +160,13 @@
         },
         "likes": {
             "label": "Show likes:",
-            "yes": "Yes",
-            "no": "No"
+            "yes": "Selected: Yes",
+            "no": "Selected: No"
         },
         "comments": {
             "label": "Show comments:",
-            "yes": "Yes",
-            "no": "No"
+            "yes": "Selected: Yes",
+            "no": "Selected: No"
         },
         "titles": {
             "label": "Title size"
@@ -181,5 +229,45 @@
     "NonAccesibilizedEditor": {
         "default": "Paste your code here",
         "loading": "Loading..."
+    },
+    "CommentCard": {
+        "label": "Comment"
+    },
+    "ClosedPostCard": {
+        "label": "Article closed. Press to open it",
+        "likes": "likes"
+    },
+    "CommentBar": {
+        "modal_header": "Discard comment?",
+        "modal_body": "You have an ongoing comment. Are you sure you want to discard it?",
+        "modal_cancel": "Cancel",
+        "modal_discard": "Discard",
+        "input_title": {
+            "placeholder": "Comment title",
+            "error": "The comment title must be at least 5 characters long."
+        },
+        "input_comment": {
+            "placeholder": "Add a comment",
+            "error": "The content of the comment must be at least 5 characters long."
+        },
+        "button_cancel": "Cancel",
+        "button_comment": "Comment",
+        "nonlogged": {
+            "first": "You must",
+            "second": "log in",
+            "third": "to comment"
+        }
+    },
+    "OpenedPostCard": {
+        "toast_success": "Your comment was published successfully!",
+        "toast_error": "Your comment could not be published due to a server error.",
+        "back": "Back",
+        "author": "Article author",
+        "before": "Before",
+        "code_before_label": "Code before being accessible",
+        "after": "After",
+        "code_after_label": "Accessible code",
+        "like": "Like",
+        "likes": " likes"
     }
 }
