@@ -12,7 +12,6 @@ import { PiBroomFill } from "react-icons/pi";
 import { MdContentCopy } from "react-icons/md";
 import BouncingDotsLoader from '@/components/BouncingDotsLoader'
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import PaginationDots from '@/components/PaginationDots'
 import '@/styles/buttonAnimated.css';
 import '@/styles/editorAnimated.css';

@@ -10,12 +10,11 @@ import { Post } from '@/interfaces/Community'
 import { addPost } from '@/utils/ApiPosts'
 import CodeBlock from '@/components/CodeBlock'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css';
 import { IoArrowBackCircleSharp } from 'react-icons/io5'
 import { useTranslations } from 'next-intl'
 
 
-export default function Community() {
+export default function PublishPage() {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [before, setBefore] = useState<string>('')
@@ -106,6 +105,7 @@ export default function Community() {
         <header className='flex flex-col w-full md:w-3/4 lg:w-1/2 justify-start'>
           <Button 
             isIconOnly 
+            aria-label={t('back')}
             variant='light'
             className='h-10 w-10 font-size-text-adjust-base'
             radius='full'
@@ -151,9 +151,9 @@ export default function Community() {
                 <p className='font-size-title-adjust-base'>{t('before')}</p>
                 <p className='font-size-title-adjust-base text-danger'>*</p>
               </div>
-              <CodeBlock code={before} setCode={setBefore} label={t('codeblock.before.label')} comments={t('codeblock_before.comments')} readonly={false}/>
+              <CodeBlock code={before} setCode={setBefore} label={t('codeblock_before.label')} comments={t('codeblock_before.comments')} readonly={false}/>
               { invalidLength(before, 4) && (
-                <p className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
+                <p aria-label='error' className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
               )}
             </div>
 
@@ -164,7 +164,7 @@ export default function Community() {
               </div>
               <CodeBlock code={after} setCode={setAfter} label={t('codeblock_after.label')} comments={t('codeblock_after.comments')} readonly={false}/>
               { invalidLength(after, 4) && (
-                <p className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
+                <p aria-label='error' className='text-danger font-size-text-adjust-xs my-1'>{errorMessage}</p>
               )}
             </div>
 
@@ -176,7 +176,7 @@ export default function Community() {
                 {t('back')}
               </Button>
               <Button 
-                id='post-form'
+                form='post-form'
                 isDisabled={invalidLength(title) || invalidLength(description) || invalidLength(before, 4) || invalidLength(after,4)}
                 className='font-size-text-adjust-sm'
                 color='primary'

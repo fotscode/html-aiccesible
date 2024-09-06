@@ -28,7 +28,6 @@ import { getConfig, updateConfig } from '@/utils/ApiConfig'
 import { ConfigContext, defaultConfig } from '../context/ConfigProvider'
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function Config() {
 
@@ -235,27 +234,29 @@ export default function Config() {
               </div>
               <Divider />
               <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                <p id='likes-id' className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('likes.label') }
                 </p>
                 <Tooltip content={likes ? t('likes.yes') : t('likes.no')}>
-                  <Switch color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
+                  <Switch aria-labelledby='likes-id' color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
                 </Tooltip>
               </div>
               <Divider />
               <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
-                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                <p id='comments-id' className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
                   { t('comments.label') }
                 </p>
                 <Tooltip content={comments ? t('comments.yes') : t('comments.no')}>
-                  <Switch color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
+                  <Switch aria-labelledby='comments-id' color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
                 </Tooltip>
               </div>
               <Divider />
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+              <div className='flex flex-col items-start gap-2 py-2 sm:py-5'>
+                <p id='titles-id' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>
+                  { t('titles.label') }
+                </p>
                 <Slider 
-                  label={t('titles.label')}
-                  aria-labelledby='slider-titles'
+                  aria-labelledby='titles-id'
                   hideValue 
                   showTooltip={true}
                   step={0.1} 
@@ -285,14 +286,15 @@ export default function Config() {
                   //@ts-ignore
                   onChange={(value) => setSizeTitles(value)}
                   className="w-full"
-                  renderLabel={() => <p id='slider-titles' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>{t('titles.label')}</p>}
                 />
               </div>
               <Divider/>
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+              <div className='flex flex-col items-start gap-2 py-2 sm:py-5'>
+                <p id='texts-id' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>
+                  { t('texts.label') }
+                </p>
                 <Slider 
-                  label={t('texts.label')}
-                  aria-labelledby='slider-texts'
+                  aria-labelledby='texts-id'
                   hideValue
                   showTooltip={true}
                   step={0.1} 
@@ -322,7 +324,6 @@ export default function Config() {
                   //@ts-ignore
                   onChange={(value) => setSizeText(value)}
                   className="w-full"
-                  renderLabel={() => <p id='slider-texts' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>{t('texts.label')}</p>}
                 />
               </div>
               <Divider />

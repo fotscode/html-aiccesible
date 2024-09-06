@@ -60,6 +60,7 @@
         "title": "Registro de cuenta",
         "subtitle": "Se solicitarán datos mínimos para poder publicar artículos a tu nombre",
         "username": "Nombre de usuario:",
+        "username_constraint": "El nombre de usuario debe tener al menos cuatro (4) caracteres",
         "password": "Contraseña",
         "password_constraint": "La contraseña debe tener al menos ocho (8) caracteres",
         "repeat_password": "Repetir contraseña",
@@ -71,9 +72,8 @@
             "third": "o",
             "fourth": "ingresá como invitado"
         },
-        "error": "Error:",
-        "password_error": "Las contraseñas no coinciden",
-        "server_error": "Error inesperado"
+        "error": "No se ha podido registrar al nuevo usuario.",
+        "server_error": "Ha ocurrido un error inesperado."
     },
     "RegisterSuccessPage": {
         "title": "Registro de cuenta exitoso",
@@ -87,6 +87,8 @@
     "LoginPage": {
         "username": "Nombre de usuario",
         "password": "Contraseña",
+        "invalid_credentials": "Nombre de usuario o contraseña incorrectos",
+        "error": "Ha ocurrido un error en el servidor",
         "login": "Iniciar sesión",
         "link": {
             "first": "¿Todavía no tenés una cuenta o no querés tener una?",
@@ -207,6 +209,10 @@
         },
         "user": {
             "guest": "Invitado",
+            "alt_image": {
+                "logged": "Foto de perfil de ",
+                "guest": "Foto de perfil de usuario invitado"
+            },
             "logged_as": "Iniciaste sesión como",
             "not_logged_as": "No iniciaste sesión",
             "login": "Iniciar sesión"
@@ -216,8 +222,6 @@
         "settings": "Configuración"
     },
     "Importer": {
-        "error": "Error al leer la URL",
-        "unexpected_error": "Ha ocurrido un error desconocido al intentar leer la URL.",
         "title": "Examinar página web",
         "aria-label": "url del sitio web",
         "label": "Sitio web",
@@ -235,7 +239,12 @@
     },
     "ClosedPostCard": {
         "label": "Artículo cerrado. Presione para abrirlo",
-        "likes": "me gusta"
+        "likes": "me gusta",
+        "comments": "Ver comentarios",
+        "enter": {
+            "label": "Entrar al artículo",
+            "title": "Entrar"
+        }
     },
     "CommentBar": {
         "modal_header": "¿Descartar comentario?",
@@ -268,6 +277,7 @@
         "after": "Después",
         "code_after_label": "Código accesible",
         "like": "Me gusta",
-        "likes": " me gusta"
+        "likes": " me gusta",
+        "no_comments": "Este artículo aún no tiene comentarios."
     }
 }

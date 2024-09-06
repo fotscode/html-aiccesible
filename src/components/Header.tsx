@@ -146,6 +146,7 @@ export const Header = () => {
                 avatarProps={{
                   isBordered: true,
                   src: loggedIn ? "https://i.pravatar.cc/150?u=a042581f4e29026024d" : "",
+                  alt: loggedIn ? `${t('user.alt_image.logged')} ${username}` : t('user.alt_image.guest'),
                   showFallback: true,
                   fallback: <FaUserCircle className="animate-pulse text-default-500 h-10 w-10" fill="currentColor"/>,
                   name: loggedIn ? username.charAt(0).toUpperCase() + username.slice(1) : t('user.guest'),
@@ -158,17 +159,15 @@ export const Header = () => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Acciones del usuario" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'}>
+              <DropdownItem key="profile" className="h-14 gap-2" showDivider isReadOnly={loggedIn} href={ loggedIn ? '#' : '/login'} textValue={loggedIn ? t('user.logged_as') : t('user.not_logged_as')}>
                 <p className="font-bold font-size-text-adjust-sm">{loggedIn ? t('user.logged_as') : t('user.not_logged_as')}</p>
                 <p className="font-bold text-primary font-size-text-adjust-sm">{loggedIn ? `@${username}` : t('user.login')}</p>
               </DropdownItem>
-              <DropdownItem key="settings">
-                <Link className='text-foreground font-size-text-adjust-sm' href='/config' size='sm'>
-                  {t('settings')}
-                </Link>
+              <DropdownItem key="settings" className='font-size-text-adjust-sm' textValue={t('settings')} onPress={() => {router.push('/config')}}>
+                {t('settings')}
               </DropdownItem>
               { loggedIn && (
-                <DropdownItem key="logout" color="danger" onPress={onOpen}>
+                <DropdownItem key="logout" color="danger" onPress={onOpen} textValue={t('logout.title')}> 
                   <p className='font-size-text-adjust-sm'>{t('logout.title')}</p>
                 </DropdownItem>
               )}

@@ -11,15 +11,22 @@ import {
 } from '@nextui-org/react'
 import { addUser } from '@/utils/ApiUser';
 import { useTranslations } from 'next-intl'
+import { toast } from 'react-toastify'
 
 export default function Register() {
   const router = useRouter()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
-  const [error, setError] = useState('');
   const t = useTranslations('RegisterPage');
 
+
+  const isInvalidUsername = React.useMemo(() => {
+    if (username === "") return false;
+    if (username.length < 4) return true;
+
+    return false;
+  }, [username]);
 
   const isInvalidPassword = React.useMemo(() => {
     if (password === "") return false;
@@ -37,25 +44,24 @@ export default function Register() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setError('');
 
-    if (password !== repeatedPassword) {
-      setError(t('password_error'));
-    } else {
-      addUser(username, password)
-        .then(response => {
-          if (response.status === "Created") {
-            router.push('/register/success');
-          } else if (response.code === 400) {
-              return response.json().then((errorResponse: any) => {
-                  setError(`${t('error')}: ${errorResponse.message}`);
-              });
-          } else {
-              setError(t('server_error'));
-          }
-      })
-      .catch(err => setError(`${t('error')}: ${err.message}`));
-    }
+    addUser(username, password)
+      .then(response => {
+        if (response.status === "Created") {
+          router.push('/register/success');
+        } else if (response.code === 400) {
+            return response.json().then((errorResponse: any) => {
+                toast.error(t('error'));
+                console.error(errorResponse.message)
+            });
+        } else {
+            toast.error(t('server_error'));
+        }
+    })
+    .catch(err => {
+      toast.error(t('error'));
+      console.error(err.message)
+    });
   };
 
   return (
@@ -83,6 +89,9 @@ export default function Register() {
                   className='w-full md:w-[190px] lg:w-[320px] xl:w-[400px] 2xl:w-[400px]'
                   labelPlacement='outside'
                   variant="bordered"
+                  isInvalid={isInvalidUsername}
+                  color={isInvalidUsername ? "danger" : "success"}
+                  errorMessage={t('username_constraint')}
                   aria-describedby='username'
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -128,13 +137,13 @@ export default function Register() {
                   onChange={(e) => setRepeatedPassword(e.target.value)}
                 />
               </div>
-              {error && <p className="text-danger font-size-text-adjust-sm text-center mt-2">{error}</p>}
             </form>
           </CardBody>
         </Card>
         <div className='flex flex-col items-center'>
           <Button
             form='register-form'
+            isDisabled={isInvalidUsername || isInvalidPassword || isInvalidRepeatedPassword}
             className='button w-full md:w-1/2 sm:font-size-text-adjust-xl my-1 md:my-0 md:mx-1'
             type="submit"
           >
