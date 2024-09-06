@@ -107,7 +107,7 @@ export default function OpenedPostCard(props: PostProps) {
             isIconOnly 
             aria-label={t('back')}
             variant='light'
-            className='h-10 w-10'
+            className='h-10 w-10 font-size-text-adjust-base'
             radius='full'
             color='primary'
             onPress={() => {router.back()}}
@@ -116,8 +116,11 @@ export default function OpenedPostCard(props: PostProps) {
           </Button>
           <User
             aria-label={t('author')}
-            name={post.author}
-            description={(<span className='text-typography'>{post.date}</span>)}
+            name=
+              <span className='font-size-text-adjust-base'>
+                {post.author}
+              </span>
+            description={(<span className='text-typography font-size-text-adjust-base'>{post.date}</span>)}
             avatarProps={{ 
               src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
               size: 'sm',

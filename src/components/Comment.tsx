@@ -15,8 +15,11 @@ export default function CommentCard(props: CommentProps) {
     <Card aria-label={t('label')} shadow='md' className='bg-transparent border-none my-2 py-2'>
       <CardHeader>
         <User
-          name={comment.author}
-          description={(<span className='text-typography'>{comment.date}</span>)}
+          name=
+            <span className="font-size-text-adjust-base">
+              {comment.author}
+            </span>
+          description={(<span className='font-size-text-adjust-base text-typography'>{comment.date}</span>)}
           avatarProps={{ 
             src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
             size: 'sm',

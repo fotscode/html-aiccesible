@@ -113,7 +113,7 @@ export default function Community() {
         { isUserLoggedIn && (
           <div className='md:w-1/2 px-2 mt-3 justify-start'>
             <Button 
-              className=''
+              className='font-size-text-adjust-base'
               color='primary'
               onPress={() => {router.push('/community/publish')}}
               endContent={<FaFeatherPointed/>}

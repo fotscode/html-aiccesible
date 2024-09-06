@@ -78,6 +78,7 @@ export default function ClosedPostCard(props: ClosedPostProps) {
                 </Button>
               ) : (
                 <Chip 
+                  className='font-size-text-adjust-base'
                   variant='light'
                   color='danger'
                 >

@@ -107,15 +107,15 @@ export default function CommentBar(props: CommentBarProps) {
             {textAreaOpened && (
               <CardFooter className='flex flex-row justify-end py-1 mb-2 gap-2'>
                 <Button 
+                  className='font-size-text-adjust-sm'
                   onPress={ title.length > 0 || content.length > 0 ? onOpen : () => {setTextAreaOpened(false)}}
-                  size="sm"
                 > 
                   {t('button_cancel')}
                 </Button>
                 <Button 
                   id='comment-form'
+                  className='font-size-text-adjust-sm'
                   isDisabled={invalidLength(title) || invalidLength(content)}
-                  size="sm"
                   color='primary'
                   type='submit'
                 > 

@@ -107,7 +107,7 @@ export default function Community() {
           <Button 
             isIconOnly 
             variant='light'
-            className='h-10 w-10'
+            className='h-10 w-10 font-size-text-adjust-base'
             radius='full'
             color='primary'
             onPress={onOpen}
@@ -115,7 +115,7 @@ export default function Community() {
             <IoArrowBackCircleSharp className='h-full w-full' />
           </Button>
           <h1 className={`${poppins.className} font-size-title-adjust-3xl md:font-size-title-adjust-3xl font-medium my-2`}>
-            {t('modal.title')}
+            {t('title')}
           </h1>
         </header>
         <Card className='bg-transparent my-10 p-5 w-full md:w-3/4 lg:w-1/2'>
@@ -170,15 +170,15 @@ export default function Community() {
 
             <CardFooter className='flex flex-row justify-end py-1 mb-2 gap-2'>
               <Button 
+                className='font-size-text-adjust-sm'
                 onPress={onOpen}
-                size="sm"
               > 
                 {t('back')}
               </Button>
               <Button 
                 id='post-form'
                 isDisabled={invalidLength(title) || invalidLength(description) || invalidLength(before, 4) || invalidLength(after,4)}
-                size="sm"
+                className='font-size-text-adjust-sm'
                 color='primary'
                 type='submit'
               > 
