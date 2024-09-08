@@ -1,4 +1,7 @@
 {
+    "Layout": {
+        "description": "It is an artificial intelligence tool that automatically converts HTML content into accessible formats, following web accessibility guidelines (WCAG)."
+    },
     "HomePage": {
         "subtitle": "It is an artificial intelligence tool that automatically converts HTML content into accessible formats, following web accessibility guidelines (WCAG).",
         "login": "Log in",

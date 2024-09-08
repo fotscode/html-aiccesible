@@ -1,4 +1,7 @@
 {
+    "Layout": {
+        "description": "Es una herramienta de inteligencia artificial que convierte automáticamente contenido HTML en formatos accesibles, siguiendo las pautas de accesibilidad web (WCAG)."
+    },
     "HomePage": {
         "subtitle": "Es una herramienta de inteligencia artificial que convierte automáticamente contenido HTML en formatos accesibles, siguiendo las pautas de accesibilidad web (WCAG).",
         "login": "Iniciar sesión",
