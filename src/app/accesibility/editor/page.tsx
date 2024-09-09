@@ -208,11 +208,11 @@ export default function CodeEditor() {
 
               <div className='flex flex-row gap-1'>
                 {!isAccesibilizePressed && (
-                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} isDisabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label={t('nonaccesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('nonAccesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={t('nonaccesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('nonAccesibilizedButton')} isDisabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -251,7 +251,7 @@ export default function CodeEditor() {
               </h2>
 
               <div className='flex flex-row gap-1'>
-                <Button isIconOnly aria-label={t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('accesibilizedButton')} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode('accesibilizedButton')} isDisabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
@@ -284,11 +284,11 @@ export default function CodeEditor() {
               )}
               <div className='flex flex-row gap-1'>
                 {currentPage == 0 && (
-                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} disabled={code.length == 0}>
+                  <Button isIconOnly aria-label={t('nonaccesibilized.button_clear')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={clearCode} isDisabled={code.length == 0}>
                     <PiBroomFill className='h-3/4 w-3/4'/>
                   </Button>
                 )}
-                <Button isIconOnly aria-label={currentPage == 0 ? t('nonaccesibilized.button_copy') : t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} disabled={code.length == 0}>
+                <Button isIconOnly aria-label={currentPage == 0 ? t('nonaccesibilized.button_copy') : t('accesibilized.button_copy')} variant='light' color='primary' className='font-size-text-adjust-sm' onPress={() => copyCode(isAccesibilizePressed? "accesibilizedButton" : "nonAccesibilizedButton")} isDisabled={code.length == 0}>
                   <MdContentCopy className='h-3/4 w-3/4'/>
                 </Button>
               </div>
