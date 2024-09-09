@@ -67,9 +67,9 @@ export default function Community() {
     }
   }, [posts])
 
-  const toggleLike = async (id: number) => {
+  const toggleLike = async (index: number) => {
     try {
-      await likePost(getToken(), id)
+      await likePost(getToken(), posts[index].ID)
       /* from server 
       const response = await getPost(id)
       const likedPost: Post = response.data
@@ -81,13 +81,13 @@ export default function Community() {
       /* from client */
       const loggedUser = getUsername()
       const updatedPosts = [...posts]
-      if (updatedPosts[id - 1].likes.some(like => like.username === loggedUser))
-        updatedPosts[id - 1].likes = updatedPosts[id - 1].likes.filter(like => like.username !== loggedUser)
+      if (updatedPosts[index].likes.some(like => like.username === loggedUser))
+        updatedPosts[index].likes = updatedPosts[index].likes.filter(like => like.username !== loggedUser)
       else 
-        updatedPosts[id - 1].likes.push({username: loggedUser})
+        updatedPosts[index].likes.push({username: loggedUser})
 
       const updatedMyLikes = [...myLikes]
-      updatedMyLikes[id - 1] = !updatedMyLikes[id - 1]
+      updatedMyLikes[index] = !updatedMyLikes[index]
       setMyLikes(updatedMyLikes)
       setPosts(updatedPosts)
     } catch (error: any) {
@@ -127,13 +127,13 @@ export default function Community() {
           aria-busy={loading}
           role='feed'
         >
-          {posts.map((post: Post) => (
+          {posts.map((post: Post, index) => (
             <ClosedPostCard
               key={post.ID}
               post={post}
               likes={myLikes}
               comments={post.comments.length}
-              toggleLike={() => {toggleLike(post.ID)}}
+              toggleLike={() => {toggleLike(index)}}
               isLoggedIn={isUserLoggedIn}
             />
           ))}
