@@ -1,72 +1,89 @@
 import React from 'react'
-import { Button } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react'
 import { roboto } from '@/app/fonts'
-import Link from 'next/link'
+import { useState } from 'react'
+import DOMPurify from 'dompurify';
+import { fetchHtml } from '@/utils/htmlFetcher'
+import { useTranslations } from 'next-intl'
+import { toast } from 'react-toastify'
 
-interface Props {
-  state: boolean
-  setState: (val: boolean) => void
-}
+const Importer = () => {
+  const router = useRouter()
+  const [url, setUrl] = useState<string>('');
+  const t = useTranslations('Importer');
 
-const Importer: React.FC<Props> = ({ state, setState }) => {
-  const togglePopup = () => {
-    setState(!state)
-  }
+  const validateUrl = (url: string) => ('https://' + url).match(/^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})([\/\w .-]*)*\/?$/);
+
+  const isInvalidUrl = React.useMemo(() => {
+    if (url === "") return false;
+
+    return validateUrl(url) ? false : true;
+  }, [url]);
+
+  const fetchHTML = async () => {
+      try {
+        const data = await fetchHtml('https://' + url);
+        const sanitizedHtml = DOMPurify.sanitize(data);
+        console.log(sanitizedHtml)
+        localStorage.setItem('htmlCode', sanitizedHtml);
+        router.push('/accesibility/editor');
+      } catch (error) {
+          toast.error(t('browse_error'));
+          console.error(error)
+      }
+  };
+
 
   return (
-    <section className='flex flex-col bg-gray-300 sm:px-4 py-4 sm:px-10 sm:py-8 rounded-[10px] sm:mx-3 my-3 md:max-w-[500px] justify-self-center'>
-      <h2
-        className={`${roboto.className} text-center card-title font-medium pb-3`}
-      >
-        Examinar página web
-      </h2>
+    <Card className='flex flex-col w-3/4 md:w-1/2 sm:px-4 py-8 rounded-[10px] sm:mx-3 my-3 justify-self-center'>
+      <CardHeader className='flex flex-col text-center'>
+        <h2
+          className={`${roboto.className} font-size-title-adjust-xl font-medium pb-3`}
+        >
+          {t('title')}
+        </h2>
+      </CardHeader>
 
-      <section className='search-bar flex flex-row justify-center py-5'>
-        <img
-          src='/link.png'
-          alt='Examinar página web'
-          className='md:pb-3 max-w-[40px]'
+      <CardBody className='flex flex-row justify-center py-5'>
+        <Input
+          type="url"
+          aria-label={t('aria-label')}
+          label={t('label')}
+          placeholder="www.google.com"
+          labelPlacement="outside"
+          variant="bordered"
+          isInvalid={isInvalidUrl}
+          color={isInvalidUrl ? "danger" : "success"}
+          errorMessage={t('error_input')}
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-500 font-size-text-adjust-sm">https://</span>
+            </div>
+          }
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
         />
-        <div className='flex flex-col sm:w-full'>
-          <input
-            type='text'
-            aria-label='url del sitio web'
-            id='url'
-            placeholder='https://www.google.com'
-            className='sm:w-full sm:px-2 py-1.5 outline-none text-base font-light'
-          />
-        </div>
-      </section>
+      </CardBody>
 
-      <section className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
+      <CardFooter className='px-3 md:px-0 flex flex-col gap-1 sm:flex-row justify-center'>
         <Button
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-            fontSize: '11pt',
-            height: '30px',
-          }}
-          className='sm:px-5 sm:mx-1 sm:text-xl'
-          as={Link}
-          href='/selection/editor'
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
+          onClick={fetchHTML}
         >
-          Obtener código HTML
+          {t('get')}
         </Button>
         <Button
-          style={{
-            backgroundColor: '#D14805',
-            color: 'white',
-            fontSize: '11pt',
-            height: '30px',
-          }}
-          className='sm:px-5 sm:mx-1 sm:text-xl'
-          onClick={togglePopup}
+          className='button w-full md:w-auto sm:px-5 sm:mx-1 font-size-text-adjust-sm'
+          onClick={() => {router.back()}}
         >
-          Atrás
+          {t('back')}
         </Button>
-      </section>
-    </section>
+      </CardFooter>
+    </Card>
   )
 }
 
 export default Importer
+
+

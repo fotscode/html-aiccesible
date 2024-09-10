@@ -1,0 +1,22 @@
+@keyframes slideIn {
+  0% {
+    transform: translateY(20px); /* Start 20px below its original position */
+    opacity: 0; /* Start fully transparent */
+  }
+  100% {
+    transform: translateY(0); /* End at its original position */
+    opacity: 1; /* End fully opaque */
+  }
+}
+
+.button-animated {
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Transition for smooth effect */
+}
+
+.button-animated.animate {
+  animation: slideIn 0.5s forwards; /* Apply the slideIn animation */
+}
+
+.button-animated:disabled {
+  animation: none; /* Disable the animation when disabled */
+}

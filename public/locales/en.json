@@ -1,0 +1,286 @@
+{
+    "Layout": {
+        "description": "It is an artificial intelligence tool that automatically converts HTML content into accessible formats, following web accessibility guidelines (WCAG)."
+    },
+    "HomePage": {
+        "subtitle": "It is an artificial intelligence tool that automatically converts HTML content into accessible formats, following web accessibility guidelines (WCAG).",
+        "login": "Log in",
+        "guest": "Enter as a guest",
+        "link": {
+            "first": "Don't have an account?",
+            "second": "Sign up"
+        }
+    },
+    "PublishPage": {
+        "title": "Publish",
+        "input_title": {
+            "label": "Title",
+            "placeholder": "Enter a title...",
+            "error": "The article title must be at least 5 characters long."
+        },
+        "input_content": {
+            "label": "Body",
+            "placeholder": "Enter the content of the article...",
+            "error": "The content of the article must be at least 5 characters long."
+        },
+        "before": "Before",
+        "codeblock_before": {
+            "label": "Code before being accessible",
+            "comments": "Enter the code before being accessible..."
+        },
+        "after": "After",
+        "codeblock_after": {
+            "label": "Accessible code",
+            "comments": "Enter the accessible code..."
+        },
+        "back": "Back",
+        "publish": "Publish",
+        "error_message": "The code must contain at least 4 characters.",
+        "toast_success": "Your new article was published successfully!",
+        "toast_error": "Your article could not be published due to a server error.",
+        "modal_header": "Go Back",
+        "modal_body": "Are you sure you want to leave? Changes to the article will not be saved.",
+        "modal_cancel": "Cancel",
+        "modal_exit": "Exit"
+    },
+    "PostPage": {
+        "loading": "Loading...",
+        "section": "Community Article",
+        "not_found": "Article not found"
+    },
+    "CommunityPage": {
+        "title": "Community",
+        "subtitle": "You can view articles on best practices for accessibility written by the community.",
+        "subtitle_guest": {
+            "first": "To write your own articles, like, and comment, you must",
+            "second": "log in"
+        },
+        "toast_error": "An unexpected error occurred while trying to like the article.",
+        "publish": "Publish an article",
+        "loading": "Loading..."
+    },
+    "RegisterPage": {
+        "title": "Account Registration",
+        "subtitle": "Minimum data will be requested to publish articles in your name",
+        "username": "Username:",
+        "username_constraint": "The username must be at least four (4) characters long.",
+        "password": "Password:",
+        "password_constraint": "The password must be at least eight (8) characters long",
+        "repeat_password": "Repeat password:",
+        "repeat_password_constraint": "The repeated password does not match the first",
+        "submit": "Register",
+        "link": {
+            "first": "Already have an account or don't want one?",
+            "second": "Log in",
+            "third": "or",
+            "fourth": "enter as a guest"
+        },
+        "error": "Failed to register the new user.",
+        "server_error": "An unexpected error has occurred."
+    },
+    "RegisterSuccessPage": {
+        "title": "Account Registration Successful",
+        "subtitle": {
+            "first": "You can now",
+            "second": "log in",
+            "third": "using your username and password."
+        },
+        "back": "Return to the main page"
+    },
+    "LoginPage": {
+        "username": "Username",
+        "password": "Password",
+        "invalid_credentials": "Incorrect username or password",
+        "error": "An error has occurred on the server",
+        "login": "Log in",
+        "link": {
+            "first": "Still don't have an account or don't want one?",
+            "second": "Sign up",
+            "third": "or",
+            "fourth": "enter as a guest"
+        }
+    },
+    "AccesibilityPage": {
+        "title": "Make your code accessible",
+        "subtitle": "You can upload HTML code in multiple ways.",
+        "paste": {
+            "title": "Paste code",
+            "description": "Enter the HTML code in a text box.",
+            "alt": "Button to make manually entered code accessible"
+        },
+        "load_file": {
+            "title": "Upload from computer",
+            "description": "Select the file from your computer.",
+            "alt": "Button to make code accessible from an HTML file"
+        },
+        "load_url": {
+            "title": "Browse webpage",
+            "description": "Select the URL of the webpage to analyze.",
+            "alt": "Button to make code accessible from a URL"
+        }
+    },
+    "EditorPage": {
+       "title": "Accessibility Tool",
+       "subtitle": {
+           "first": "Verify that the loaded code is as desired and press the orange button to make it accessible. You can ",
+           "second": "choose another loading option",
+           "third": " for the HTML code"
+       },
+       "selector": "Choose the AI model",
+       "selector-aria": "Model selection",
+       "nonaccesibilized": {
+          "title": "Code to be made accessible",
+          "button_clear": "Clear code",
+          "button_copy": "Copy non-accessible code"
+       },
+       "accesibilize": "Accessibilize",
+       "accesibilized": {
+          "title": "Result",
+          "button_copy": "Copy accessible code"
+       },
+       "toast_success": "Code made accessible successfully!",
+       "toast_error": "Could not make your code accessible",
+       "toast_copy": "Copied!"
+    },
+    "ImporterPage": {
+        "title": "Import HTML code via URL",
+        "subtitle": {
+            "first": "Want to use another method? You can ",
+            "second": "choose another loading option",
+            "third": " for the HTML code"
+        }
+    },
+    "ConfigPage": {
+        "title": "Settings",
+        "subtitle": "All system settings in one place.",
+        "theme": {
+            "label": "Site theme:",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "language": {
+            "label": "Language:",
+            "es": "Spanish",
+            "en": "English"
+        },
+        "likes": {
+            "label": "Show likes:",
+            "yes": "Selected: Yes",
+            "no": "Selected: No"
+        },
+        "comments": {
+            "label": "Show comments:",
+            "yes": "Selected: Yes",
+            "no": "Selected: No"
+        },
+        "titles": {
+            "label": "Title size"
+        },
+        "texts": {
+            "label": "Text size"
+        },
+        "apply": {
+            "button": "Apply changes",
+            "header": "Confirm changes",
+            "body": "Do you want to apply the changes in the settings?",
+            "cancel": "Cancel",
+            "apply": "Apply",
+            "toast_success": "Changes have been saved successfully",
+            "toast_error": "Changes could not be saved due to an error"
+        },
+        "restore": {
+            "button": "Restore",
+            "header": "Restore settings",
+            "body": "Do you want to revert to the default settings?",
+            "cancel": "Cancel",
+            "continue": "Continue",
+            "toast_success": "Settings have been restored successfully",
+            "toast_error": "Settings could not be restored due to an error"
+        }
+    },
+    "AccesibilizedEditor": {
+        "default": "Accessible code",
+        "loading": "Loading..."
+    },
+    "Header": {
+        "logout": {
+            "title": "Log out",
+            "header": "Confirm log out",
+            "body": "Are you sure you want to log out?",
+            "no": "No",
+            "yes": "Yes"
+        },
+        "user": {
+            "guest": "Guest",
+            "alt_image": {
+                "logged": "Profile picture of ",
+                "guest": "Guest user profile picture"
+            },
+            "logged_as": "Logged in as",
+            "not_logged_as": "Not logged in",
+            "login": "Log in"
+        },
+        "home": "Home",
+        "community": "Community",
+        "settings": "Settings"
+    },
+    "Importer": {
+        "title": "Browse webpage",
+        "aria-label": "website URL",
+        "label": "Website",
+        "error_input": "Please enter a valid link",
+        "get": "Get HTML",
+        "back": "Back",
+        "browse_error": "An error occurred while trying to browse the specified URL."
+    },
+    "NonAccesibilizedEditor": {
+        "default": "Paste your code here",
+        "loading": "Loading..."
+    },
+    "CommentCard": {
+        "label": "Comment"
+    },
+    "ClosedPostCard": {
+        "label": "Article closed. Press to open it",
+        "likes": "likes",
+        "comments": "View comments",
+        "enter": {
+            "label": "Enter the article",
+            "title": "Enter"
+        }
+    },
+    "CommentBar": {
+        "modal_header": "Discard comment?",
+        "modal_body": "You have an ongoing comment. Are you sure you want to discard it?",
+        "modal_cancel": "Cancel",
+        "modal_discard": "Discard",
+        "input_title": {
+            "placeholder": "Comment title",
+            "error": "The comment title must be at least 5 characters long."
+        },
+        "input_comment": {
+            "placeholder": "Add a comment",
+            "error": "The content of the comment must be at least 5 characters long."
+        },
+        "button_cancel": "Cancel",
+        "button_comment": "Comment",
+        "nonlogged": {
+            "first": "You must",
+            "second": "log in",
+            "third": "to comment"
+        }
+    },
+    "OpenedPostCard": {
+        "toast_success": "Your comment was published successfully!",
+        "toast_error": "Your comment could not be published due to a server error.",
+        "back": "Back",
+        "author": "Article author",
+        "before": "Before",
+        "code_before_label": "Code before being accessible",
+        "after": "After",
+        "code_after_label": "Accessible code",
+        "like": "Like",
+        "likes": " likes",
+        "no_comments": "This article has no comments yet."
+    }
+}

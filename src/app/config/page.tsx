@@ -12,12 +12,26 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Slider,
+  Switch,
+  Tooltip
 } from '@nextui-org/react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useContext } from 'react'
+import { isLoggedIn, getToken } from '@/utils/auth'
+import { getConfig, updateConfig } from '@/utils/ApiConfig'
+import { ConfigContext, defaultConfig } from '../context/ConfigProvider'
+import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
 
 export default function Config() {
-  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set(['claro']))
+
+  const [selectedKeysTheme, setSelectedKeysTheme] = useState(new Set([defaultConfig.theme]))
 
   const selectedTheme = useMemo(
     () => Array.from(selectedKeysTheme).join(', ').replaceAll('_', ' '),
@@ -25,195 +39,384 @@ export default function Config() {
   )
 
   const [selectedKeysLanguage, setSelectedKeysLanguage] = useState(
-    new Set(['Español']),
+    new Set([defaultConfig.language]),
   )
+
   const selectedLanguage = useMemo(
     () => Array.from(selectedKeysLanguage).join(', ').replaceAll('_', ' '),
     [selectedKeysLanguage],
   )
 
-  const [selKeysShowLikes, setSelKeysShowLikes] = useState(new Set(['Sí']))
-  const showLikes = useMemo(
-    () => Array.from(selKeysShowLikes).join(', ').replaceAll('_', ' '),
-    [selKeysShowLikes],
-  )
+  const [sizeTitles, setSizeTitles] = useState<number>(defaultConfig.size_title);
 
-  const [selKeysShowComments, setSelKeysShowComments] = useState(
-    new Set(['Sí']),
-  )
-  const showComments = useMemo(
-    () => Array.from(selKeysShowComments).join(', ').replaceAll('_', ' '),
-    [selKeysShowComments],
-  )
+  const [sizeText, setSizeText] = useState<number>(defaultConfig.size_text);
+
+  const [likes, setLikes] = useState<boolean>(defaultConfig.show_likes);
+
+  const [comments, setComments] = useState<boolean>(defaultConfig.show_comments);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { changesConfig, setChangesConfig } = useContext(ConfigContext);
+
+  const modalReset = useDisclosure();
+  const modalApply = useDisclosure();
+
+  const t = useTranslations('ConfigPage');
+
+  const applyConfig = (config: Config) => {
+
+    //THEME
+    setSelectedKeysTheme(new Set([config.theme]));
+
+    //LANGUAGE
+    setSelectedKeysLanguage(new Set([config.language]));
+
+    //LIKES 
+    setLikes(config.show_likes)
+
+    //COMMENTS
+    setComments(config.show_comments)
+
+    //TITLES
+    setSizeTitles(config.size_title);
+
+    //TEXT
+    setSizeText(config.size_text);
+
+  }
+
+  useEffect(() => {
+    if (isLoggedIn()){
+      try {
+        getConfig(getToken()).then((response) => {
+          applyConfig(response.data as Config);
+        });
+      } catch (error: any) {
+        console.error(error.message);
+      } 
+    } else {
+      if (!!localStorage.getItem('config')){ 
+        const config: Config = JSON.parse(localStorage.getItem('config')!!);
+        applyConfig(config);
+      }
+    }
+    setLoading(false);
+  }, []);
+  
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const newConfig: Config = {
+      theme: selectedKeysTheme.values().next().value,
+      language: selectedKeysLanguage.values().next().value,
+      show_likes: likes,
+      show_comments: comments,
+      size_title: sizeTitles,
+      size_text: sizeText,
+    };
+
+    try {
+      if (isLoggedIn()) {
+        await updateConfig(getToken(), newConfig);
+      } else {
+        localStorage.setItem('config', JSON.stringify(newConfig));
+      }
+      setChangesConfig(changesConfig + 1);
+      toast.success(t('apply.toast_success'));
+
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error(t('apply.toast_error'));
+    }
+  };
+
+  const resetConfig = () => {
+
+    //THEME
+    setSelectedKeysTheme(new Set([defaultConfig.theme]));
+    //LANGUAGE
+    setSelectedKeysLanguage(new Set([defaultConfig.language]));
+    //LIKES 
+    setLikes(defaultConfig.show_likes)
+    //COMMENTS
+    setComments(defaultConfig.show_comments)
+    //TITLES
+    setSizeTitles(defaultConfig.size_title);
+    //TEXT
+    setSizeText(defaultConfig.size_text);
+
+    if (isLoggedIn()) {
+      try{
+        updateConfig(getToken(), defaultConfig);
+        toast.success(t('restore.toast_success'))
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error(t('restore.toast_error'));
+      }
+    } else {
+      localStorage.removeItem('config');
+      toast.success(t('restore.toast_success'))
+    }
+    setChangesConfig(changesConfig + 1);
+
+  }
+
 
   return (
     <>
       <Header />
-      <main className='flex flex-col justify-center items-center gap-5 mx-2 my-5'>
-        <Card className='w-full sm:w-1/2 p-5'>
+      <main className='flex flex-col h-full justify-center items-center gap-5 mx-5 my-5 font-size-text-adjust'>
+        <Card className='w-full lg:w-3/4 xl:w-1/2 md:p-5'>
           <CardHeader className='flex flex-col'>
-            <h1 className={`${poppins.className} text-xl sm:text-3xl`}>
-              Configuración
+            <h1 className={`${poppins.className} font-size-title-adjust-2xl sm:font-size-title-adjust-3xl`}>
+              { t('title') }
             </h1>
-            <p className='text-lg sm:text-xl'>
-              Toda la configuración del sistema en un mismo lugar.
+            <p className='text-center font-size-text-adjust-lg sm:font-size-text-adjust-xl'>
+              { t('subtitle') }
             </p>
           </CardHeader>
-          <CardBody>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Tema del sitio:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
-                    {selectedTheme}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Tema del sitio'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selectedKeysTheme}
+          {loading ? (
+            <div className='flex justify-center items-center h-[400px]'>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+            </div>
+          ) : (
+            <CardBody className='px-20'>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                  { t('theme.label') }
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {selectedTheme == 'light' ? t('theme.light') : t('theme.dark')}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Tema del sitio'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selectedKeysTheme}
+                    //@ts-ignore
+                    onSelectionChange={setSelectedKeysTheme}
+                  >
+                    <DropdownItem key='light'><p className='font-size-text-adjust-base'>{t('theme.light')}</p></DropdownItem>
+                    <DropdownItem key='dark'><p className='font-size-text-adjust-base'>{t('theme.dark')}</p></DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                  { t('language.label') }
+                </p>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant='bordered' className='w-full sm:w-[180px] md:w-[200px] lg:w-[250px] xl:w-[150px] 2xl:w-[250px] font-size-text-adjust-base capitalize'>
+                      {selectedLanguage == 'es' ? t('language.es') : t('language.en')}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label='Idioma del sitio'
+                    variant='flat'
+                    disallowEmptySelection
+                    selectionMode='single'
+                    selectedKeysTheme={selectedKeysLanguage}
+                    //@ts-ignore
+                    onSelectionChange={setSelectedKeysLanguage}
+                  >
+                    <DropdownItem key='es'><p className='font-size-text-adjust-base'>{t('language.es')}</p></DropdownItem>
+                    <DropdownItem key='en'><p className='font-size-text-adjust-base'>{t('language.en')}</p></DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <Divider />
+              <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p id='likes-id' className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                  { t('likes.label') }
+                </p>
+                <Tooltip content={likes ? t('likes.yes') : t('likes.no')}>
+                  <Switch aria-labelledby='likes-id' color="primary" isSelected={likes} onChange={() => {setLikes(!likes)}} />
+                </Tooltip>
+              </div>
+              <Divider />
+              <div className='flex flex-row items-center justify-between gap-2 py-2 sm:py-5'>
+                <p id='comments-id' className={`${roboto.className} font-size-text-adjust-lg font-medium`}>
+                  { t('comments.label') }
+                </p>
+                <Tooltip content={comments ? t('comments.yes') : t('comments.no')}>
+                  <Switch aria-labelledby='comments-id' color="primary" isSelected={comments} onChange={() => {setComments(!comments)}} />
+                </Tooltip>
+              </div>
+              <Divider />
+              <div className='flex flex-col items-start gap-2 py-2 sm:py-5'>
+                <p id='titles-id' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>
+                  { t('titles.label') }
+                </p>
+                <Slider 
+                  aria-labelledby='titles-id'
+                  hideValue 
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeTitles}
                   //@ts-ignore
-                  onSelectionChange={setSelectedKeysTheme}
-                >
-                  <DropdownItem key='claro'>Claro</DropdownItem>
-                  <DropdownItem key='oscuro'>Oscuro</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Idioma:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
-                    {selectedLanguage}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Idioma del sitio'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selectedKeysLanguage}
+                  onChange={(value) => setSizeTitles(value)}
+                  className="w-full"
+                />
+              </div>
+              <Divider/>
+              <div className='flex flex-col items-start gap-2 py-2 sm:py-5'>
+                <p id='texts-id' className={`${roboto.className} font-size-text-adjust-lg font-medium mb-2`}>
+                  { t('texts.label') }
+                </p>
+                <Slider 
+                  aria-labelledby='texts-id'
+                  hideValue
+                  showTooltip={true}
+                  step={0.1} 
+                  formatOptions={{style: "percent"}}
+                  maxValue={2}
+                  minValue={0.5}
+                  marks={[
+                    {
+                      value: 0.5,
+                      label: "50%",
+                    },
+                    {
+                      value: 1,
+                      label: "100%",
+                    },
+                    {
+                      value: 1.5,
+                      label: "150%",
+                    },
+                    {
+                      value: 2,
+                      label: "200%",
+                    },
+                  ]}
+                  defaultValue={1}
+                  value={sizeText}
                   //@ts-ignore
-                  onSelectionChange={setSelectedKeysLanguage}
-                >
-                  <DropdownItem key='Español'>Español</DropdownItem>
-                  <DropdownItem key='English'>Inglés</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Mostrar likes:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
-                    {showLikes}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Mostrar likes'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selKeysShowLikes}
-                  //@ts-ignore
-                  onSelectionChange={setSelKeysShowLikes}
-                >
-                  <DropdownItem key='Si'>Si</DropdownItem>
-                  <DropdownItem key='No'>No</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p className={`${roboto.className} text-lg font-medium`}>
-                Mostrar comentarios:
-              </p>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant='bordered' className='capitalize'>
-                    {showComments}
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label='Mostrar comentarios'
-                  variant='flat'
-                  disallowEmptySelection
-                  selectionMode='single'
-                  selectedKeysTheme={selKeysShowComments}
-                  //@ts-ignore
-                  onSelectionChange={setSelKeysShowComments}
-                >
-                  <DropdownItem key='Si'>Si</DropdownItem>
-                  <DropdownItem key='No'>No</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p
-                id='titleSize'
-                className={`${roboto.className} text-lg font-medium`}
-              >
-                Tamaño de títulos (en píxeles):
-              </p>
-              <Input
-                type='number'
-                placeholder='30'
-                aria-label='Tamaño de títulos (en píxeles)'
-                className='w-full sm:w-32'
-                labelPlacement='outside'
-                aria-describedby='titleSize'
-                endContent={
-                  <div className='pointer-events-none flex items-center'>
-                    <span className='text-black text-small'>px</span>
-                  </div>
-                }
-              />
-            </div>
-            <Divider />
-            <div className='flex flex-col sm:flex-row items-center gap-2 py-5'>
-              <p
-                id='textSize'
-                className={`${roboto.className} text-lg font-medium`}
-              >
-                Tamaño de textos (en píxeles):
-              </p>
-              <Input
-                aria-label={'Tamaño de textos (en píxeles)'}
-                type='number'
-                placeholder='20'
-                className='w-full sm:w-32'
-                aria-describedby='textSize'
-                labelPlacement='outside'
-                endContent={
-                  <div className='pointer-events-none flex items-center'>
-                    <span className='text-black text-small'>px</span>
-                  </div>
-                }
-              />
-            </div>
-            <Divider />
-          </CardBody>
-          <CardFooter className='flex flex-col sm:flex-row gap-5'>
-            <Button
-              className='w-full'
-              style={{ backgroundColor: '#D14805', color: '#FFFFFF' }}
+                  onChange={(value) => setSizeText(value)}
+                  className="w-full"
+                />
+              </div>
+              <Divider />
+            </CardBody>
+          )}
+          <CardFooter className='flex flex-col sm:flex-row gap-2 sm:gap-5 md:px-20 mt-2'>
+            <Button className='button w-full font-size-text-adjust-sm' onPress={modalApply.onOpen}>{t('apply.button')}</Button>
+            <Modal 
+              backdrop="opaque" 
+              isOpen={modalApply.isOpen} 
+              onOpenChange={modalApply.onOpenChange}
+              classNames={{
+                backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+              }}
             >
-              Aplicar cambios
-            </Button>
-            <Button className='w-full'>Restaurar</Button>
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">{t('apply.header')}</ModalHeader>
+                    <ModalBody>
+                      <p> 
+                        {t('apply.body')}
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button 
+                        className='font-size-text-adjust-sm'
+                        color="danger" 
+                        variant="light" 
+                        onPress={onClose}
+                      >
+                        {t('apply.cancel')}
+                      </Button>
+                      <Button 
+                        className='font-size-text-adjust-sm'
+                        color="primary" 
+                        onPress={() => {
+                          console.log('Config updated');
+                          const mockEvent = { preventDefault: () => {} };
+                          handleSubmit(mockEvent);
+                          modalApply.onClose();
+                        }}
+                      >
+                        {t('apply.apply')}
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
+            <Button className='w-full font-size-text-adjust-sm' onPress={modalReset.onOpen}>{t('restore.button')}</Button>
+            <Modal 
+              backdrop="opaque" 
+              isOpen={modalReset.isOpen} 
+              onOpenChange={modalReset.onOpenChange}
+              classNames={{
+                backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+              }}
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">{t('restore.header')}</ModalHeader>
+                    <ModalBody>
+                      <p> 
+                        {t('restore.body')}
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button 
+                        className='font-size-text-adjust-sm'
+                        color="danger" 
+                        variant="light" 
+                        onPress={onClose}
+                      >
+                        {t('restore.cancel')}
+                      </Button>
+                      <Button 
+                        className='font-size-text-adjust-sm'
+                        color="primary" 
+                        onPress={() => {
+                          console.log('Config resetted.');
+                          resetConfig();
+                          modalReset.onClose();
+                        }}
+                      >
+                        {t('restore.continue')}
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
           </CardFooter>
         </Card>
       </main>

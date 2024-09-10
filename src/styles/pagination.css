@@ -1,0 +1,27 @@
+.pagination-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin: 0 0.3rem;
+  @apply bg-default-500
+}
+
+.dot.active {
+  @apply bg-foreground;
+  animation: pulse 0.7s forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.25);
+  }
+}
